@@ -1,0 +1,52 @@
+# .NET / WPF build output
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Dd]ebug/
+[Rr]elease/
+artifacts/
+publish/
+TestResults/
+
+# Visual Studio user files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.csproj.user
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# NuGet packages and generated dependency files
+packages/
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+
+# Code coverage and local reports
+coverage/
+*.coverage
+*.coveragexml
+
+# Local signing keys and environment files
+*.pfx
+*.snk
+.env
+.env.*
+!.env.example
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*~

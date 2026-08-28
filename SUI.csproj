@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>SUI</AssemblyName>
+    <RootNamespace>SUI</RootNamespace>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\upload.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\upload.svg" />
+  </ItemGroup>
+
+</Project>

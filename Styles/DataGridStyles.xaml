@@ -1,0 +1,137 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        DataGrid表头样式
+        定义了表头的外观，包括背景色、文字颜色、边框等属性
+    -->
+    <Style x:Key="CommonDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="#F5F5F5" />
+        <!--  浅灰色背景  -->
+        <Setter Property="Foreground" Value="#333333" />
+        <!--  深灰色文字  -->
+        <Setter Property="FontWeight" Value="Normal" />
+        <!--  普通字重  -->
+        <Setter Property="Padding" Value="10,8" />
+        <!--  内边距：左右10,上下8  -->
+        <Setter Property="BorderBrush" Value="#E5E5E5" />
+        <!--  边框颜色  -->
+        <Setter Property="BorderThickness" Value="0,0,1,1" />
+        <!--  只显示右边框和下边框  -->
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <!--  内容垂直居中  -->
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <!--  内容水平居中  -->
+    </Style>
+
+    <!--
+        DataGrid单元格样式
+        定义了单元格的外观和行为，包括内边距、边框和内容对齐方式
+    -->
+    <Style x:Key="CommonDataGridCellStyle" TargetType="DataGridCell">
+        <Setter Property="Padding" Value="10,5" />
+        <!--  内边距：左右10,上下5  -->
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <!--  内容垂直居中  -->
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <!--  内容水平居中  -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridCell">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <!--  单元格内容呈现器  -->
+                        <ContentPresenter
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="Foreground" Value="Black" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--
+        DataGrid基础样式
+        定义了整个DataGrid的基本外观和行为，包括网格线、行样式等
+    -->
+    <Style x:Key="CommonDataGridStyle" TargetType="DataGrid">
+        <Setter Property="Background" Value="White" />
+        <!--  白色背景  -->
+        <Setter Property="BorderBrush" Value="#E5E5E5" />
+        <!--  边框颜色  -->
+        <Setter Property="BorderThickness" Value="1" />
+        <!--  边框粗细  -->
+        <Setter Property="GridLinesVisibility" Value="None" />
+        <!--  只显示水平网格线  -->
+        <Setter Property="RowHeaderWidth" Value="0" />
+        <!--  隐藏行标题  -->
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <!--  整体靠上对齐  -->
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <!--  内容垂直居中  -->
+        <Setter Property="ColumnHeaderStyle" Value="{StaticResource CommonDataGridColumnHeaderStyle}" />
+        <!--  应用表头样式  -->
+        <Setter Property="CellStyle" Value="{StaticResource CommonDataGridCellStyle}" />
+        <!--  应用单元格样式  -->
+        <Setter Property="AlternationCount" Value="2" />
+
+        <!--  行样式设置  -->
+        <Setter Property="RowStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="MinHeight" Value="32" />
+                    <!--  设置最小行高  -->
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <!--  行内容垂直居中  -->
+                    <Setter Property="Background" Value="Transparent" />
+                    <!--  默认背景透明  -->
+                    <!--  取消选中状态的背景色  -->
+                    <Style.Triggers>
+                        <Trigger Property="AlternationIndex" Value="1">
+                            <Setter Property="Background" Value="#F8F8F8" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderBrush" Value="Transparent" />
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#F5F5F5" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!--  添加单元格选中样式  -->
+        <Setter Property="CellStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Padding" Value="10,5" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="BorderThickness" Value="0" />
+
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderBrush" Value="Transparent" />
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
