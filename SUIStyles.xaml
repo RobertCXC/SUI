@@ -4,6 +4,7 @@
         <ResourceDictionary Source="/SUI;component/Styles/DataGridStyles.xaml" />
         <ResourceDictionary Source="/SUI;component/Styles/GridSplitterStyles.xaml" />
         <ResourceDictionary Source="/SUI;component/Styles/SwitchCheckBoxStyle.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/TreeStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
