@@ -15,9 +15,9 @@
             </TabControl>
 
             <TextBlock Margin="0,16,0,8" Text="ListBox" />
-            <ListBox Height="100">
+            <ListBox Height="120" SelectionMode="Extended">
                 <ListBoxItem Content="项目 1" IsSelected="True" />
-                <ListBoxItem Content="项目 2" />
+                <ListBoxItem Content="项目 2" IsSelected="True" />
                 <ListBoxItem Content="项目 3" />
             </ListBox>
 
