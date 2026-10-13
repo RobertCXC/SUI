@@ -31,13 +31,24 @@
                 </MenuItem>
                 <MenuItem Header="编辑" />
             </Menu>
-            <Button Margin="0,8,0,0" HorizontalAlignment="Left" Content="悬停看 ToolTip，右键看菜单" ToolTip="这是一个 ToolTip">
+            <Button Margin="0,8,0,0"
+                    HorizontalAlignment="Left"
+                    Content="悬停看长文本 ToolTip，右键看菜单"
+                    ToolTip="这是一个较长的 ToolTip 字符串，用于验证提示文字会在三百二十像素的最大宽度内自动换行并完整显示。">
                 <Button.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="复制" />
                         <MenuItem Header="粘贴" />
                     </ContextMenu>
                 </Button.ContextMenu>
+            </Button>
+            <Button Margin="0,8,0,0" HorizontalAlignment="Left" Content="自定义 ToolTip 内容">
+                <Button.ToolTip>
+                    <StackPanel>
+                        <TextBlock FontWeight="SemiBold" Text="自定义提示内容" />
+                        <TextBlock Margin="0,4,0,0" Text="自定义内容也可以包含较长的多行文字，并使用相同的提示框样式。" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Button.ToolTip>
             </Button>
 
             <TextBlock Margin="0,16,0,8" Text="ProgressBar" />

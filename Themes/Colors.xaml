@@ -77,6 +77,7 @@
     <Thickness x:Key="SUI.Space.MenuGestureMargin">12,0,8,0</Thickness>
     <Thickness x:Key="SUI.Space.MenuArrowMargin">8,0,2,0</Thickness>
     <Thickness x:Key="SUI.Space.MenuSeparatorMargin">0,4</Thickness>
+    <Thickness x:Key="SUI.Space.ToolTipPadding">8,4</Thickness>
     <Thickness x:Key="SUI.Border.FocusThickness">2</Thickness>
     <sys:Double x:Key="SUI.Control.MenuIconColumnWidth">20</sys:Double>
 
