@@ -2,14 +2,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sui="clr-namespace:SUI;assembly=SUI">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SUI;component/Themes/Colors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-    <!--
-        通用 TreeView 视觉资源。
-        节点只需要提供 Title、OI 和 Children 属性即可复用这套样式。
-        颜色、尺寸和圆角通过 TreeStyles 附加属性从宿主 TreeView 传入。
-    -->
     <Geometry x:Key="SUITreeFolderIconGeometry">M 3,5 C 3,3.895 3.895,3 5,3 H 9 L 11,5 H 19 C 20.105,5 21,5.895 21,7 V 17 C 21,18.105 20.105,19 19,19 H 5 C 3.895,19 3,18.105 3,17 Z</Geometry>
-    <Geometry x:Key="SUITreeLeafIconGeometry">M 5,3 H 19 C 20.105,3 21,3.895 21,5 V 19 C 21,20.105 20.105,21 19,21 H 5 C 3.895,21 3,20.105 3,19 V 5 C 3,3.895 3.895,3 5,3 Z M 7,7 H 17 V 9 H 7 Z M 7,11 H 15 V 13 H 7 Z M 7,15 H 12 V 17 H 7 Z</Geometry>
+    <Geometry x:Key="SUITreeLeafIconGeometry">M 5,3 H 19 C 20.105,3 21,3.895 21,5 V 19 C 21,20.105 21,21 19,21 H 5 C 3.895,21 3,20.105 3,19 V 5 C 3,3.895 3.895,3 5,3 Z M 7,7 H 17 V 9 H 7 Z M 7,11 H 15 V 13 H 7 Z M 7,15 H 12 V 17 H 7 Z</Geometry>
     <Geometry x:Key="SUITreeChevronRightGeometry">M 8,5 L 14,11 L 8,17</Geometry>
     <Geometry x:Key="SUITreeChevronDownGeometry">M 5,8 L 11,14 L 17,8</Geometry>
 
@@ -23,7 +21,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Grid Background="Transparent">
+                    <Grid Background="Transparent" SnapsToDevicePixels="True">
                         <Path x:Name="RightChevron"
                               Width="8"
                               Height="12"
@@ -32,7 +30,7 @@
                               Data="{StaticResource SUITreeChevronRightGeometry}"
                               Fill="Transparent"
                               Stretch="Fill"
-                              Stroke="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.ChevronBrush)}"
+                              Stroke="{StaticResource SUI.Brush.TextSecondary}"
                               StrokeEndLineCap="Round"
                               StrokeLineJoin="Round"
                               StrokeStartLineCap="Round"
@@ -45,7 +43,7 @@
                               Data="{StaticResource SUITreeChevronDownGeometry}"
                               Fill="Transparent"
                               Stretch="Fill"
-                              Stroke="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.ExpandedChevronBrush)}"
+                              Stroke="{StaticResource SUI.Brush.Accent}"
                               StrokeEndLineCap="Round"
                               StrokeLineJoin="Round"
                               StrokeStartLineCap="Round"
@@ -58,7 +56,11 @@
                             <Setter TargetName="DownChevron" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="RightChevron" Property="Stroke" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.ExpandedChevronBrush)}" />
+                            <Setter TargetName="RightChevron" Property="Stroke" Value="{StaticResource SUI.Brush.Accent}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="RightChevron" Property="Stroke" Value="{StaticResource SUI.Brush.TextDisabled}" />
+                            <Setter TargetName="DownChevron" Property="Stroke" Value="{StaticResource SUI.Brush.TextDisabled}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -67,7 +69,7 @@
     </Style>
 
     <Style x:Key="SUITreeViewItemStyle" TargetType="{x:Type TreeViewItem}">
-        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.ItemBackgroundBrush)}" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="0" />
@@ -75,11 +77,12 @@
         <Setter Property="MinHeight" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.ItemMinHeight)}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="FontSize" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.ItemFontSize)}" />
-        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.ItemForegroundBrush)}" />
+        <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TreeViewItem}">
-                    <Grid>
+                    <Grid SnapsToDevicePixels="True">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -90,9 +93,11 @@
                                 Margin="0,2,4,2"
                                 Padding="0"
                                 Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.ItemCornerRadius)}"
                                 SnapsToDevicePixels="True">
-                            <Grid MinHeight="32">
+                            <Grid MinHeight="{TemplateBinding MinHeight}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="3" />
                                     <ColumnDefinition Width="22" />
@@ -104,8 +109,8 @@
                                         Grid.Column="0"
                                         Width="3"
                                         HorizontalAlignment="Left"
-                                        Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.SelectionIndicatorBrush)}"
-                                        CornerRadius="2"
+                                        Background="{StaticResource SUI.Brush.Accent}"
+                                        CornerRadius="{StaticResource SUI.Radius.Control}"
                                         Visibility="Collapsed" />
 
                                 <ToggleButton x:Name="Expander"
@@ -120,7 +125,7 @@
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
                                       Data="{StaticResource SUITreeFolderIconGeometry}"
-                                      Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.FolderIconBrush)}"
+                                      Fill="{StaticResource SUI.Brush.Accent}"
                                       Stretch="Fill"
                                       Visibility="Collapsed" />
                                 <Path x:Name="LeafIcon"
@@ -130,7 +135,7 @@
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
                                       Data="{StaticResource SUITreeLeafIconGeometry}"
-                                      Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.LeafIconBrush)}"
+                                      Fill="{StaticResource SUI.Brush.TextSecondary}"
                                       Stretch="Fill" />
 
                                 <ContentPresenter Grid.Column="3"
@@ -151,7 +156,7 @@
                             <Border Width="1"
                                     Margin="16,0,0,0"
                                     HorizontalAlignment="Left"
-                                    Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.HierarchyLineBrush)}" />
+                                    Background="{StaticResource SUI.Brush.Border}" />
                             <ItemsPresenter Margin="18,0,4,0" />
                         </Grid>
                     </Grid>
@@ -167,16 +172,22 @@
                             <Setter TargetName="ChildrenContainer" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="ItemBorder" Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.HoverItemBackgroundBrush)}" />
+                            <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource SUI.Brush.Hover}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="ItemBorder" Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.SelectedItemBackgroundBrush)}" />
+                            <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource SUI.Brush.Selected}" />
                             <Setter TargetName="SelectionIndicator" Property="Visibility" Value="Visible" />
                             <Setter Property="FontWeight" Value="SemiBold" />
-                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.SelectedItemForegroundBrush)}" />
+                            <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="ItemBorder" Property="BorderBrush" Value="{StaticResource SUI.Brush.Focus}" />
+                            <Setter TargetName="ItemBorder" Property="BorderThickness" Value="{StaticResource SUI.Border.Thickness}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.55" />
+                            <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
+                            <Setter TargetName="SelectionIndicator" Property="Visibility" Value="Collapsed" />
+                            <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -184,44 +195,5 @@
         </Setter>
     </Style>
 
-    <!-- 适用于具有 Title、OI、Children 属性的任意树节点。 -->
-    <HierarchicalDataTemplate x:Key="SUITreeNodeTemplate" ItemsSource="{Binding Children}">
-        <Grid Margin="0" MinHeight="28">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0"
-                       VerticalAlignment="Center"
-                       Text="{Binding Title}"
-                       TextTrimming="CharacterEllipsis"
-                       ToolTip="{Binding Title}" />
-            <Border x:Name="OIBadge"
-                    Grid.Column="1"
-                    Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.OIColumnWidth)}"
-                    Margin="12,0,4,0"
-                    Padding="0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Background="Transparent">
-                <Border.Style>
-                    <Style TargetType="{x:Type Border}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding OI}" Value="">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
-                <TextBlock HorizontalAlignment="Stretch"
-                           VerticalAlignment="Center"
-                           FontSize="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.OIFontSize)}"
-                           Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=(sui:TreeStyles.OIForegroundBrush)}"
-                           Text="{Binding OI}"
-                           TextAlignment="Right"
-                           ToolTip="对象标识（OI）" />
-            </Border>
-        </Grid>
-    </HierarchicalDataTemplate>
-
+    <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource SUITreeViewItemStyle}" />
 </ResourceDictionary>
