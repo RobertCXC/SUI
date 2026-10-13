@@ -4,17 +4,34 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="24">
-            <TextBlock FontSize="20" Text="Button" />
+            <TextBlock FontSize="{StaticResource SUI.Font.Size.Title}" Text="Button" />
 
             <TextBlock Margin="0,16,0,8" Text="默认（隐式样式）" />
             <StackPanel Orientation="Horizontal">
                 <Button Margin="0,0,8,0" Content="普通按钮" />
                 <Button Margin="0,0,8,0" Content="禁用" IsEnabled="False" />
                 <Button Margin="0,0,8,0" Content="默认按钮" IsDefault="True" />
-                <ToggleButton Content="ToggleButton" />
+                <ToggleButton Margin="0,0,8,0" Content="ToggleButton" />
+                <ToggleButton Content="ToggleButton（选中）" IsChecked="True" />
             </StackPanel>
 
-            <!-- 变体样式（SUI.Button.Primary / Ghost / Danger）完成后在此添加。 -->
+            <TextBlock Margin="0,16,0,8" Text="Primary" />
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="0,0,8,0" Content="主要操作" Style="{StaticResource SUI.Button.Primary}" />
+                <Button Margin="0,0,8,0" Content="禁用" IsEnabled="False" Style="{StaticResource SUI.Button.Primary}" />
+            </StackPanel>
+
+            <TextBlock Margin="0,16,0,8" Text="Ghost" />
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="0,0,8,0" Content="次要操作" Style="{StaticResource SUI.Button.Ghost}" />
+                <Button Margin="0,0,8,0" Content="禁用" IsEnabled="False" Style="{StaticResource SUI.Button.Ghost}" />
+            </StackPanel>
+
+            <TextBlock Margin="0,16,0,8" Text="Danger" />
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="0,0,8,0" Content="删除" Style="{StaticResource SUI.Button.Danger}" />
+                <Button Content="禁用" IsEnabled="False" Style="{StaticResource SUI.Button.Danger}" />
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
