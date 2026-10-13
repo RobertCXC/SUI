@@ -67,6 +67,9 @@
     <Thickness x:Key="SUI.Space.CheckRadioContent">8,0,0,0</Thickness>
     <sys:Double x:Key="SUI.Control.CheckRadioSize">18</sys:Double>
     <sys:Double x:Key="SUI.Border.StrokeThickness">1</sys:Double>
+    <Thickness x:Key="SUI.Space.TabPadding">12,0</Thickness>
+    <sys:Double x:Key="SUI.Control.TabHeight">36</sys:Double>
+    <sys:Double x:Key="SUI.Control.TabIndicatorThickness">2</sys:Double>
 
     <!-- 间距 -->
     <sys:Double x:Key="SUI.Space.1">4</sys:Double>
