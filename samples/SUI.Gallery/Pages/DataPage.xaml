@@ -36,6 +36,8 @@
             Grid.Column="2"
             Margin="0,16,0,0"
             AutoGenerateColumns="True"
-            Style="{StaticResource CommonDataGridStyle}" />
+            SelectionMode="Extended"
+            SelectionUnit="FullRow"
+            SelectedIndex="0" />
     </Grid>
 </UserControl>

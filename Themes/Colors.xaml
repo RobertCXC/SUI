@@ -78,6 +78,9 @@
     <Thickness x:Key="SUI.Space.MenuArrowMargin">8,0,2,0</Thickness>
     <Thickness x:Key="SUI.Space.MenuSeparatorMargin">0,4</Thickness>
     <Thickness x:Key="SUI.Space.ToolTipPadding">8,4</Thickness>
+    <Thickness x:Key="SUI.Space.DataGridHeaderPadding">10,8</Thickness>
+    <Thickness x:Key="SUI.Space.DataGridCellPadding">10,5</Thickness>
+    <Thickness x:Key="SUI.Space.DataGridSortArrowMargin">4,0,4,0</Thickness>
     <Thickness x:Key="SUI.Border.FocusThickness">2</Thickness>
     <sys:Double x:Key="SUI.Control.MenuIconColumnWidth">20</sys:Double>
     <CornerRadius x:Key="SUI.Radius.ProgressBar">2</CornerRadius>
