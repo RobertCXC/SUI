@@ -80,6 +80,10 @@
     <Thickness x:Key="SUI.Space.ToolTipPadding">8,4</Thickness>
     <Thickness x:Key="SUI.Border.FocusThickness">2</Thickness>
     <sys:Double x:Key="SUI.Control.MenuIconColumnWidth">20</sys:Double>
+    <CornerRadius x:Key="SUI.Radius.ProgressBar">2</CornerRadius>
+    <sys:Double x:Key="SUI.Control.ProgressBarHeight">4</sys:Double>
+    <sys:Double x:Key="SUI.Control.ProgressSegmentWidth">72</sys:Double>
+    <sys:Double x:Key="SUI.Control.ProgressTravelDistance">350</sys:Double>
 
     <!-- 间距 -->
     <sys:Double x:Key="SUI.Space.1">4</sys:Double>

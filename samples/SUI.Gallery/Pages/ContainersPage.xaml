@@ -52,7 +52,9 @@
             </Button>
 
             <TextBlock Margin="0,16,0,8" Text="ProgressBar" />
-            <ProgressBar Margin="0,0,0,8" Value="60" />
+            <ProgressBar Margin="0,0,0,8" Value="0" />
+            <ProgressBar Margin="0,0,0,8" Value="50" />
+            <ProgressBar Margin="0,0,0,8" Value="100" />
             <ProgressBar IsIndeterminate="True" />
 
             <TextBlock Margin="0,16,0,8" Text="Expander" />
