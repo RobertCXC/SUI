@@ -8,18 +8,12 @@
     d:DesignWidth="260"
     mc:Ignorable="d">
     <Border
-        MaxWidth="300"
-        Padding="10"
-        Background="White"
-        CornerRadius="12"
+        Padding="{StaticResource SUI.Space.DataGridCellPadding}"
+        Background="{StaticResource SUI.Brush.Surface}"
+        BorderBrush="{StaticResource SUI.Brush.Border}"
+        BorderThickness="{StaticResource SUI.Border.Thickness}"
+        CornerRadius="{StaticResource SUI.Radius.Panel}"
         SnapsToDevicePixels="True">
-        <Border.Effect>
-            <DropShadowEffect
-                BlurRadius="16"
-                Opacity="0.6"
-                ShadowDepth="3"
-                Color="#33000000" />
-        </Border.Effect>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="56" />
@@ -34,15 +28,15 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Background="{Binding IconColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                CornerRadius="10">
+                CornerRadius="{StaticResource SUI.Radius.Panel}">
                 <Grid>
                     <!--  默认图标（一个字母）。当 IconSource 为空时可见；有图片时自动隐藏  -->
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        FontSize="26"
+                        FontSize="{StaticResource SUI.Font.Size.Title}"
                         FontWeight="Bold"
-                        Foreground="White"
+                        Foreground="{StaticResource SUI.Brush.TextOnAccent}"
                         Text="{Binding IconText, RelativeSource={RelativeSource AncestorType=UserControl}}">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
@@ -60,7 +54,7 @@
                     <Border
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        CornerRadius="8">
+                        CornerRadius="{StaticResource SUI.Radius.Panel}">
                         <Border.Background>
                             <ImageBrush
                                 AlignmentX="Center"
@@ -85,17 +79,17 @@
             <!--  右侧标题与描述  -->
             <StackPanel
                 Grid.Column="1"
-                Margin="12,0,0,0"
+                Margin="{StaticResource SUI.Space.ButtonPadding}"
                 VerticalAlignment="Center">
                 <TextBlock
-                    FontSize="16"
+                    FontSize="{StaticResource SUI.Font.Size.Title}"
                     FontWeight="SemiBold"
-                    Foreground="#1F1F1F"
+                    Foreground="{StaticResource SUI.Brush.Text}"
                     Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                 <TextBlock
-                    Margin="0,6,0,0"
-                    FontSize="12"
-                    Foreground="#7A7A7A"
+                    Margin="{StaticResource SUI.Space.MenuSeparatorMargin}"
+                    FontSize="{StaticResource SUI.Font.Size.Caption}"
+                    Foreground="{StaticResource SUI.Brush.TextSecondary}"
                     Text="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}}"
                     TextWrapping="Wrap" />
             </StackPanel>
