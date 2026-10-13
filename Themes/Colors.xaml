@@ -54,10 +54,12 @@
     <!-- 圆角 -->
     <CornerRadius x:Key="SUI.Radius.Control">4</CornerRadius>
     <CornerRadius x:Key="SUI.Radius.Panel">8</CornerRadius>
+    <CornerRadius x:Key="SUI.Radius.ScrollBarThumb">3</CornerRadius>
 
     <!-- 边框与尺寸 -->
     <Thickness x:Key="SUI.Border.Thickness">1</Thickness>
     <sys:Double x:Key="SUI.Control.Height">32</sys:Double>
+    <sys:Double x:Key="SUI.Control.ScrollBarSize">10</sys:Double>
     <Thickness x:Key="SUI.Space.ButtonPadding">12,0</Thickness>
     <Thickness x:Key="SUI.Space.TextBox.Padding">10,0</Thickness>
     <Thickness x:Key="SUI.Space.TextBox.Padding.Multiline">10,6</Thickness>

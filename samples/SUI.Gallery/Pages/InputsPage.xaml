@@ -18,11 +18,35 @@
                 <ComboBoxItem Content="COM1" />
                 <ComboBoxItem Content="COM2" />
                 <ComboBoxItem Content="COM3" />
+                <ComboBoxItem Content="COM4" />
+                <ComboBoxItem Content="COM5" />
+                <ComboBoxItem Content="COM6" />
+                <ComboBoxItem Content="COM7" />
+                <ComboBoxItem Content="COM8" />
+                <ComboBoxItem Content="COM9" />
+                <ComboBoxItem Content="COM10" />
+                <ComboBoxItem Content="COM11" />
+                <ComboBoxItem Content="COM12" />
             </ComboBox>
             <ComboBox Margin="0,0,0,8" IsEditable="True" Text="可编辑" />
             <ComboBox IsEnabled="False" SelectedIndex="0">
                 <ComboBoxItem Content="禁用" />
             </ComboBox>
+
+            <TextBlock Margin="0,16,0,8" Text="ListBox / ScrollViewer" />
+            <ListBox Height="128" Margin="0,0,0,8">
+                <ListBoxItem Content="列表项 01" />
+                <ListBoxItem Content="列表项 02" />
+                <ListBoxItem Content="列表项 03" />
+                <ListBoxItem Content="列表项 04" />
+                <ListBoxItem Content="列表项 05" />
+                <ListBoxItem Content="列表项 06" />
+                <ListBoxItem Content="列表项 07" />
+                <ListBoxItem Content="列表项 08" />
+            </ListBox>
+            <ScrollViewer Height="40" Margin="0,0,0,8" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                <TextBlock Text="这是一个用于检查水平滚动条的长文本，左右拖动滚动条可以查看全部内容。" TextWrapping="NoWrap" />
+            </ScrollViewer>
 
             <TextBlock Margin="0,16,0,8" Text="CheckBox / RadioButton / Switch" />
             <CheckBox Margin="0,0,0,4" Content="选项 A" IsChecked="True" />
