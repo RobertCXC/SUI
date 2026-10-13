@@ -15,18 +15,41 @@
 
         <TextBlock Grid.ColumnSpan="3" FontSize="20" Text="TreeView / DataGrid / GridSplitter" />
 
-        <TreeView
-            x:Name="Tree"
-            Grid.Row="1"
-            Margin="0,16,0,0"
-            ItemContainerStyle="{StaticResource SUITreeViewItemStyle}"
-            ItemTemplate="{StaticResource SUITreeNodeTemplate}" />
+        <Grid Grid.Row="1" Margin="0,16,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="140" />
+            </Grid.RowDefinitions>
+
+            <TreeView
+                x:Name="Tree"
+                Grid.Row="0"
+                ItemContainerStyle="{StaticResource SUITreeViewItemStyle}"
+                ItemTemplate="{StaticResource SUITreeNodeTemplate}" />
+
+            <GridSplitter
+                Grid.Row="1"
+                Height="8"
+                Style="{StaticResource SUI.GridSplitter.Horizontal}" />
+
+            <Border
+                Grid.Row="2"
+                Background="{StaticResource SUI.Brush.SurfaceAlt}"
+                BorderBrush="{StaticResource SUI.Brush.Border}"
+                BorderThickness="{StaticResource SUI.Border.Thickness}">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Foreground="{StaticResource SUI.Brush.TextSecondary}"
+                    Text="拖动分隔线调整上下区域" />
+            </Border>
+        </Grid>
 
         <GridSplitter
             Grid.Row="1"
             Grid.Column="1"
             Width="8"
-            Margin="0,16,0,0"
             HorizontalAlignment="Center"
             Style="{StaticResource CustomGridSplitterStyle}" />
 
