@@ -24,16 +24,23 @@
                                 CornerRadius="{StaticResource SUI.Radius.ProgressBar}"
                                 SnapsToDevicePixels="True" />
                         <Border x:Name="PART_GlowRect"
-                                Width="{StaticResource SUI.Control.ProgressSegmentWidth}"
-                                HorizontalAlignment="Left"
-                                Background="{TemplateBinding Foreground}"
                                 CornerRadius="{StaticResource SUI.Radius.ProgressBar}"
-                                RenderTransformOrigin="0,0.5"
                                 Visibility="Collapsed"
                                 SnapsToDevicePixels="True">
-                            <Border.RenderTransform>
-                                <TranslateTransform x:Name="IndeterminateTransform" X="0" />
-                            </Border.RenderTransform>
+                            <Border.Background>
+                                <DrawingBrush Stretch="Fill" TileMode="None" Viewbox="0,0,1,1" ViewboxUnits="Absolute">
+                                    <DrawingBrush.RelativeTransform>
+                                        <TranslateTransform x:Name="IndeterminateTransform" X="0" />
+                                    </DrawingBrush.RelativeTransform>
+                                    <DrawingBrush.Drawing>
+                                        <GeometryDrawing Brush="{StaticResource SUI.Brush.Accent}">
+                                            <GeometryDrawing.Geometry>
+                                                <RectangleGeometry Rect="0,0,0.3,1" />
+                                            </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                    </DrawingBrush.Drawing>
+                                </DrawingBrush>
+                            </Border.Background>
                         </Border>
                         <Border x:Name="FocusOutline"
                                 BorderBrush="Transparent"
@@ -58,7 +65,7 @@
                                         <DoubleAnimation Storyboard.TargetName="IndeterminateTransform"
                                                          Storyboard.TargetProperty="X"
                                                          From="0"
-                                                         To="{StaticResource SUI.Control.ProgressTravelDistance}"
+                                                         To="0.7"
                                                          Duration="0:0:0.75"
                                                          AutoReverse="True">
                                             <DoubleAnimation.EasingFunction>
@@ -79,7 +86,7 @@
                             <Setter Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
                             <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
                             <Setter TargetName="PART_Indicator" Property="Background" Value="{StaticResource SUI.Brush.TextDisabled}" />
-                            <Setter TargetName="PART_GlowRect" Property="Background" Value="{StaticResource SUI.Brush.TextDisabled}" />
+                            <Setter TargetName="PART_GlowRect" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

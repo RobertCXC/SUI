@@ -37,64 +37,64 @@
         </HierarchicalDataTemplate>
     </UserControl.Resources>
 
-    <Grid Margin="24">
+    <Grid Margin="32,28">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="260" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.ColumnSpan="3" FontSize="20" Text="TreeView / DataGrid / GridSplitter" />
+        <StackPanel Grid.Row="0">
+            <TextBlock Style="{StaticResource Gallery.PageTitle}" Text="数据" />
+            <TextBlock Style="{StaticResource Gallery.PageSubtitle}" Text="TreeView、DataGrid 与 GridSplitter。拖动分隔线可调整区域大小。" />
+        </StackPanel>
 
-        <Grid Grid.Row="1" Margin="0,16,0,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="140" />
-            </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" MinWidth="160" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" MinWidth="240" />
+            </Grid.ColumnDefinitions>
 
-            <TreeView
-                x:Name="Tree"
-                Grid.Row="0"
-                ItemTemplate="{StaticResource SUITreeNodeTemplate}" />
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" MinHeight="120" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="140" MinHeight="80" />
+                </Grid.RowDefinitions>
 
-            <GridSplitter
-                Grid.Row="1"
-                Height="8"
-                Style="{StaticResource SUI.GridSplitter.Horizontal}" />
+                <TreeView x:Name="Tree"
+                          Grid.Row="0"
+                          Padding="4"
+                          ItemContainerStyle="{StaticResource Gallery.TreeItem}"
+                          ItemTemplate="{StaticResource SUITreeNodeTemplate}" />
 
-            <Border
-                Grid.Row="2"
-                Background="{StaticResource SUI.Brush.SurfaceAlt}"
-                BorderBrush="{StaticResource SUI.Brush.Border}"
-                BorderThickness="{StaticResource SUI.Border.Thickness}">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Foreground="{StaticResource SUI.Brush.TextSecondary}"
-                    Text="拖动分隔线调整上下区域" />
-            </Border>
+                <GridSplitter Grid.Row="1"
+                              Height="12"
+                              Style="{StaticResource SUI.GridSplitter.Horizontal}" />
+
+                <Border Grid.Row="2"
+                        Background="{StaticResource SUI.Brush.SurfaceAlt}"
+                        BorderBrush="{StaticResource SUI.Brush.Border}"
+                        BorderThickness="{StaticResource SUI.Border.Thickness}"
+                        CornerRadius="{StaticResource SUI.Radius.Panel}">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="{StaticResource SUI.Brush.TextSecondary}"
+                               Text="拖动上方分隔线调整高度" />
+                </Border>
+            </Grid>
+
+            <GridSplitter Grid.Column="1"
+                          Width="16"
+                          HorizontalAlignment="Center"
+                          Style="{StaticResource CustomGridSplitterStyle}" />
+
+            <DataGrid x:Name="Grid"
+                      Grid.Column="2"
+                      AutoGenerateColumns="True"
+                      SelectedIndex="0"
+                      SelectionMode="Extended"
+                      SelectionUnit="FullRow" />
         </Grid>
-
-        <GridSplitter
-            Grid.Row="1"
-            Grid.Column="1"
-            Width="8"
-            HorizontalAlignment="Center"
-            Style="{StaticResource CustomGridSplitterStyle}" />
-
-        <DataGrid
-            x:Name="Grid"
-            Grid.Row="1"
-            Grid.Column="2"
-            Margin="0,16,0,0"
-            AutoGenerateColumns="True"
-            SelectionMode="Extended"
-            SelectionUnit="FullRow"
-            SelectedIndex="0" />
     </Grid>
 </UserControl>

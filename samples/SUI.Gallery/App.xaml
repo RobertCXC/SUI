@@ -8,6 +8,51 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/SUI;component/SUIStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="Gallery.PageTitle" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="26" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+            </Style>
+
+            <Style x:Key="Gallery.PageSubtitle" TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="0,6,0,24" />
+                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextSecondary}" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+            </Style>
+
+            <Style x:Key="Gallery.SectionCard" TargetType="{x:Type Border}">
+                <Setter Property="Margin" Value="0,0,0,16" />
+                <Setter Property="Padding" Value="20" />
+                <Setter Property="Background" Value="{StaticResource SUI.Brush.Surface}" />
+                <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+                <Setter Property="BorderThickness" Value="{StaticResource SUI.Border.Thickness}" />
+                <Setter Property="CornerRadius" Value="{StaticResource SUI.Radius.Panel}" />
+            </Style>
+
+            <Style x:Key="Gallery.SectionTitle" TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="0,0,0,2" />
+                <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Title}" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+            </Style>
+
+            <Style x:Key="Gallery.SectionDesc" TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="0,0,0,16" />
+                <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Caption}" />
+                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextSecondary}" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+            </Style>
+
+            <Style x:Key="Gallery.Label" TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="0,0,0,6" />
+                <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Caption}" />
+                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextSecondary}" />
+            </Style>
+
+            <Style x:Key="Gallery.TreeItem" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                <Setter Property="IsExpanded" Value="True" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

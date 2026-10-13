@@ -13,7 +13,6 @@
 
     <Style x:Key="SUITreeExpanderStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Width" Value="22" />
-        <Setter Property="Height" Value="30" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -138,7 +137,8 @@
                                       Fill="{StaticResource SUI.Brush.TextSecondary}"
                                       Stretch="Fill" />
 
-                                <ContentPresenter Grid.Column="3"
+                                <ContentPresenter x:Name="HeaderHost"
+                                                  Grid.Column="3"
                                                   Margin="8,0,10,0"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="Center"
@@ -171,13 +171,13 @@
                         <Trigger Property="IsExpanded" Value="True">
                             <Setter TargetName="ChildrenContainer" Property="Visibility" Value="Visible" />
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <Trigger SourceName="ItemBorder" Property="IsMouseOver" Value="True">
                             <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource SUI.Brush.Hover}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource SUI.Brush.Selected}" />
                             <Setter TargetName="SelectionIndicator" Property="Visibility" Value="Visible" />
-                            <Setter Property="FontWeight" Value="SemiBold" />
+                            <Setter TargetName="HeaderHost" Property="TextElement.FontWeight" Value="SemiBold" />
                             <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
