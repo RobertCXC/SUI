@@ -14,13 +14,13 @@
             <PasswordBox Margin="0,0,0,8" Password="123456" />
 
             <TextBlock Margin="0,16,0,8" Text="ComboBox" />
-            <ComboBox Margin="0,0,0,8" SelectedIndex="0">
+            <ComboBox MaxDropDownHeight="128" Margin="0,0,0,8" SelectedIndex="0">
                 <ComboBoxItem Content="COM1" />
                 <ComboBoxItem Content="COM2" />
                 <ComboBoxItem Content="COM3" />
                 <ComboBoxItem Content="COM4" />
                 <ComboBoxItem Content="COM5" />
-                <ComboBoxItem Content="COM6" />
+                <ComboBoxItem Content="COM6（禁用）" IsEnabled="False" />
                 <ComboBoxItem Content="COM7" />
                 <ComboBoxItem Content="COM8" />
                 <ComboBoxItem Content="COM9" />
