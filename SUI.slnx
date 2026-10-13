@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/samples/">
+    <Project Path="samples/SUI.Gallery/SUI.Gallery.csproj" />
+  </Folder>
+  <Project Path="SUI.csproj" />
+</Solution>

@@ -1,6 +1,20 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!-- Colors 必须最先合并。 -->
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SUI;component/Themes/Colors.xaml" />
+
+        <ResourceDictionary Source="/SUI;component/Styles/ButtonStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/TextBoxStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/ComboBoxStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/CheckRadioStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/TabControlStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/ListBoxStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/ScrollBarStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/MenuStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/ToolTipStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/ProgressBarStyles.xaml" />
+
         <ResourceDictionary Source="/SUI;component/Styles/DataGridStyles.xaml" />
         <ResourceDictionary Source="/SUI;component/Styles/GridSplitterStyles.xaml" />
         <ResourceDictionary Source="/SUI;component/Styles/SwitchCheckBoxStyle.xaml" />

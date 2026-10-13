@@ -3,6 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:SUI.Navigation">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SUI;component/Themes/Colors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <SolidColorBrush x:Key="SUINavigationPaneBackgroundBrush" Color="#F0F6FD" />
     <SolidColorBrush x:Key="SUINavigationPaneBorderBrush" Color="#DCE6F0" />
     <SolidColorBrush x:Key="SUINavigationItemForegroundBrush" Color="#71869B" />

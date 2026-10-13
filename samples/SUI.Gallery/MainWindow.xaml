@@ -1,0 +1,17 @@
+<Window
+    x:Class="SUI.Gallery.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nav="clr-namespace:SUI.Navigation;assembly=SUI"
+    Title="SUI Gallery"
+    Width="1100"
+    Height="760"
+    Background="{StaticResource SUI.Brush.Background}"
+    FontFamily="{StaticResource SUI.Font.Family}"
+    FontSize="{StaticResource SUI.Font.Size.Body}"
+    Foreground="{StaticResource SUI.Brush.Text}"
+    UseLayoutRounding="True">
+    <nav:SUINavigationView x:Name="Navigation" SelectionChanged="OnNavigationSelectionChanged">
+        <ContentControl x:Name="PageHost" />
+    </nav:SUINavigationView>
+</Window>

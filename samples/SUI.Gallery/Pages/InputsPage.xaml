@@ -1,0 +1,43 @@
+<UserControl
+    x:Class="SUI.Gallery.Pages.InputsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Width="360" Margin="24" HorizontalAlignment="Left">
+            <TextBlock FontSize="20" Text="输入与选择" />
+
+            <TextBlock Margin="0,16,0,8" Text="TextBox / PasswordBox" />
+            <TextBox Margin="0,0,0,8" Text="中文输入 Text" />
+            <TextBox Margin="0,0,0,8" IsReadOnly="True" Text="只读" />
+            <TextBox Margin="0,0,0,8" IsEnabled="False" Text="禁用" />
+            <PasswordBox Margin="0,0,0,8" Password="123456" />
+
+            <TextBlock Margin="0,16,0,8" Text="ComboBox" />
+            <ComboBox Margin="0,0,0,8" SelectedIndex="0">
+                <ComboBoxItem Content="COM1" />
+                <ComboBoxItem Content="COM2" />
+                <ComboBoxItem Content="COM3" />
+            </ComboBox>
+            <ComboBox Margin="0,0,0,8" IsEditable="True" Text="可编辑" />
+            <ComboBox IsEnabled="False" SelectedIndex="0">
+                <ComboBoxItem Content="禁用" />
+            </ComboBox>
+
+            <TextBlock Margin="0,16,0,8" Text="CheckBox / RadioButton / Switch" />
+            <CheckBox Margin="0,0,0,4" Content="选项 A" IsChecked="True" />
+            <CheckBox Margin="0,0,0,4" Content="选项 B" />
+            <CheckBox Margin="0,0,0,4" Content="禁用" IsEnabled="False" />
+            <RadioButton Margin="0,8,0,4" Content="单选 1" GroupName="g" IsChecked="True" />
+            <RadioButton Margin="0,0,0,4" Content="单选 2" GroupName="g" />
+            <CheckBox
+                Margin="0,8,0,4"
+                Content="开关"
+                IsChecked="True"
+                Style="{StaticResource SwitchCheckBoxStyle}" />
+            <CheckBox
+                Content="开关（禁用）"
+                IsEnabled="False"
+                Style="{StaticResource SwitchCheckBoxStyle}" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
