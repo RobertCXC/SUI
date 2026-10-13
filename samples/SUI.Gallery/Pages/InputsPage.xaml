@@ -51,6 +51,7 @@
             <TextBlock Margin="0,16,0,8" Text="CheckBox / RadioButton / Switch" />
             <CheckBox Margin="0,0,0,4" Content="选项 A" IsChecked="True" />
             <CheckBox Margin="0,0,0,4" Content="选项 B" />
+            <CheckBox Margin="0,0,0,4" Content="不确定" IsThreeState="True" IsChecked="{x:Null}" />
             <CheckBox Margin="0,0,0,4" Content="禁用" IsEnabled="False" />
             <RadioButton Margin="0,8,0,4" Content="单选 1" GroupName="g" IsChecked="True" />
             <RadioButton Margin="0,0,0,4" Content="单选 2" GroupName="g" />

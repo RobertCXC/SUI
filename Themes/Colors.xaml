@@ -64,6 +64,9 @@
     <Thickness x:Key="SUI.Space.TextBox.Padding">10,0</Thickness>
     <Thickness x:Key="SUI.Space.TextBox.Padding.Multiline">10,6</Thickness>
     <Thickness x:Key="SUI.Space.ComboBoxPopupPadding">4</Thickness>
+    <Thickness x:Key="SUI.Space.CheckRadioContent">8,0,0,0</Thickness>
+    <sys:Double x:Key="SUI.Control.CheckRadioSize">18</sys:Double>
+    <sys:Double x:Key="SUI.Border.StrokeThickness">1</sys:Double>
 
     <!-- 间距 -->
     <sys:Double x:Key="SUI.Space.1">4</sys:Double>
