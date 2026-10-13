@@ -57,8 +57,18 @@
             <RadioButton Margin="0,0,0,4" Content="单选 2" GroupName="g" />
             <CheckBox
                 Margin="0,8,0,4"
-                Content="开关"
+                Content="开关（开启）"
                 IsChecked="True"
+                Style="{StaticResource SwitchCheckBoxStyle}" />
+            <CheckBox
+                Margin="0,0,0,4"
+                Content="开关（关闭）"
+                Style="{StaticResource SwitchCheckBoxStyle}" />
+            <CheckBox
+                Margin="0,0,0,4"
+                Content="开关（三态 null）"
+                IsThreeState="True"
+                IsChecked="{x:Null}"
                 Style="{StaticResource SwitchCheckBoxStyle}" />
             <CheckBox
                 Content="开关（禁用）"

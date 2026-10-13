@@ -87,6 +87,13 @@
     <sys:Double x:Key="SUI.Control.ProgressBarHeight">4</sys:Double>
     <sys:Double x:Key="SUI.Control.ProgressSegmentWidth">72</sys:Double>
     <sys:Double x:Key="SUI.Control.ProgressTravelDistance">350</sys:Double>
+    <CornerRadius x:Key="SUI.Radius.SwitchTrack">10</CornerRadius>
+    <sys:Double x:Key="SUI.Control.SwitchWidth">40</sys:Double>
+    <sys:Double x:Key="SUI.Control.SwitchHeight">20</sys:Double>
+    <sys:Double x:Key="SUI.Control.SwitchKnobSize">12</sys:Double>
+    <sys:Double x:Key="SUI.Control.SwitchPressedKnobSize">14</sys:Double>
+    <Thickness x:Key="SUI.Space.SwitchKnobMargin">3,0</Thickness>
+    <Thickness x:Key="SUI.Space.SwitchContentGap">8,0,0,0</Thickness>
 
     <!-- 间距 -->
     <sys:Double x:Key="SUI.Space.1">4</sys:Double>
