@@ -4,10 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Width="360" Margin="24" HorizontalAlignment="Left">
-            <TextBlock FontSize="20" Text="输入与选择" />
+            <TextBlock FontSize="{StaticResource SUI.Font.Size.Title}" Text="输入与选择" />
 
             <TextBlock Margin="0,16,0,8" Text="TextBox / PasswordBox" />
             <TextBox Margin="0,0,0,8" Text="中文输入 Text" />
+            <TextBox Height="72" Margin="0,0,0,8" AcceptsReturn="True" Text="多行输入第一行&#x0a;第二行" TextWrapping="Wrap" />
             <TextBox Margin="0,0,0,8" IsReadOnly="True" Text="只读" />
             <TextBox Margin="0,0,0,8" IsEnabled="False" Text="禁用" />
             <PasswordBox Margin="0,0,0,8" Password="123456" />

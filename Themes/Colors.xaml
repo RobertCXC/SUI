@@ -59,6 +59,8 @@
     <Thickness x:Key="SUI.Border.Thickness">1</Thickness>
     <sys:Double x:Key="SUI.Control.Height">32</sys:Double>
     <Thickness x:Key="SUI.Space.ButtonPadding">12,0</Thickness>
+    <Thickness x:Key="SUI.Space.TextBox.Padding">10,0</Thickness>
+    <Thickness x:Key="SUI.Space.TextBox.Padding.Multiline">10,6</Thickness>
 
     <!-- 间距 -->
     <sys:Double x:Key="SUI.Space.1">4</sys:Double>
