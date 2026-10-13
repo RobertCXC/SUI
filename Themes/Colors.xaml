@@ -72,6 +72,13 @@
     <sys:Double x:Key="SUI.Control.TabIndicatorThickness">2</sys:Double>
     <Thickness x:Key="SUI.Space.ListBoxItemPadding">10,0</Thickness>
     <Thickness x:Key="SUI.Space.ListBoxItemMargin">2</Thickness>
+    <Thickness x:Key="SUI.Space.MenuPanelPadding">4</Thickness>
+    <Thickness x:Key="SUI.Space.MenuItemPadding">8,0</Thickness>
+    <Thickness x:Key="SUI.Space.MenuGestureMargin">12,0,8,0</Thickness>
+    <Thickness x:Key="SUI.Space.MenuArrowMargin">8,0,2,0</Thickness>
+    <Thickness x:Key="SUI.Space.MenuSeparatorMargin">0,4</Thickness>
+    <Thickness x:Key="SUI.Border.FocusThickness">2</Thickness>
+    <sys:Double x:Key="SUI.Control.MenuIconColumnWidth">20</sys:Double>
 
     <!-- 间距 -->
     <sys:Double x:Key="SUI.Space.1">4</sys:Double>
