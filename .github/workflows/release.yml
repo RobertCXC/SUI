@@ -53,11 +53,14 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
+      # nuget.org Trusted Publishing: exchanges the GitHub OIDC token (id-token: write)
+      # for a short-lived API key. `user` is the nuget.org profile name that owns the
+      # trusted publishing policy (not a secret), so no NUGET_USER secret is needed.
       - name: NuGet trusted publishing login
         id: login
         uses: NuGet/login@v1
         with:
-          user: ${{ secrets.NUGET_USER }}
+          user: Tgmmlg
       - name: Push package
         run: dotnet nuget push "artifacts/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
 
