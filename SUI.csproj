@@ -7,22 +7,31 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <PackageId>SUI</PackageId>
     <Authors>RobertCXC</Authors>
-    <Description>A lightweight WPF control library.</Description>
-    <PackageTags>wpf;ui;controls</PackageTags>
+    <Description>SUI - Small UI. Sharp Experience. A lightweight, native, composable WPF UI component library.</Description>
+    <PackageTags>wpf;ui;xaml;controls;dotnet</PackageTags>
+    <PackageProjectUrl>https://github.com/RobertCXC/SUI</PackageProjectUrl>
     <RepositoryUrl>https://github.com/RobertCXC/SUI</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageProjectUrl>https://github.com/RobertCXC/SUI</PackageProjectUrl>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="LICENSE" Pack="true" PackagePath="\" />
     <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="LICENSE" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>

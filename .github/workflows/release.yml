@@ -2,55 +2,80 @@ name: Release
 
 on:
   push:
-    tags:
-      - "v*"
-
-permissions:
-  contents: write
+    tags: ['v*.*.*']
 
 jobs:
-  build-and-release:
+  build:
     runs-on: windows-latest
+    permissions:
+      contents: read
+    outputs:
+      version: ${{ steps.ver.outputs.version }}
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
-
-      - name: Get version
+      - name: Derive version from tag
         id: ver
         shell: pwsh
-        env:
-          REF_NAME: ${{ github.ref_name }}
         run: |
-          $v = $env:REF_NAME -replace '^v', ''
+          $v = "$env:GITHUB_REF_NAME".TrimStart('v')
+          if ($v -notmatch '^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$') { throw "Invalid version tag: $env:GITHUB_REF_NAME" }
           "version=$v" >> $env:GITHUB_OUTPUT
-
+      - name: Build
+        run: dotnet build SUI.slnx -c Release -p:Version=${{ steps.ver.outputs.version }}
       - name: Pack library
+        run: dotnet pack SUI.csproj -c Release --no-build -p:Version=${{ steps.ver.outputs.version }} -o artifacts
+      - name: Publish sample
+        run: dotnet publish samples/SUI.Gallery/SUI.Gallery.csproj -c Release -r win-x64 --self-contained false -p:Version=${{ steps.ver.outputs.version }} -o publish/gallery
+      - name: Zip sample
         shell: pwsh
-        run: dotnet pack SUI.csproj -c Release -p:Version=${{ steps.ver.outputs.version }} -o ./artifacts/nuget
-
-      - name: Publish Gallery
-        shell: pwsh
-        run: dotnet publish samples/SUI.Gallery/SUI.Gallery.csproj -c Release -r win-x64 --self-contained false -p:Version=${{ steps.ver.outputs.version }} -o ./artifacts/gallery
-
-      - name: Zip Gallery
-        shell: pwsh
-        run: Compress-Archive -Path ./artifacts/gallery/* -DestinationPath ./artifacts/SUI.Gallery-${{ steps.ver.outputs.version }}-win-x64.zip
-
-      - name: Push to NuGet
-        shell: pwsh
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: dotnet nuget push "artifacts/nuget/*.nupkg" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        run: Compress-Archive -Path publish/gallery/* -DestinationPath "artifacts/SUI.Gallery-${{ steps.ver.outputs.version }}-win-x64.zip"
+      - uses: actions/upload-artifact@v4
         with:
-          generate_release_notes: true
-          prerelease: ${{ contains(github.ref_name, '-') }}
-          files: |
-            artifacts/nuget/*.nupkg
-            artifacts/nuget/*.snupkg
-            artifacts/SUI.Gallery-*.zip
+          name: release-artifacts
+          path: artifacts/*
+          if-no-files-found: error
+
+  publish-nuget:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: nuget
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-artifacts
+          path: artifacts
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: NuGet trusted publishing login
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+      - name: Push package
+        run: dotnet nuget push "artifacts/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+  github-release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-artifacts
+          path: artifacts
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.build.outputs.version }}
+        run: |
+          flags=""
+          case "$VERSION" in *-*) flags="--prerelease";; esac
+          gh release create "$GITHUB_REF_NAME" artifacts/* --repo "$GITHUB_REPOSITORY" --generate-notes --verify-tag $flags
