@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Get version
+        id: ver
+        shell: pwsh
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          $v = $env:REF_NAME -replace '^v', ''
+          "version=$v" >> $env:GITHUB_OUTPUT
+
+      - name: Pack library
+        shell: pwsh
+        run: dotnet pack SUI.csproj -c Release -p:Version=${{ steps.ver.outputs.version }} -o ./artifacts/nuget
+
+      - name: Publish Gallery
+        shell: pwsh
+        run: dotnet publish samples/SUI.Gallery/SUI.Gallery.csproj -c Release -r win-x64 --self-contained false -p:Version=${{ steps.ver.outputs.version }} -o ./artifacts/gallery
+
+      - name: Zip Gallery
+        shell: pwsh
+        run: Compress-Archive -Path ./artifacts/gallery/* -DestinationPath ./artifacts/SUI.Gallery-${{ steps.ver.outputs.version }}-win-x64.zip
+
+      - name: Push to NuGet
+        shell: pwsh
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: dotnet nuget push "artifacts/nuget/*.nupkg" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          files: |
+            artifacts/nuget/*.nupkg
+            artifacts/nuget/*.snupkg
+            artifacts/SUI.Gallery-*.zip
