@@ -48,6 +48,8 @@ SUI 不接管你的业务。页面路由、数据状态、文件流程和应用�
 
 ## 🚀 开始使用
 
+SUI 支持通过 NuGet（`dotnet add package SUI`）或项目引用接入现有 WPF 应用。
+
 SUI 面向 Windows 上的 WPF 应用，项目目标框架为 `net10.0-windows7.0`。当前仓库示例通过 `ProjectReference` 引用 SUI。
 
 ### 1. 添加项目引用
