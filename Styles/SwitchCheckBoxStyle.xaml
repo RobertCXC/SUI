@@ -15,6 +15,7 @@
         <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Body}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
@@ -23,25 +24,45 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Border x:Name="SwitchTrack"
-                                Grid.Column="0"
-                                Width="{StaticResource SUI.Control.SwitchWidth}"
-                                Height="{StaticResource SUI.Control.SwitchHeight}"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Background="{StaticResource SUI.Brush.Surface}"
-                                BorderBrush="{StaticResource SUI.Brush.BorderHover}"
-                                BorderThickness="{StaticResource SUI.Border.Thickness}"
-                                CornerRadius="{StaticResource SUI.Radius.SwitchTrack}"
-                                SnapsToDevicePixels="True">
-                            <Ellipse x:Name="SwitchKnob"
-                                     Width="{StaticResource SUI.Control.SwitchKnobSize}"
-                                     Height="{StaticResource SUI.Control.SwitchKnobSize}"
-                                     Margin="{StaticResource SUI.Space.SwitchKnobMargin}"
-                                     HorizontalAlignment="Left"
-                                     VerticalAlignment="Center"
-                                     Fill="{StaticResource SUI.Brush.TextSecondary}" />
-                        </Border>
+                        <Grid x:Name="SwitchTrack"
+                              Grid.Column="0"
+                              Width="{StaticResource SUI.Control.SwitchWidth}"
+                              Height="{StaticResource SUI.Control.SwitchHeight}"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center"
+                              SnapsToDevicePixels="True">
+                            <Border x:Name="SwitchTrackBase"
+                                    Background="{StaticResource SUI.Brush.Surface}"
+                                    BorderBrush="{StaticResource SUI.Brush.BorderHover}"
+                                    BorderThickness="{StaticResource SUI.Border.Thickness}"
+                                    CornerRadius="{StaticResource SUI.Radius.SwitchTrack}" />
+                            <Border x:Name="SwitchTrackFill"
+                                    Background="{StaticResource SUI.Brush.Accent}"
+                                    BorderBrush="{StaticResource SUI.Brush.Accent}"
+                                    BorderThickness="{StaticResource SUI.Border.Thickness}"
+                                    CornerRadius="{StaticResource SUI.Radius.SwitchTrack}"
+                                    IsHitTestVisible="False"
+                                    Opacity="0" />
+                            <Grid x:Name="SwitchKnob"
+                                  Width="{StaticResource SUI.Control.SwitchKnobSize}"
+                                  Height="{StaticResource SUI.Control.SwitchKnobSize}"
+                                  Margin="{StaticResource SUI.Space.SwitchKnobMargin}"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Center"
+                                  RenderTransformOrigin="0.5,0.5">
+                                <Grid.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform x:Name="SwitchKnobScale" ScaleX="1" ScaleY="1" />
+                                        <TranslateTransform x:Name="SwitchKnobTranslation" X="0" />
+                                    </TransformGroup>
+                                </Grid.RenderTransform>
+                                <Ellipse x:Name="SwitchKnobBase"
+                                         Fill="{StaticResource SUI.Brush.TextSecondary}" />
+                                <Ellipse x:Name="SwitchKnobOn"
+                                         Fill="{StaticResource SUI.Brush.TextOnAccent}"
+                                         Opacity="0" />
+                            </Grid>
+                        </Grid>
                         <ContentPresenter Grid.Column="1"
                                           Margin="{StaticResource SUI.Space.SwitchContentGap}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -52,43 +73,125 @@
                                           TextElement.Foreground="{TemplateBinding Foreground}"
                                           TextElement.FontFamily="{TemplateBinding FontFamily}"
                                           TextElement.FontSize="{TemplateBinding FontSize}" />
-                        <Border x:Name="FocusOutline"
-                                Grid.ColumnSpan="2"
-                                BorderBrush="Transparent"
-                                BorderThickness="{StaticResource SUI.Border.FocusThickness}"
-                                CornerRadius="{StaticResource SUI.Radius.Control}"
-                                IsHitTestVisible="False" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="SwitchTrack" Property="Background" Value="{StaticResource SUI.Brush.Accent}" />
-                            <Setter TargetName="SwitchTrack" Property="BorderBrush" Value="{StaticResource SUI.Brush.Accent}" />
-                            <Setter TargetName="SwitchKnob" Property="HorizontalAlignment" Value="Right" />
-                            <Setter TargetName="SwitchKnob" Property="Fill" Value="{StaticResource SUI.Brush.TextOnAccent}" />
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchKnobTranslation"
+                                                         Storyboard.TargetProperty="X"
+                                                         From="0"
+                                                         To="{StaticResource SUI.Control.SwitchKnobTravel}"
+                                                         Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchTrackFill"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         From="0"
+                                                         To="1"
+                                                         Duration="0:0:0.18">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchKnobOn"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         From="0"
+                                                         To="1"
+                                                         Duration="0:0:0.14" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchKnobTranslation"
+                                                         Storyboard.TargetProperty="X"
+                                                         From="{StaticResource SUI.Control.SwitchKnobTravel}"
+                                                         To="0"
+                                                         Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchTrackFill"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         From="1"
+                                                         To="0"
+                                                         Duration="0:0:0.16">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchKnobOn"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         From="1"
+                                                         To="0"
+                                                         Duration="0:0:0.12" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsEnabled" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="SwitchTrack" Property="BorderBrush" Value="{StaticResource SUI.Brush.TextSecondary}" />
+                            <Setter TargetName="SwitchTrackBase" Property="BorderBrush" Value="{StaticResource SUI.Brush.TextSecondary}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsPressed" Value="True" />
                                 <Condition Property="IsEnabled" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="SwitchKnob" Property="Width" Value="{StaticResource SUI.Control.SwitchPressedKnobSize}" />
-                            <Setter TargetName="SwitchKnob" Property="Height" Value="{StaticResource SUI.Control.SwitchPressedKnobSize}" />
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchKnobScale"
+                                                         Storyboard.TargetProperty="ScaleX"
+                                                         To="1.12"
+                                                         Duration="0:0:0.1">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchKnobScale"
+                                                         Storyboard.TargetProperty="ScaleY"
+                                                         To="1.12"
+                                                         Duration="0:0:0.1">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SwitchKnobScale"
+                                                         Storyboard.TargetProperty="ScaleX"
+                                                         To="1"
+                                                         Duration="0:0:0.12" />
+                                        <DoubleAnimation Storyboard.TargetName="SwitchKnobScale"
+                                                         Storyboard.TargetProperty="ScaleY"
+                                                         To="1"
+                                                         Duration="0:0:0.12" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
                         </MultiTrigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="FocusOutline" Property="BorderBrush" Value="{StaticResource SUI.Brush.Focus}" />
-                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
-                            <Setter TargetName="SwitchTrack" Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
-                            <Setter TargetName="SwitchTrack" Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
-                            <Setter TargetName="SwitchKnob" Property="Fill" Value="{StaticResource SUI.Brush.TextDisabled}" />
+                            <Setter TargetName="SwitchTrackBase" Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
+                            <Setter TargetName="SwitchTrackBase" Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+                            <Setter TargetName="SwitchTrackFill" Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
+                            <Setter TargetName="SwitchTrackFill" Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+                            <Setter TargetName="SwitchKnobBase" Property="Fill" Value="{StaticResource SUI.Brush.TextDisabled}" />
+                            <Setter TargetName="SwitchKnobOn" Property="Fill" Value="{StaticResource SUI.Brush.TextDisabled}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -90,6 +90,7 @@
     <sys:Double x:Key="SUI.Control.SwitchHeight">20</sys:Double>
     <sys:Double x:Key="SUI.Control.SwitchKnobSize">12</sys:Double>
     <sys:Double x:Key="SUI.Control.SwitchPressedKnobSize">14</sys:Double>
+    <sys:Double x:Key="SUI.Control.SwitchKnobTravel">22</sys:Double>
     <Thickness x:Key="SUI.Space.SwitchKnobMargin">3,0</Thickness>
     <Thickness x:Key="SUI.Space.SwitchContentGap">8,0,0,0</Thickness>
 

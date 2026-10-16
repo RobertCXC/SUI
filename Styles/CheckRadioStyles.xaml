@@ -16,11 +16,11 @@
         <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Body}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <Border x:Name="FocusBorder"
-                            Background="Transparent"
+                    <Border Background="Transparent"
                             BorderBrush="Transparent"
                             BorderThickness="2"
                             CornerRadius="{StaticResource SUI.Radius.Control}"
@@ -106,9 +106,6 @@
                             <Setter TargetName="BoxSurface" Property="Background" Value="{StaticResource SUI.Brush.AccentPressed}" />
                             <Setter TargetName="BoxSurface" Property="BorderBrush" Value="{StaticResource SUI.Brush.AccentPressed}" />
                         </MultiTrigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="FocusBorder" Property="BorderBrush" Value="{StaticResource SUI.Brush.Focus}" />
-                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
                             <Setter TargetName="BoxSurface" Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
@@ -135,11 +132,11 @@
         <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Body}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
-                    <Border x:Name="FocusBorder"
-                            Background="Transparent"
+                    <Border Background="Transparent"
                             BorderBrush="Transparent"
                             BorderThickness="2"
                             CornerRadius="{StaticResource SUI.Radius.Control}"
@@ -199,9 +196,6 @@
                             <Setter TargetName="RadioSurface" Property="Fill" Value="{StaticResource SUI.Brush.AccentPressed}" />
                             <Setter TargetName="RadioSurface" Property="Stroke" Value="{StaticResource SUI.Brush.AccentPressed}" />
                         </MultiTrigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="FocusBorder" Property="BorderBrush" Value="{StaticResource SUI.Brush.Focus}" />
-                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
                             <Setter TargetName="RadioSurface" Property="Fill" Value="{StaticResource SUI.Brush.Disabled}" />
