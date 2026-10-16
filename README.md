@@ -48,15 +48,63 @@ SUI 不接管你的业务。页面路由、数据状态、文件流程和应用�
 
 ## 🚀 开始使用
 
-SUI 支持通过项目引用接入现有 WPF 应用。具体的引用方式、命名空间、XAML 示例、属性表、样式资源和常见问题，统一放在：
+SUI 面向 Windows 上的 WPF 应用，项目目标框架为 `net10.0-windows7.0`。当前仓库示例通过 `ProjectReference` 引用 SUI。
+
+### 1. 添加项目引用
+
+在你的 WPF 项目 `.csproj` 中添加引用，并按实际目录调整相对路径：
+
+```xml
+<ItemGroup>
+    <ProjectReference Include="..\SUI\SUI.csproj" />
+</ItemGroup>
+```
+
+### 2. 在应用中加载样式
+
+将 SUI 样式字典合并到 `App.xaml`。合并后，常用 WPF 原生控件会自动使用 SUI 样式：
+
+```xml
+<Application.Resources>
+    <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="/SUI;component/SUIStyles.xaml" />
+        </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+</Application.Resources>
+```
+
+### 3. 在 XAML 中使用控件
+
+```xml
+<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sui="clr-namespace:SUI;assembly=SUI">
+    <StackPanel Margin="24">
+        <Button Content="保存" Style="{StaticResource SUI.Button.Primary}" />
+        <sui:SUICard
+            Margin="0,16,0,0"
+            Title="项目状态"
+            Description="SUI 控件可以和 WPF 原生控件一起组合使用。"
+            IconText="S" />
+    </StackPanel>
+</Window>
+```
+
+想先查看完整控件效果，可以在仓库根目录运行示例程序：
+
+```powershell
+dotnet run --project .\samples\SUI.Gallery\SUI.Gallery.csproj
+```
 
 <div align="center">
 
-### [→ 阅读 SUI 使用说明](doc/使用手册.md)
+### [→ 阅读完整使用手册](doc/使用手册.md)
 
 </div>
 
-如果你只想快速浏览组件能力，可以先看上面的组件矩阵；如果要开始接入，请直接进入使用说明。
+手册包含命名空间、控件属性、导航接入、主题资源和常见问题。
 
 ## 🧭 文档导航
 
