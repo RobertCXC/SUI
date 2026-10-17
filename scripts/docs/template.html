@@ -1,0 +1,64 @@
+<!doctype html>
+<!-- 此文件由 scripts/Build-Docs.ps1 生成。正文请编辑 doc/使用手册.md。 -->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SUI 中文使用手册：WPF 项目接入、控件 API、原生样式、主题令牌与常见问题。">
+  <meta name="color-scheme" content="light dark">
+  <title>SUI 使用手册 · Small UI. Sharp Experience.</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/manual.css">
+  <script src="assets/theme.js"></script>
+  <script src="assets/manual.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#正文">跳到正文</a>
+  <header class="site-header">
+    <a class="brand" href="#概览" aria-label="SUI 使用手册首页"><span class="brand-mark" aria-hidden="true">S</span><strong>SUI</strong><span class="brand-divider"></span><span class="brand-caption">使用手册</span></a>
+    <div class="header-actions">
+      <button class="search-trigger" type="button" aria-label="搜索文档" data-search-open hidden><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><span>搜索文档…</span><kbd>Ctrl K</kbd></button>
+      <a class="repo-link" href="https://github.com/RobertCXC/SUI">GitHub <span aria-hidden="true">↗</span></a>
+      <button class="icon-button theme-toggle" type="button" aria-label="切换文档主题" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14a8.5 8.5 0 0 1-10.5-10.5A8.5 8.5 0 1 0 20.5 14Z"/></svg></button>
+    </div>
+  </header>
+  <div class="mobile-bar"><button type="button" class="menu-toggle" aria-expanded="false" aria-controls="sidebar" hidden>☰ 章节目录</button><a href="#概览">返回概览 ↑</a></div>
+  <aside id="sidebar" class="sidebar" aria-label="手册章节">
+    <div class="sidebar-heading">DOCUMENTATION <span>WPF</span></div>
+    <nav><!-- DOC_NAV --></nav>
+    <div class="sidebar-footer"><span class="status-dot"></span>与仓库实现同步<span class="sidebar-tag">.NET 10</span></div>
+  </aside>
+  <main id="正文" tabindex="-1">
+    <div class="reading-path"><span>文档</span><span aria-hidden="true">/</span><span>SUI 开发者手册</span></div>
+    <section id="概览" class="hero" aria-labelledby="hero-title">
+      <div class="hero-eyebrow"><span class="status-dot"></span> SMALL UI. SHARP EXPERIENCE.</div>
+      <h1 id="hero-title">把 SUI <span>用起来。</span></h1>
+      <p class="hero-description">从第一个按钮，到完整的桌面界面。<br>这里是 SUI 的接入指南、控件用法与 API 参考。</p>
+      <div class="hero-actions"><a class="primary-link" href="#快速开始">快速开始 <span aria-hidden="true">→</span></a><a class="secondary-link" href="#原生控件样式">查阅控件 <span aria-hidden="true">↗</span></a></div>
+      <div class="hero-tags"><span>Windows / WPF</span><span>.NET 10</span><span>XAML + MVVM</span><span>离线可读</span></div>
+    </section>
+    <div class="quick-path" aria-label="接入步骤">
+      <a href="#1-通过-nuget-安装-sui"><span class="step-number">01</span><div><strong>安装 SUI</strong><span>通过 NuGet 添加依赖</span></div><span class="step-arrow" aria-hidden="true">→</span></a>
+      <a href="#2-在-appxaml-合并样式"><span class="step-number">02</span><div><strong>加载样式</strong><span>合并统一资源字典</span></div><span class="step-arrow" aria-hidden="true">→</span></a>
+      <a href="#3-在页面中使用"><span class="step-number">03</span><div><strong>组合界面</strong><span>使用控件与主题令牌</span></div><span class="step-arrow" aria-hidden="true">↗</span></a>
+    </div>
+    <div class="guide-links">
+      <a href="#suinavigationview-导航控件"><span class="guide-icon" aria-hidden="true">▥</span><div><strong>搭建应用导航</strong><p>组织入口、选中状态与页面内容</p></div><span aria-hidden="true">↗</span></a>
+      <a href="#主题令牌"><span class="guide-icon" aria-hidden="true">◈</span><div><strong>保持视觉一致</strong><p>复用颜色、字体、圆角与间距</p></div><span aria-hidden="true">↗</span></a>
+    </div>
+    <aside class="note"><span class="note-icon" aria-hidden="true">i</span><p><strong>说明书与 Gallery，一起使用。</strong> 本页提供可复制的代码与 API；真实控件效果请运行 Gallery。<code>FileUpload</code> 与 <code>TimePicker</code> 仍为骨架，能力说明见<a href="#fileupload-与-timepicker">对应章节</a>。</p></aside>
+    <article class="manual-content" aria-label="完整使用手册"><!-- DOC_CONTENT --></article>
+    <footer class="page-footer"><a class="footer-brand" href="#概览">SUI <span>Keep it small. Make it sharp.</span></a><p>正文来自仓库使用手册 · 以当前源码与 LICENSE 为准</p><a href="#概览">回到顶部 ↑</a></footer>
+  </main>
+  <aside class="page-toc" aria-label="当前章节目录"><p>本章内容</p><nav id="chapter-toc"></nav><div class="toc-help"><span>查找控件或资源键</span><button type="button" data-search-open hidden>打开搜索 <kbd>Ctrl K</kbd></button><a href="https://github.com/RobertCXC/SUI/blob/main/doc/使用手册.md">查看 Markdown 原文 ↗</a></div></aside>
+  <dialog id="search-dialog" aria-labelledby="search-title">
+    <form method="dialog" class="search-heading"><h2 id="search-title">搜索手册</h2><button class="close-search" aria-label="关闭搜索">Esc ×</button></form>
+    <label class="search-field" for="search-input"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><input id="search-input" type="search" aria-label="搜索全部手册与代码" placeholder="输入控件、资源键或问题…" autocomplete="off" spellcheck="false"></label>
+    <p id="search-summary" class="search-summary" role="status" aria-live="polite"></p>
+    <div id="search-results" class="search-results"></div>
+    <div class="search-footer"><span><kbd>↑</kbd> <kbd>↓</kbd> 选择　<kbd>Enter</kbd> 跳转</span><span>本地全文搜索</span></div>
+  </dialog>
+  <div id="copy-status" class="toast" role="status" aria-live="polite"></div>
+  <noscript><p class="noscript-note">当前 JavaScript 已关闭，正文和目录仍可阅读。可使用浏览器 Ctrl+F 搜索文字。</p></noscript>
+</body>
+</html>

@@ -1,0 +1,799 @@
+<!doctype html>
+<!-- 此文件由 scripts/Build-Docs.ps1 生成。正文请编辑 doc/使用手册.md。 -->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SUI 中文使用手册：WPF 项目接入、控件 API、原生样式、主题令牌与常见问题。">
+  <meta name="color-scheme" content="light dark">
+  <title>SUI 使用手册 · Small UI. Sharp Experience.</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/manual.css">
+  <script src="assets/theme.js"></script>
+  <script src="assets/manual.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#正文">跳到正文</a>
+  <header class="site-header">
+    <a class="brand" href="#概览" aria-label="SUI 使用手册首页"><span class="brand-mark" aria-hidden="true">S</span><strong>SUI</strong><span class="brand-divider"></span><span class="brand-caption">使用手册</span></a>
+    <div class="header-actions">
+      <button class="search-trigger" type="button" aria-label="搜索文档" data-search-open hidden><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><span>搜索文档…</span><kbd>Ctrl K</kbd></button>
+      <a class="repo-link" href="https://github.com/RobertCXC/SUI">GitHub <span aria-hidden="true">↗</span></a>
+      <button class="icon-button theme-toggle" type="button" aria-label="切换文档主题" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14a8.5 8.5 0 0 1-10.5-10.5A8.5 8.5 0 1 0 20.5 14Z"/></svg></button>
+    </div>
+  </header>
+  <div class="mobile-bar"><button type="button" class="menu-toggle" aria-expanded="false" aria-controls="sidebar" hidden>☰ 章节目录</button><a href="#概览">返回概览 ↑</a></div>
+  <aside id="sidebar" class="sidebar" aria-label="手册章节">
+    <div class="sidebar-heading">DOCUMENTATION <span>WPF</span></div>
+    <nav><a class="nav-link overview-link" href="#概览">概览<span>开始阅读</span></a><p class="nav-group">开始使用</p><a class="nav-link" href="#快速开始">快速开始</a><a class="nav-link" href="#接入项目">接入项目</a><p class="nav-group">控件与样式</p><a class="nav-link" href="#suicard-卡片控件">SUICard 卡片控件</a><a class="nav-link" href="#suinavigationview-导航控件">SUINavigationView 导航控件</a><a class="nav-link" href="#样式资源">样式资源</a><a class="nav-link" href="#主题令牌">主题令牌</a><a class="nav-link" href="#原生控件样式">原生控件样式</a><a class="nav-link" href="#treestyles-树样式">TreeStyles 树样式</a><p class="nav-group">参考与支持</p><a class="nav-link" href="#转换器">转换器</a><a class="nav-link" href="#fileupload-与-timepicker">FileUpload 与 TimePicker</a><a class="nav-link" href="#构建与排查">构建与排查</a><a class="nav-link" href="#许可证">许可证</a></nav>
+    <div class="sidebar-footer"><span class="status-dot"></span>与仓库实现同步<span class="sidebar-tag">.NET 10</span></div>
+  </aside>
+  <main id="正文" tabindex="-1">
+    <div class="reading-path"><span>文档</span><span aria-hidden="true">/</span><span>SUI 开发者手册</span></div>
+    <section id="概览" class="hero" aria-labelledby="hero-title">
+      <div class="hero-eyebrow"><span class="status-dot"></span> SMALL UI. SHARP EXPERIENCE.</div>
+      <h1 id="hero-title">把 SUI <span>用起来。</span></h1>
+      <p class="hero-description">从第一个按钮，到完整的桌面界面。<br>这里是 SUI 的接入指南、控件用法与 API 参考。</p>
+      <div class="hero-actions"><a class="primary-link" href="#快速开始">快速开始 <span aria-hidden="true">→</span></a><a class="secondary-link" href="#原生控件样式">查阅控件 <span aria-hidden="true">↗</span></a></div>
+      <div class="hero-tags"><span>Windows / WPF</span><span>.NET 10</span><span>XAML + MVVM</span><span>离线可读</span></div>
+    </section>
+    <div class="quick-path" aria-label="接入步骤">
+      <a href="#1-通过-nuget-安装-sui"><span class="step-number">01</span><div><strong>安装 SUI</strong><span>通过 NuGet 添加依赖</span></div><span class="step-arrow" aria-hidden="true">→</span></a>
+      <a href="#2-在-appxaml-合并样式"><span class="step-number">02</span><div><strong>加载样式</strong><span>合并统一资源字典</span></div><span class="step-arrow" aria-hidden="true">→</span></a>
+      <a href="#3-在页面中使用"><span class="step-number">03</span><div><strong>组合界面</strong><span>使用控件与主题令牌</span></div><span class="step-arrow" aria-hidden="true">↗</span></a>
+    </div>
+    <div class="guide-links">
+      <a href="#suinavigationview-导航控件"><span class="guide-icon" aria-hidden="true">▥</span><div><strong>搭建应用导航</strong><p>组织入口、选中状态与页面内容</p></div><span aria-hidden="true">↗</span></a>
+      <a href="#主题令牌"><span class="guide-icon" aria-hidden="true">◈</span><div><strong>保持视觉一致</strong><p>复用颜色、字体、圆角与间距</p></div><span aria-hidden="true">↗</span></a>
+    </div>
+    <aside class="note"><span class="note-icon" aria-hidden="true">i</span><p><strong>说明书与 Gallery，一起使用。</strong> 本页提供可复制的代码与 API；真实控件效果请运行 Gallery。<code>FileUpload</code> 与 <code>TimePicker</code> 仍为骨架，能力说明见<a href="#fileupload-与-timepicker">对应章节</a>。</p></aside>
+    <article class="manual-content" aria-label="完整使用手册"><div class="manual-intro"><p>本文档对应当前仓库中的 SUI 实现，介绍项目接入方式、控件 API、样式资源和常见使用模式。</p>
+<p>SUI 是供 Windows 桌面应用使用的 WPF 控件与样式库，目标框架是 <code>net10.0-windows7.0</code>。推荐通过 <a href="https://www.nuget.org/packages/SUI">NuGet 包 SUI</a> 接入；需要修改库源码或联调时，也可以使用本地 <code>ProjectReference</code>。</p>
+<p>以下 NuGet 示例以已发布的 <code>0.0.3</code> 版本为例。手册 API 按当前仓库源码编写；安装其他版本或使用尚未发布的功能时，请核对对应版本的源码和发布说明。</p>
+</div>
+<section class="doc-section" aria-labelledby="快速开始"><div class="section-number">01 / SUI 手册</div><h2 id="快速开始">快速开始<a class="heading-link" href="#快速开始" aria-label="链接到：快速开始">#</a></h2>
+<h3 id="环境要求">环境要求<a class="heading-link" href="#环境要求" aria-label="链接到：环境要求">#</a></h3>
+<ul>
+<li>Windows 桌面开发环境。</li>
+<li>已安装 .NET 10 SDK。</li>
+<li>宿主项目启用 WPF，目标框架与 SUI 兼容（当前为 <code>net10.0-windows7.0</code>）。</li>
+</ul>
+<h3 id="1-通过-nuget-安装-sui">1. 通过 NuGet 安装 SUI<a class="heading-link" href="#1-通过-nuget-安装-sui" aria-label="链接到：1. 通过 NuGet 安装 SUI">#</a></h3>
+<p>在你的 WPF 项目 <code>.csproj</code> 所在目录执行：</p>
+<div class="code-block"><div class="code-toolbar"><span>powershell</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="powershell 代码示例"><code class="language-powershell">dotnet add package SUI --version 0.0.3
+</code></pre></div>
+<p>也可以在 Visual Studio 的“管理 NuGet 程序包”中搜索 <code>SUI</code>，确认作者为 <code>RobertCXC</code> 后安装。包地址：<a href="https://www.nuget.org/packages/SUI">nuget.org/packages/SUI</a>。</p>
+<p>NuGet 会添加包引用，并在还原、构建时自动引用包中的 <code>SUI.dll</code>。对应的项目配置如下（与上面的安装命令二选一）：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;SUI&quot; Version=&quot;0.0.3&quot; /&gt;
+&lt;/ItemGroup&gt;
+</code></pre></div>
+<p>接下来合并样式并使用控件即可；只有运行仓库 Gallery 或修改库源码时才需要克隆仓库。</p>
+<h3 id="2-在-appxaml-合并样式">2. 在 <code>App.xaml</code> 合并样式<a class="heading-link" href="#2-在-appxaml-合并样式" aria-label="链接到：2. 在 App.xaml 合并样式">#</a></h3>
+<p>把 <code>SUIStyles.xaml</code> 合并到应用级资源中。这样按钮、文本框、列表等原生 WPF 控件会自动采用 SUI 外观：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;Application.Resources&gt;
+    &lt;ResourceDictionary&gt;
+        &lt;ResourceDictionary.MergedDictionaries&gt;
+            &lt;ResourceDictionary Source=&quot;/SUI;component/SUIStyles.xaml&quot; /&gt;
+        &lt;/ResourceDictionary.MergedDictionaries&gt;
+    &lt;/ResourceDictionary&gt;
+&lt;/Application.Resources&gt;
+</code></pre></div>
+<h3 id="3-在页面中使用">3. 在页面中使用<a class="heading-link" href="#3-在页面中使用" aria-label="链接到：3. 在页面中使用">#</a></h3>
+<p>将 <code>SUI</code> 命名空间映射到 XAML 前缀，然后像使用普通 WPF 控件一样组合库控件和原生控件：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;Window
+    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+    xmlns:sui=&quot;clr-namespace:SUI;assembly=SUI&quot;&gt;
+    &lt;StackPanel Margin=&quot;24&quot;&gt;
+        &lt;TextBlock Margin=&quot;0,0,0,12&quot; Text=&quot;欢迎使用 SUI&quot; /&gt;
+        &lt;Button Content=&quot;保存&quot; Style=&quot;{StaticResource SUI.Button.Primary}&quot; /&gt;
+        &lt;sui:SUICard
+            Margin=&quot;0,16,0,0&quot;
+            Title=&quot;项目状态&quot;
+            Description=&quot;SUI 控件可以和 WPF 原生控件组合使用。&quot;
+            IconText=&quot;S&quot; /&gt;
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;
+</code></pre></div>
+<p><code>SUINavigationView</code> 使用 <code>SUI.Navigation</code> 命名空间，导航和右侧页面如何映射由宿主应用决定。普通原生控件的样式资源、导航示例和全部属性见本手册后续章节。</p>
+<h3 id="4-运行控件示例">4. 运行控件示例<a class="heading-link" href="#4-运行控件示例" aria-label="链接到：4. 运行控件示例">#</a></h3>
+<p>克隆仓库后，在仓库根目录执行以下命令可运行 SUI Gallery：</p>
+<div class="code-block"><div class="code-toolbar"><span>powershell</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="powershell 代码示例"><code class="language-powershell">dotnet run --project .\samples\SUI.Gallery\SUI.Gallery.csproj
+</code></pre></div>
+<p>Gallery 提供概览、按钮与命令、输入与选择、数据与布局、容器与反馈、应用导航、设计基础七个页面。19 组展示均使用真实 SUI 控件，可以直接体验外观、交互状态和操作反馈。Gallery 专注运行效果，接入方法、代码示例与 API 参考统一在本手册中查阅。</p>
+<ul>
+<li><strong>快速定位</strong>：按 <code>Ctrl+K</code> 搜索中文名称、控件名或样式名（例如 <code>Button</code>、<code>开关</code>、<code>DataGrid</code>），按 <code>Enter</code> 打开首个匹配分类，按 <code>Esc</code> 清空搜索。</li>
+<li><strong>交互体验</strong>：按钮试验台可实时切换文字、视觉变体和禁用状态；输入页可以验证名称并保存演示设置；数据页提供 200 行数据、筛选、排序、多选与两个方向的布局调整；反馈页可以启动、暂停和重置模拟任务。</li>
+<li><strong>导航与设计</strong>：导航页演示紧凑侧栏、横向图文侧栏及入口状态；设计基础页展示实际主题的颜色、字体、圆角和间距效果。</li>
+<li><strong>状态保留</strong>：切换分类会保留本次会话中的示例状态；离开反馈页时模拟任务自动暂停。所有操作只影响 Gallery 演示数据。</li>
+</ul>
+<p><code>FileUpload</code> 与 <code>TimePicker</code> 当前仍是控件骨架，Gallery 概览中明确标注其状态，暂未提供完整交互示例。</p>
+</section>
+<section class="doc-section" aria-labelledby="接入项目"><div class="section-number">02 / SUI 手册</div><h2 id="接入项目">接入项目<a class="heading-link" href="#接入项目" aria-label="链接到：接入项目">#</a></h2>
+<h3 id="nuget-包引用推荐">NuGet 包引用（推荐）<a class="heading-link" href="#nuget-包引用推荐" aria-label="链接到：NuGet 包引用（推荐）">#</a></h3>
+<p>常规应用集成使用 <a href="https://www.nuget.org/packages/SUI">SUI NuGet 包</a>。在宿主 WPF 项目目录执行：</p>
+<div class="code-block"><div class="code-toolbar"><span>powershell</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="powershell 代码示例"><code class="language-powershell">dotnet add package SUI --version 0.0.3
+</code></pre></div>
+<p>如果希望安装 NuGet 源中的最新稳定版，可省略 <code>--version</code>：</p>
+<div class="code-block"><div class="code-toolbar"><span>powershell</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="powershell 代码示例"><code class="language-powershell">dotnet add package SUI
+</code></pre></div>
+<p>安装命令会写入 <code>PackageReference</code>，NuGet 负责还原和管理 <code>SUI.dll</code> 引用。版本号可在 NuGet 包页面核对；使用新版本前请核对其功能与目标框架。</p>
+<h3 id="本地项目引用源码开发">本地项目引用（源码开发）<a class="heading-link" href="#本地项目引用源码开发" aria-label="链接到：本地项目引用（源码开发）">#</a></h3>
+<p>需要修改 SUI 源码或验证仓库中尚未发布的改动时，可以克隆仓库，并在宿主 WPF 项目的 <code>.csproj</code> 中引用库项目：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;ItemGroup&gt;
+    &lt;ProjectReference Include=&quot;..\SUI\SUI.csproj&quot; /&gt;
+&lt;/ItemGroup&gt;
+</code></pre></div>
+<p>路径需要根据宿主项目和 SUI 的实际目录层级调整。仓库中的 Gallery 使用这种方式，便于实时验证库的改动。同一宿主项目选择 <code>PackageReference</code> 或 <code>ProjectReference</code> 中的一种，避免同时引用两份 SUI。</p>
+<h3 id="引用命名空间">引用命名空间<a class="heading-link" href="#引用命名空间" aria-label="链接到：引用命名空间">#</a></h3>
+<p>NuGet 包引用和本地项目引用都使用相同的程序集名称 <code>SUI</code>。XAML 中的 <code>assembly=SUI</code> 表示程序集名称，不表示安装来源，也不是 DLL 文件路径。</p>
+<p>普通控件位于 <code>SUI</code> 命名空间：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">xmlns:sui=&quot;clr-namespace:SUI;assembly=SUI&quot;
+</code></pre></div>
+<p>导航控件位于 <code>SUI.Navigation</code> 命名空间：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">xmlns:suiNav=&quot;clr-namespace:SUI.Navigation;assembly=SUI&quot;
+</code></pre></div>
+<h3 id="合并公共样式">合并公共样式<a class="heading-link" href="#合并公共样式" aria-label="链接到：合并公共样式">#</a></h3>
+<p>SUI 为 WPF 原生控件提供了一整套隐式样式。在 <code>App.xaml</code> 中合并一次 <code>SUIStyles.xaml</code>，整个应用内的 <code>Button</code>、<code>TextBox</code>、<code>ComboBox</code>、<code>DataGrid</code> 等控件就会自动换上 SUI 外观，无需逐个指定 <code>Style</code>：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;Application.Resources&gt;
+    &lt;ResourceDictionary&gt;
+        &lt;ResourceDictionary.MergedDictionaries&gt;
+            &lt;ResourceDictionary Source=&quot;/SUI;component/SUIStyles.xaml&quot; /&gt;
+        &lt;/ResourceDictionary.MergedDictionaries&gt;
+    &lt;/ResourceDictionary&gt;
+&lt;/Application.Resources&gt;
+</code></pre></div>
+<p><code>SUINavigationView</code> 的默认样式位于 <a href="https://github.com/RobertCXC/SUI/blob/main/Themes/Generic.xaml"><code>../Themes/Generic.xaml</code></a>，WPF 会通过默认样式键自动加载，不需要在应用中重复合并。</p>
+</section>
+<section class="doc-section" aria-labelledby="suicard-卡片控件"><div class="section-number">03 / SUI 手册</div><h2 id="suicard-卡片控件"><code>SUICard</code> 卡片控件<a class="heading-link" href="#suicard-卡片控件" aria-label="链接到：SUICard 卡片控件">#</a></h2>
+<p><code>SUICard</code> 是一个轻量卡片控件，适合展示应用入口、状态摘要或功能概览。它继承自 <code>UserControl</code>，通过依赖属性提供基本配置。</p>
+<h3 id="基本用法">基本用法<a class="heading-link" href="#基本用法" aria-label="链接到：基本用法">#</a></h3>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;sui:SUICard
+    Title=&quot;项目状态&quot;
+    Description=&quot;这是一个可复用的 WPF 卡片&quot;
+    IconText=&quot;S&quot; /&gt;
+</code></pre></div>
+<h3 id="属性">属性<a class="heading-link" href="#属性" aria-label="链接到：属性">#</a></h3>
+<div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IconSource</code></td>
+<td><code>ImageSource?</code></td>
+<td><code>null</code></td>
+<td>图标图片。设置后会替换默认的文字图标。</td>
+</tr>
+<tr>
+<td><code>Title</code></td>
+<td><code>string</code></td>
+<td><code>标题</code></td>
+<td>卡片标题。</td>
+</tr>
+<tr>
+<td><code>Description</code></td>
+<td><code>string</code></td>
+<td><code>略</code></td>
+<td>卡片描述，支持换行。</td>
+</tr>
+<tr>
+<td><code>IconText</code></td>
+<td><code>string</code></td>
+<td><code>S</code></td>
+<td>没有 <code>IconSource</code> 时显示的占位文字。</td>
+</tr>
+<tr>
+<td><code>IconColor</code></td>
+<td><code>Brush</code></td>
+<td><code>#4C79FF</code></td>
+<td>默认文字图标的背景画刷。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="数据绑定">数据绑定<a class="heading-link" href="#数据绑定" aria-label="链接到：数据绑定">#</a></h3>
+<p>所有上述属性都是依赖属性，可以直接绑定到 ViewModel：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;sui:SUICard
+    Description=&quot;{Binding Description}&quot;
+    IconColor=&quot;{Binding AccentBrush}&quot;
+    IconSource=&quot;{Binding IconSource}&quot;
+    IconText=&quot;{Binding IconText}&quot;
+    Title=&quot;{Binding Title}&quot; /&gt;
+</code></pre></div>
+<p>如果使用图片作为 <code>IconSource</code>，请确保图片格式和资源路径已被宿主 WPF 项目正确处理。SUI 不额外提供 SVG 渲染器。</p>
+</section>
+<section class="doc-section" aria-labelledby="suinavigationview-导航控件"><div class="section-number">04 / SUI 手册</div><h2 id="suinavigationview-导航控件"><code>SUINavigationView</code> 导航控件<a class="heading-link" href="#suinavigationview-导航控件" aria-label="链接到：SUINavigationView 导航控件">#</a></h2>
+<p><code>SUINavigationView</code> 是一个“图标在上、标题在下”的窄侧边导航壳。它只负责导航项目、选中状态和左右布局；右侧页面由宿主应用提供，因此不会反向依赖业务页面。</p>
+<h3 id="基本接入">基本接入<a class="heading-link" href="#基本接入" aria-label="链接到：基本接入">#</a></h3>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;suiNav:SUINavigationView
+    ItemsSource=&quot;{Binding NavigationItems}&quot;
+    SelectedItem=&quot;{Binding SelectedNavigationItem, Mode=TwoWay}&quot;&gt;
+    &lt;ContentControl Content=&quot;{Binding CurrentPage}&quot; /&gt;
+&lt;/suiNav:SUINavigationView&gt;
+</code></pre></div>
+<h3 id="准备导航数据">准备导航数据<a class="heading-link" href="#准备导航数据" aria-label="链接到：准备导航数据">#</a></h3>
+<p>最简单的方式是使用 <code>SUINavigationItem</code>：</p>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="csharp 代码示例"><code class="language-csharp">using System.Collections.ObjectModel;
+using SUI.Navigation;
+
+public ObservableCollection&lt;SUINavigationItem&gt; NavigationItems { get; } =
+[
+    new()
+    {
+        Key = &quot;home&quot;,
+        Title = &quot;主页&quot;,
+        IconGlyph = &quot;\uE80F&quot;,
+        ToolTip = &quot;进入主页&quot;
+    },
+    new()
+    {
+        Key = &quot;settings&quot;,
+        Title = &quot;设置&quot;,
+        IconGlyph = &quot;\uE713&quot;,
+        ToolTip = &quot;打开设置&quot;
+    }
+];
+
+public SUINavigationItem? SelectedNavigationItem { get; set; }
+</code></pre></div>
+<p>如果运行时需要从代码修改 <code>SelectedNavigationItem</code> 并刷新界面，该属性应通过 <code>INotifyPropertyChanged</code>、依赖属性或宿主项目已有的 MVVM 属性机制实现通知。</p>
+<h3 id="将导航-key-映射到页面">将导航 Key 映射到页面<a class="heading-link" href="#将导航-key-映射到页面" aria-label="链接到：将导航 Key 映射到页面">#</a></h3>
+<p>建议由宿主应用维护页面工厂，并按 <code>Key</code> 缓存页面实例：</p>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="csharp 代码示例"><code class="language-csharp">private readonly Dictionary&lt;string, Func&lt;UserControl&gt;&gt; _pageFactories = new()
+{
+    [&quot;home&quot;] = static () =&gt; new HomePageView(),
+    [&quot;settings&quot;] = static () =&gt; new SettingsPageView()
+};
+
+private readonly Dictionary&lt;string, UserControl&gt; _pageCache = [];
+
+private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+{
+    if (NavigationRoot.SelectedItem is not SUINavigationItem item ||
+        !_pageFactories.TryGetValue(item.Key, out Func&lt;UserControl&gt;? factory))
+    {
+        PageContent.Content = null;
+        return;
+    }
+
+    if (!_pageCache.TryGetValue(item.Key, out UserControl? page))
+    {
+        page = factory();
+        _pageCache[item.Key] = page;
+    }
+
+    PageContent.Content = page;
+}
+</code></pre></div>
+<p>对应的 XAML 可以监听控件冒泡的 <code>SelectionChanged</code> 事件：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;suiNav:SUINavigationView
+    x:Name=&quot;NavigationRoot&quot;
+    ItemsSource=&quot;{Binding NavigationItems}&quot;
+    SelectedItem=&quot;{Binding SelectedNavigationItem, Mode=TwoWay}&quot;
+    SelectionChanged=&quot;NavigationRoot_SelectionChanged&quot;&gt;
+    &lt;ContentControl x:Name=&quot;PageContent&quot; /&gt;
+&lt;/suiNav:SUINavigationView&gt;
+</code></pre></div>
+<h3 id="suinavigationview-属性"><code>SUINavigationView</code> 属性<a class="heading-link" href="#suinavigationview-属性" aria-label="链接到：SUINavigationView 属性">#</a></h3>
+<div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
+<thead>
+<tr>
+<th>属性/事件</th>
+<th>类型</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ItemsSource</code></td>
+<td><code>IEnumerable?</code></td>
+<td><code>null</code></td>
+<td>导航项目集合，也可以使用自定义数据模型。</td>
+</tr>
+<tr>
+<td><code>SelectedItem</code></td>
+<td><code>object?</code></td>
+<td><code>null</code></td>
+<td>当前选中项目，默认双向绑定。</td>
+</tr>
+<tr>
+<td><code>ItemTemplate</code></td>
+<td><code>DataTemplate?</code></td>
+<td>内置模板</td>
+<td>自定义导航项的显示内容。</td>
+</tr>
+<tr>
+<td><code>ItemContainerStyle</code></td>
+<td><code>Style?</code></td>
+<td>内置样式</td>
+<td>自定义导航项容器的间距、圆角、悬停和选中效果。</td>
+</tr>
+<tr>
+<td><code>PaneWidth</code></td>
+<td><code>GridLength</code></td>
+<td><code>56</code></td>
+<td>左侧导航栏宽度。</td>
+</tr>
+<tr>
+<td><code>IconSize</code></td>
+<td><code>double</code></td>
+<td><code>18</code></td>
+<td>默认模板中的图标字号。</td>
+</tr>
+<tr>
+<td><code>ItemHeight</code></td>
+<td><code>double</code></td>
+<td><code>54</code></td>
+<td>每个导航项的高度。</td>
+</tr>
+<tr>
+<td><code>LabelFontSize</code></td>
+<td><code>double</code></td>
+<td><code>11</code></td>
+<td>默认模板中的标题字号。</td>
+</tr>
+<tr>
+<td><code>SelectionChanged</code></td>
+<td>路由事件</td>
+<td>—</td>
+<td>用户点击或代码改变选中项时触发。</td>
+</tr>
+</tbody>
+</table></div>
+<p>尺寸配置示例：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;suiNav:SUINavigationView
+    ItemsSource=&quot;{Binding NavigationItems}&quot;
+    PaneWidth=&quot;64&quot;
+    IconSize=&quot;20&quot;
+    ItemHeight=&quot;58&quot;
+    LabelFontSize=&quot;12&quot;
+    SelectedItem=&quot;{Binding SelectedNavigationItem, Mode=TwoWay}&quot; /&gt;
+</code></pre></div>
+<h3 id="suinavigationitem-属性"><code>SUINavigationItem</code> 属性<a class="heading-link" href="#suinavigationitem-属性" aria-label="链接到：SUINavigationItem 属性">#</a></h3>
+<div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Key</code></td>
+<td><code>string</code></td>
+<td>空字符串</td>
+<td>项目唯一标识，用于页面路由或页面缓存。</td>
+</tr>
+<tr>
+<td><code>Title</code></td>
+<td><code>string</code></td>
+<td>空字符串</td>
+<td>导航标题。</td>
+</tr>
+<tr>
+<td><code>IconGlyph</code></td>
+<td><code>string</code></td>
+<td>空字符串</td>
+<td><code>Segoe Fluent Icons</code> 字体字符。</td>
+</tr>
+<tr>
+<td><code>ToolTip</code></td>
+<td><code>string?</code></td>
+<td><code>null</code></td>
+<td>鼠标停留时的提示文字。</td>
+</tr>
+<tr>
+<td><code>IsEnabled</code></td>
+<td><code>bool</code></td>
+<td><code>true</code></td>
+<td>是否允许选择该项目。</td>
+</tr>
+<tr>
+<td><code>IsVisible</code></td>
+<td><code>bool</code></td>
+<td><code>true</code></td>
+<td>是否显示该项目。</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>SUINavigationItem</code> 实现了 <code>INotifyPropertyChanged</code>，运行时修改标题、图标、启用状态或显示状态会刷新界面。</p>
+<h3 id="自定义项目模板">自定义项目模板<a class="heading-link" href="#自定义项目模板" aria-label="链接到：自定义项目模板">#</a></h3>
+<p><code>ItemsSource</code> 不强制必须使用 <code>SUINavigationItem</code>。如果导航数据提供图片或其他图标来源，可以完全替换默认模板：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;suiNav:SUINavigationView.ItemTemplate&gt;
+    &lt;DataTemplate&gt;
+        &lt;StackPanel VerticalAlignment=&quot;Center&quot;&gt;
+            &lt;Image
+                Width=&quot;18&quot;
+                Height=&quot;18&quot;
+                HorizontalAlignment=&quot;Center&quot;
+                Source=&quot;{Binding IconSource}&quot; /&gt;
+            &lt;TextBlock
+                Margin=&quot;0,2,0,0&quot;
+                HorizontalAlignment=&quot;Center&quot;
+                Text=&quot;{Binding Title}&quot; /&gt;
+        &lt;/StackPanel&gt;
+    &lt;/DataTemplate&gt;
+&lt;/suiNav:SUINavigationView.ItemTemplate&gt;
+</code></pre></div>
+<h3 id="导航使用建议">导航使用建议<a class="heading-link" href="#导航使用建议" aria-label="链接到：导航使用建议">#</a></h3>
+<ol>
+<li><code>Key</code> 在同一个导航列表中保持唯一，并与宿主应用的页面路由表一致。</li>
+<li>默认图标依赖 Windows 的 <code>Segoe Fluent Icons</code> 字体；需要图片或自定义矢量图时使用 <code>ItemTemplate</code>。</li>
+<li>建议为 <code>SelectedItem</code> 设置初始值，避免程序启动时右侧内容为空。</li>
+<li>如果不需要前进/后退历史，建议使用 <code>ContentControl</code>，不必使用 <code>Frame</code>。</li>
+</ol>
+</section>
+<section class="doc-section" aria-labelledby="样式资源"><div class="section-number">05 / SUI 手册</div><h2 id="样式资源">样式资源<a class="heading-link" href="#样式资源" aria-label="链接到：样式资源">#</a></h2>
+<h3 id="总入口">总入口<a class="heading-link" href="#总入口" aria-label="链接到：总入口">#</a></h3>
+<p><a href="https://github.com/RobertCXC/SUI/blob/main/SUIStyles.xaml"><code>SUIStyles.xaml</code></a> 按顺序合并 <code>Themes/Colors.xaml</code>（主题令牌，必须第一个）和 <code>Styles/</code> 下的所有样式文件。合并后分两类使用：</p>
+<ul>
+<li><strong>隐式样式</strong>：没有 <code>x:Key</code>，对应类型的控件自动生效，包括 <code>Button</code>、<code>ToggleButton</code>、<code>TextBox</code>、<code>PasswordBox</code>、<code>ComboBox</code>、<code>ComboBoxItem</code>、<code>CheckBox</code>、<code>RadioButton</code>、<code>TabControl</code>、<code>TabItem</code>、<code>ListBox</code>、<code>ListBoxItem</code>、<code>ScrollBar</code>、<code>ScrollViewer</code>、<code>Menu</code>、<code>ContextMenu</code>、<code>MenuItem</code>、<code>Separator</code>、<code>ToolTip</code>、<code>ProgressBar</code>、<code>DataGrid</code>、<code>TreeViewItem</code>。</li>
+<li><strong>显式样式</strong>：需要 <code>Style=&quot;{StaticResource ...}&quot;</code> 指定，包括 <code>SUI.Button.Primary</code>、<code>SUI.Button.Ghost</code>、<code>SUI.Button.Danger</code>、<code>SwitchCheckBoxStyle</code>（别名 <code>SUI.Switch</code>）、<code>CustomGridSplitterStyle</code>、<code>SUI.GridSplitter.Horizontal</code>、<code>CommonDataGridStyle</code>、<code>SUITreeViewItemStyle</code>。</li>
+</ul>
+<p>自己为控件写样式时，用 <code>BasedOn=&quot;{StaticResource {x:Type Button}}&quot;</code> 继承 SUI 的隐式样式，不会丢失原有外观：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;Style x:Key=&quot;MyButton&quot; TargetType=&quot;Button&quot; BasedOn=&quot;{StaticResource {x:Type Button}}&quot;&gt;
+    &lt;Setter Property=&quot;MinWidth&quot; Value=&quot;96&quot; /&gt;
+&lt;/Style&gt;
+</code></pre></div>
+<h3 id="默认主题">默认主题<a class="heading-link" href="#默认主题" aria-label="链接到：默认主题">#</a></h3>
+<p>导航控件默认主题和颜色资源位于 <a href="https://github.com/RobertCXC/SUI/blob/main/Themes/Generic.xaml"><code>Themes/Generic.xaml</code></a>。局部属性、<code>ItemTemplate</code> 和 <code>ItemContainerStyle</code> 的设置优先于默认样式，不需要直接修改库内主题文件。</p>
+</section>
+<section class="doc-section" aria-labelledby="主题令牌"><div class="section-number">06 / SUI 手册</div><h2 id="主题令牌">主题令牌<a class="heading-link" href="#主题令牌" aria-label="链接到：主题令牌">#</a></h2>
+<p>所有颜色、字体、圆角、间距都定义在 <a href="https://github.com/RobertCXC/SUI/blob/main/Themes/Colors.xaml"><code>Themes/Colors.xaml</code></a>，样式文件和你自己的界面都应该引用这些资源，不要写死颜色。引用方式统一为 <code>{StaticResource 键名}</code>。</p>
+<div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
+<thead>
+<tr>
+<th>类别</th>
+<th>键</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>强调色</td>
+<td><code>SUI.Brush.Accent</code> / <code>AccentHover</code> / <code>AccentPressed</code> / <code>TextOnAccent</code></td>
+<td>主按钮、选中标记、焦点高亮；<code>TextOnAccent</code> 是强调色背景上的文字。</td>
+</tr>
+<tr>
+<td>底色</td>
+<td><code>SUI.Brush.Background</code> / <code>Surface</code> / <code>SurfaceAlt</code></td>
+<td>窗口底、控件与卡片底、次级底（表头、交替行）。</td>
+</tr>
+<tr>
+<td>文字</td>
+<td><code>SUI.Brush.Text</code> / <code>TextSecondary</code> / <code>TextDisabled</code></td>
+<td>正文、次要文字、禁用文字。</td>
+</tr>
+<tr>
+<td>边框</td>
+<td><code>SUI.Brush.Border</code> / <code>BorderHover</code> / <code>Focus</code></td>
+<td>常态边框、悬停边框、键盘焦点外框。</td>
+</tr>
+<tr>
+<td>状态</td>
+<td><code>SUI.Brush.Hover</code> / <code>Pressed</code> / <code>Selected</code> / <code>Disabled</code></td>
+<td>悬停、按下、选中、禁用底色。</td>
+</tr>
+<tr>
+<td>语义色</td>
+<td><code>SUI.Brush.Success</code> / <code>Warning</code> / <code>Danger</code> / <code>DangerHover</code> / <code>DangerPressed</code> / <code>Info</code></td>
+<td>状态提示与危险操作。</td>
+</tr>
+<tr>
+<td>字体</td>
+<td><code>SUI.Font.Family</code> / <code>Mono</code> / <code>Icon</code>，<code>SUI.Font.Size.Body</code>(13) / <code>Caption</code>(12) / <code>Title</code>(16)</td>
+<td>正文字体、等宽字体、图标字体与字号。</td>
+</tr>
+<tr>
+<td>圆角</td>
+<td><code>SUI.Radius.Control</code>(4) / <code>Panel</code>(8)</td>
+<td>控件圆角、面板圆角。</td>
+</tr>
+<tr>
+<td>尺寸与间距</td>
+<td><code>SUI.Control.Height</code>(32)、<code>SUI.Space.1</code>~<code>4</code>(4/8/12/16)</td>
+<td>控件标准高度与间距。</td>
+</tr>
+</tbody>
+</table></div>
+<p>在自己的页面里使用示例：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;Border Background=&quot;{StaticResource SUI.Brush.Surface}&quot;
+        BorderBrush=&quot;{StaticResource SUI.Brush.Border}&quot;
+        BorderThickness=&quot;1&quot;
+        CornerRadius=&quot;{StaticResource SUI.Radius.Panel}&quot;&gt;
+    &lt;TextBlock Foreground=&quot;{StaticResource SUI.Brush.TextSecondary}&quot; Text=&quot;说明文字&quot; /&gt;
+&lt;/Border&gt;
+</code></pre></div>
+<p>要统一调整库的配色，可以修改 <code>Colors.xaml</code> 中的画刷值（保持键名不变）并重新构建。当前样式使用 <code>StaticResource</code>，不要将此理解为已提供运行时明暗主题切换 API。网页说明书的明暗切换仅作用于文档页面。</p>
+</section>
+<section class="doc-section" aria-labelledby="原生控件样式"><div class="section-number">07 / SUI 手册</div><h2 id="原生控件样式">原生控件样式<a class="heading-link" href="#原生控件样式" aria-label="链接到：原生控件样式">#</a></h2>
+<p>以下原生控件样式由 <code>SUIStyles.xaml</code> 统一加载。其中 <code>Switch</code> 和 <code>GridSplitter</code> 需要显式指定样式，其余按下文说明使用隐式样式。交互控件按适用场景提供悬停、按下、键盘焦点和禁用反馈，具体状态以对应控件实现为准。</p>
+<h3 id="button-与-togglebutton">Button 与 ToggleButton<a class="heading-link" href="#button-与-togglebutton" aria-label="链接到：Button 与 ToggleButton">#</a></h3>
+<p>默认按钮：<code>Surface</code> 底、1px 边框、圆角 4、最小高度 32，内边距 <code>12,0</code>。<code>ToggleButton</code> 选中时显示 <code>Selected</code> 底和强调色边框。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;Button Content=&quot;普通按钮&quot; /&gt;
+&lt;Button Content=&quot;保存&quot; Style=&quot;{StaticResource SUI.Button.Primary}&quot; /&gt;
+&lt;Button Content=&quot;取消&quot; Style=&quot;{StaticResource SUI.Button.Ghost}&quot; /&gt;
+&lt;Button Content=&quot;删除&quot; Style=&quot;{StaticResource SUI.Button.Danger}&quot; /&gt;
+&lt;ToggleButton Content=&quot;开关按钮&quot; IsChecked=&quot;True&quot; /&gt;
+</code></pre></div>
+<div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
+<thead>
+<tr>
+<th>样式键</th>
+<th>外观</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>无（隐式）</td>
+<td>白底灰边框</td>
+<td>普通操作。</td>
+</tr>
+<tr>
+<td><code>SUI.Button.Primary</code></td>
+<td>强调色底、白字、无边框</td>
+<td>页面主要操作，一个区域建议只放一个。</td>
+</tr>
+<tr>
+<td><code>SUI.Button.Ghost</code></td>
+<td>透明底无边框，悬停才显示底色</td>
+<td>取消、工具栏等次要操作。</td>
+</tr>
+<tr>
+<td><code>SUI.Button.Danger</code></td>
+<td>红底白字</td>
+<td>删除等不可恢复操作。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="textbox-与-passwordbox">TextBox 与 PasswordBox<a class="heading-link" href="#textbox-与-passwordbox" aria-label="链接到：TextBox 与 PasswordBox">#</a></h3>
+<p><code>Surface</code> 底、1px 边框、圆角 4，文字垂直居中。悬停时边框变深；获得焦点时底边加粗为 2px 强调色；<code>IsReadOnly</code> 时底色为 <code>SurfaceAlt</code>；选区使用强调色。<code>AcceptsReturn=&quot;True&quot;</code> 的多行输入框会自动使用更大的上下内边距。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;TextBox Text=&quot;{Binding Name, UpdateSourceTrigger=PropertyChanged}&quot; /&gt;
+&lt;PasswordBox /&gt;
+&lt;TextBox AcceptsReturn=&quot;True&quot; Height=&quot;96&quot; TextWrapping=&quot;Wrap&quot; /&gt;
+</code></pre></div>
+<p><strong>数据校验</strong>：绑定校验失败（<code>Validation.HasError</code>）时，边框变红，并去掉系统默认的红色外框；把鼠标放在输入框上会通过 ToolTip 显示错误信息。校验规则（<code>ValidationRules</code>、<code>INotifyDataErrorInfo</code> 或 <code>IDataErrorInfo</code>）由你的绑定提供。</p>
+<h3 id="combobox">ComboBox<a class="heading-link" href="#combobox" aria-label="链接到：ComboBox">#</a></h3>
+<p>外观与 TextBox 一致，右侧是矢量下拉箭头，下拉面板带圆角和轻阴影。同时支持不可编辑和 <code>IsEditable=&quot;True&quot;</code> 的可编辑模式。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;ComboBox SelectedIndex=&quot;0&quot; MaxDropDownHeight=&quot;200&quot;&gt;
+    &lt;ComboBoxItem Content=&quot;COM1&quot; /&gt;
+    &lt;ComboBoxItem Content=&quot;COM2&quot; /&gt;
+&lt;/ComboBox&gt;
+
+&lt;ComboBox IsEditable=&quot;True&quot; ItemsSource=&quot;{Binding BaudRates}&quot; Text=&quot;{Binding BaudRate}&quot; /&gt;
+</code></pre></div>
+<p>用 <code>MaxDropDownHeight</code> 限制下拉面板高度，超出后出现细滚动条。支持方向键切换、Esc 关闭。</p>
+<h3 id="checkbox-与-radiobutton">CheckBox 与 RadioButton<a class="heading-link" href="#checkbox-与-radiobutton" aria-label="链接到：CheckBox 与 RadioButton">#</a></h3>
+<p>18×18 的方框（CheckBox 圆角 4，RadioButton 为圆形）。选中后为强调色底，CheckBox 显示白色对勾，RadioButton 显示白色圆点；<code>IsThreeState=&quot;True&quot;</code> 的不确定态显示白色短横。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;CheckBox Content=&quot;记住我&quot; IsChecked=&quot;True&quot; /&gt;
+&lt;CheckBox Content=&quot;全选&quot; IsThreeState=&quot;True&quot; IsChecked=&quot;{x:Null}&quot; /&gt;
+&lt;RadioButton Content=&quot;选项 1&quot; GroupName=&quot;g&quot; IsChecked=&quot;True&quot; /&gt;
+&lt;RadioButton Content=&quot;选项 2&quot; GroupName=&quot;g&quot; /&gt;
+</code></pre></div>
+<p>键盘 Space 可切换。</p>
+<h3 id="switch-开关">Switch 开关<a class="heading-link" href="#switch-开关" aria-label="链接到：Switch 开关">#</a></h3>
+<p><code>SwitchCheckBoxStyle</code> 把 <code>CheckBox</code> 显示为 40×20 的胶囊开关，需要显式指定样式（别名 <code>SUI.Switch</code>）。它与普通 <code>CheckBox</code> 样式互不影响。<code>IsChecked</code> 为 <code>null</code> 时按“关闭”显示。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;CheckBox Content=&quot;启用通知&quot; IsChecked=&quot;{Binding NotifyEnabled}&quot; Style=&quot;{StaticResource SwitchCheckBoxStyle}&quot; /&gt;
+</code></pre></div>
+<h3 id="tabcontrol">TabControl<a class="heading-link" href="#tabcontrol" aria-label="链接到：TabControl">#</a></h3>
+<p>顶部标签页。选中标签文字为 <code>Text</code> 色并带 2px 强调色下划线，未选中为 <code>TextSecondary</code>；内容区只有顶部一条分隔线。仅保证 <code>TabStripPlacement=&quot;Top&quot;</code>；其他方向不会崩溃，但不保证外观。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;TabControl&gt;
+    &lt;TabItem Header=&quot;常规&quot;&gt;&lt;TextBlock Text=&quot;常规内容&quot; /&gt;&lt;/TabItem&gt;
+    &lt;TabItem Header=&quot;高级&quot;&gt;&lt;TextBlock Text=&quot;高级内容&quot; /&gt;&lt;/TabItem&gt;
+&lt;/TabControl&gt;
+</code></pre></div>
+<h3 id="listbox">ListBox<a class="heading-link" href="#listbox" aria-label="链接到：ListBox">#</a></h3>
+<p><code>Surface</code> 底、1px 边框、圆角 4，条目最小高度 32。选中项为 <code>Selected</code> 底，窗口失去焦点后依然保持选中底色，<code>SelectionMode=&quot;Extended&quot;</code> 多选时可清楚辨认。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;ListBox ItemsSource=&quot;{Binding Items}&quot; SelectedItem=&quot;{Binding Current}&quot; SelectionMode=&quot;Extended&quot; /&gt;
+</code></pre></div>
+<p><code>SUINavigationView</code> 内部的 ListBox 使用自己的显式样式，不受此隐式样式影响。</p>
+<h3 id="scrollbar-与-scrollviewer">ScrollBar 与 ScrollViewer<a class="heading-link" href="#scrollbar-与-scrollviewer" aria-label="链接到：ScrollBar 与 ScrollViewer">#</a></h3>
+<p>细滚动条（宽/高 10），轨道透明，滑块圆角；悬停或拖动时滑块变深。垂直和水平都支持，保留鼠标滚轮与翻页命令。<code>DataGrid</code>、<code>ListBox</code>、多行 <code>TextBox</code>、<code>ComboBox</code> 下拉里的滚动条外观一致。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;ScrollViewer HorizontalScrollBarVisibility=&quot;Auto&quot; VerticalScrollBarVisibility=&quot;Auto&quot;&gt;
+    &lt;!-- 内容 --&gt;
+&lt;/ScrollViewer&gt;
+</code></pre></div>
+<h3 id="menucontextmenumenuitemseparator">Menu、ContextMenu、MenuItem、Separator<a class="heading-link" href="#menucontextmenumenuitemseparator" aria-label="链接到：Menu、ContextMenu、MenuItem、Separator">#</a></h3>
+<p>菜单栏、右键菜单和子菜单都使用圆角面板和轻阴影。条目布局为 图标列 ｜ 标题 ｜ 快捷键 ｜ 子菜单箭头；<code>IsCheckable</code> 且选中时显示对勾；<code>InputGestureText</code> 显示为次要色。<code>Separator</code> 为 1px 分隔线。Alt 访问键保持原生行为。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;Menu&gt;
+    &lt;MenuItem Header=&quot;文件(_F)&quot;&gt;
+        &lt;MenuItem Header=&quot;打开&quot; InputGestureText=&quot;Ctrl+O&quot; /&gt;
+        &lt;MenuItem Header=&quot;自动保存&quot; IsCheckable=&quot;True&quot; IsChecked=&quot;True&quot; /&gt;
+        &lt;Separator /&gt;
+        &lt;MenuItem Header=&quot;退出&quot; /&gt;
+    &lt;/MenuItem&gt;
+&lt;/Menu&gt;
+
+&lt;Button Content=&quot;右键我&quot;&gt;
+    &lt;Button.ContextMenu&gt;
+        &lt;ContextMenu&gt;
+            &lt;MenuItem Header=&quot;复制&quot; /&gt;
+            &lt;MenuItem Header=&quot;粘贴&quot; /&gt;
+        &lt;/ContextMenu&gt;
+    &lt;/Button.ContextMenu&gt;
+&lt;/Button&gt;
+</code></pre></div>
+<h3 id="tooltip">ToolTip<a class="heading-link" href="#tooltip" aria-label="链接到：ToolTip">#</a></h3>
+<p><code>Surface</code> 底、1px 边框、圆角 4、带轻阴影，最大宽度 320，长文字自动换行。字符串和自定义内容都可使用。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;Button Content=&quot;提示&quot; ToolTip=&quot;这是一段提示文字&quot; /&gt;
+
+&lt;Button Content=&quot;自定义&quot;&gt;
+    &lt;Button.ToolTip&gt;
+        &lt;StackPanel&gt;
+            &lt;TextBlock FontWeight=&quot;SemiBold&quot; Text=&quot;标题&quot; /&gt;
+            &lt;TextBlock Text=&quot;详细说明&quot; TextWrapping=&quot;Wrap&quot; /&gt;
+        &lt;/StackPanel&gt;
+    &lt;/Button.ToolTip&gt;
+&lt;/Button&gt;
+</code></pre></div>
+<h3 id="progressbar">ProgressBar<a class="heading-link" href="#progressbar" aria-label="链接到：ProgressBar">#</a></h3>
+<p>高 4 的细进度条，轨道为边框色，指示条为强调色。<code>IsIndeterminate=&quot;True&quot;</code> 时显示往复移动的动画条，控件隐藏或禁用时动画自动停止。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;ProgressBar Value=&quot;{Binding Progress}&quot; Maximum=&quot;100&quot; /&gt;
+&lt;ProgressBar IsIndeterminate=&quot;True&quot; /&gt;
+</code></pre></div>
+<h3 id="datagrid">DataGrid<a class="heading-link" href="#datagrid" aria-label="链接到：DataGrid">#</a></h3>
+<p>隐式样式已覆盖 <code>DataGrid</code>，也可使用显式键 <code>CommonDataGridStyle</code>。表头为 <code>SurfaceAlt</code> 底；行有交替底色；悬停为 <code>Hover</code> 底；选中行为 <code>Selected</code> 底，窗口失焦后依然保持。表头支持排序箭头（升序/降序小三角）。保持了行虚拟化，大数据量滚动流畅，不要在行或单元格里使用 <code>Effect</code>。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;DataGrid ItemsSource=&quot;{Binding Rows}&quot;
+          AutoGenerateColumns=&quot;False&quot;
+          SelectionMode=&quot;Extended&quot;
+          SelectionUnit=&quot;FullRow&quot;&gt;
+    &lt;DataGrid.Columns&gt;
+        &lt;DataGridTextColumn Header=&quot;编号&quot; Binding=&quot;{Binding Id}&quot; /&gt;
+        &lt;DataGridTextColumn Header=&quot;名称&quot; Binding=&quot;{Binding Name}&quot; Width=&quot;*&quot; /&gt;
+    &lt;/DataGrid.Columns&gt;
+&lt;/DataGrid&gt;
+</code></pre></div>
+<h3 id="gridsplitter">GridSplitter<a class="heading-link" href="#gridsplitter" aria-label="链接到：GridSplitter">#</a></h3>
+<p>1px 细分隔线，悬停和拖动时变为强调色，线宽不变，不会引起布局抖动。透明命中区由 <code>Width</code>/<code>Height</code> 决定，建议设为 8 以上便于拖动。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;!-- 竖向，用于左右分栏 --&gt;
+&lt;GridSplitter Grid.Column=&quot;1&quot; Width=&quot;8&quot; HorizontalAlignment=&quot;Center&quot;
+              Style=&quot;{StaticResource CustomGridSplitterStyle}&quot; /&gt;
+
+&lt;!-- 横向，用于上下分区 --&gt;
+&lt;GridSplitter Grid.Row=&quot;1&quot; Height=&quot;8&quot;
+              Style=&quot;{StaticResource SUI.GridSplitter.Horizontal}&quot; /&gt;
+</code></pre></div>
+<p>两种样式都预设 <code>ShowsPreview=&quot;True&quot;</code>。</p>
+</section>
+<section class="doc-section" aria-labelledby="treestyles-树样式"><div class="section-number">08 / SUI 手册</div><h2 id="treestyles-树样式"><code>TreeStyles</code> 树样式<a class="heading-link" href="#treestyles-树样式" aria-label="链接到：TreeStyles 树样式">#</a></h2>
+<p><code>TreeStyles</code> 为 WPF 原生 <code>TreeViewItem</code> 提供展开箭头、文件夹和叶子节点图标、层级引导线、悬停、选中、键盘焦点和禁用状态。合并 <code>SUIStyles.xaml</code> 后，普通 <code>TreeView</code> 的条目会自动使用该样式；需要显式指定时仍可使用 <code>SUITreeViewItemStyle</code>。</p>
+<p>节点模型和显示模板由宿主应用决定。SUI 不定义 <code>ItemsSource</code> 的数据字段，也不提供固定的节点 <code>DataTemplate</code>。</p>
+<h3 id="基本用法-1">基本用法<a class="heading-link" href="#基本用法-1" aria-label="链接到：基本用法">#</a></h3>
+<p>宿主应用合并 <code>/SUI;component/SUIStyles.xaml</code> 后，为自己的节点模型定义层级模板。以下示例使用 <code>Name</code> 和 <code>Children</code> 字段：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;TreeView
+    xmlns:sui=&quot;clr-namespace:SUI;assembly=SUI&quot;
+    ItemsSource=&quot;{Binding Nodes}&quot;
+    sui:TreeStyles.ItemMinHeight=&quot;36&quot;
+    sui:TreeStyles.ItemCornerRadius=&quot;8&quot;
+    sui:TreeStyles.IconSize=&quot;17&quot;
+    sui:TreeStyles.ItemFontSize=&quot;13&quot;&gt;
+    &lt;TreeView.ItemTemplate&gt;
+        &lt;HierarchicalDataTemplate ItemsSource=&quot;{Binding Children}&quot;&gt;
+            &lt;TextBlock Text=&quot;{Binding Name}&quot; /&gt;
+        &lt;/HierarchicalDataTemplate&gt;
+    &lt;/TreeView.ItemTemplate&gt;
+&lt;/TreeView&gt;
+</code></pre></div>
+<p>如果需要显式复用带 key 的容器样式，可设置 <code>ItemContainerStyle=&quot;{StaticResource SUITreeViewItemStyle}&quot;</code>。宿主也可以在自己的层级模板中显示额外字段，例如 OI 编号，并使用 <code>SUI.Brush.TextSecondary</code> 设置次要文字颜色。</p>
+<h3 id="可配置布局属性">可配置布局属性<a class="heading-link" href="#可配置布局属性" aria-label="链接到：可配置布局属性">#</a></h3>
+<p>以下四个附加属性只控制布局，设置在 <code>TreeView</code> 上后会传递给内部的 <code>TreeViewItem</code>：</p>
+<div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ItemMinHeight</code></td>
+<td><code>double</code></td>
+<td><code>36</code></td>
+<td>节点最小高度。</td>
+</tr>
+<tr>
+<td><code>ItemCornerRadius</code></td>
+<td><code>CornerRadius</code></td>
+<td><code>8</code></td>
+<td>节点背景圆角。</td>
+</tr>
+<tr>
+<td><code>IconSize</code></td>
+<td><code>double</code></td>
+<td><code>17</code></td>
+<td>文件夹和叶子图标尺寸。</td>
+</tr>
+<tr>
+<td><code>ItemFontSize</code></td>
+<td><code>double</code></td>
+<td><code>13</code></td>
+<td>节点标题字号。</td>
+</tr>
+</tbody>
+</table></div>
+<p>悬停、选中、焦点、禁用状态和图标颜色由 <code>Colors.xaml</code> 统一提供，不需要在 <code>TreeView</code> 上配置颜色附加属性。</p>
+</section>
+<section class="doc-section" aria-labelledby="转换器"><div class="section-number">09 / SUI 手册</div><h2 id="转换器">转换器<a class="heading-link" href="#转换器" aria-label="链接到：转换器">#</a></h2>
+<p>命名空间：</p>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="csharp 代码示例"><code class="language-csharp">using SUI.Converters;
+</code></pre></div>
+<div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BoolToVisibilityConverter</code></td>
+<td><code>true</code> 转为 <code>Visible</code>，其他值转为 <code>Collapsed</code>。反向转换时只有 <code>Visible</code> 为 <code>true</code>。</td>
+</tr>
+<tr>
+<td><code>ColorStringToBrushConverter</code></td>
+<td>将 <code>#4C79FF</code> 等颜色字符串转换为 <code>SolidColorBrush</code>；无效值使用默认蓝色。</td>
+</tr>
+<tr>
+<td><code>EqualityConverter</code></td>
+<td>比较两个绑定值是否相等；可直接使用静态实例 <code>EqualityConverter.Instance</code>。</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="doc-section" aria-labelledby="fileupload-与-timepicker"><div class="section-number">10 / SUI 手册</div><h2 id="fileupload-与-timepicker"><code>FileUpload</code> 与 <code>TimePicker</code><a class="heading-link" href="#fileupload-与-timepicker" aria-label="链接到：FileUpload 与 TimePicker">#</a></h2>
+<p>这两个控件已经具备 WPF <code>UserControl</code> 的基础结构，可以直接放入 XAML：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;sui:FileUpload /&gt;
+&lt;sui:TimePicker /&gt;
+</code></pre></div>
+<p>当前版本主要用于搭建控件外壳和视觉占位：</p>
+<ul>
+<li><code>FileUpload</code> 当前显示文件上传控件的基础提示，尚未封装完整的文件选择、校验和上传流程。</li>
+<li><code>TimePicker</code> 当前显示时间选择的基础提示，尚未封装完整的时间选择 API。</li>
+</ul>
+<p>实际项目接入前，请根据自己的交互需求补充或扩展对应的依赖属性、命令和事件。</p>
+</section>
+<section class="doc-section" aria-labelledby="构建与排查"><div class="section-number">11 / SUI 手册</div><h2 id="构建与排查">构建与排查<a class="heading-link" href="#构建与排查" aria-label="链接到：构建与排查">#</a></h2>
+<h3 id="构建命令">构建命令<a class="heading-link" href="#构建命令" aria-label="链接到：构建命令">#</a></h3>
+<p>在仓库根目录执行：</p>
+<div class="code-block"><div class="code-toolbar"><span>powershell</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="powershell 代码示例"><code class="language-powershell">dotnet build SUI.slnx
+</code></pre></div>
+<p>解决方案包含 SUI 库与 <code>samples/SUI.Gallery</code> 展示应用。使用 <code>dotnet build SUI.slnx</code> 构建；运行 Gallery 可直接检查控件外观、状态和交互效果。</p>
+<h3 id="常见问题">常见问题<a class="heading-link" href="#常见问题" aria-label="链接到：常见问题">#</a></h3>
+<p><strong>控件无法解析或 XAML 报命名空间错误</strong></p>
+<p>确认宿主项目已经安装 <code>SUI</code> NuGet 包或添加本地项目引用，并检查命名空间是否分别使用 <code>SUI</code> 和 <code>SUI.Navigation</code>。使用 NuGet 时，先确认包还原成功，且安装版本包含所用的 API。</p>
+<p><strong>导航控件没有默认样式</strong></p>
+<p>确认 <code>Themes/Generic.xaml</code> 仍作为项目资源参与编译，并且宿主项目引用的是当前 SUI 程序集。</p>
+<p><strong>图标显示为空</strong></p>
+<p>使用 <code>IconGlyph</code> 时确认系统存在 <code>Segoe Fluent Icons</code> 字体；使用图片时确认 <code>ImageSource</code> 的资源路径和 Build Action 正确。</p>
+<p><strong>样式资源找不到</strong></p>
+<p>确认已经合并 <code>/SUI;component/SUIStyles.xaml</code>，并且资源键拼写与 <code>Styles/</code> 文件中的定义一致。</p>
+</section>
+<section class="doc-section" aria-labelledby="许可证"><div class="section-number">12 / SUI 手册</div><h2 id="许可证">许可证<a class="heading-link" href="#许可证" aria-label="链接到：许可证">#</a></h2>
+<p>完整授权条款见 <a href="https://github.com/RobertCXC/SUI/blob/main/LICENSE"><code>../LICENSE</code></a>。SUI 使用自定义的 <strong>SUI UI License 1.0</strong>，商业收入门槛和一次性授权费规则以许可证正文为准。</p>
+</section></article>
+    <footer class="page-footer"><a class="footer-brand" href="#概览">SUI <span>Keep it small. Make it sharp.</span></a><p>正文来自仓库使用手册 · 以当前源码与 LICENSE 为准</p><a href="#概览">回到顶部 ↑</a></footer>
+  </main>
+  <aside class="page-toc" aria-label="当前章节目录"><p>本章内容</p><nav id="chapter-toc"></nav><div class="toc-help"><span>查找控件或资源键</span><button type="button" data-search-open hidden>打开搜索 <kbd>Ctrl K</kbd></button><a href="https://github.com/RobertCXC/SUI/blob/main/doc/使用手册.md">查看 Markdown 原文 ↗</a></div></aside>
+  <dialog id="search-dialog" aria-labelledby="search-title">
+    <form method="dialog" class="search-heading"><h2 id="search-title">搜索手册</h2><button class="close-search" aria-label="关闭搜索">Esc ×</button></form>
+    <label class="search-field" for="search-input"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><input id="search-input" type="search" aria-label="搜索全部手册与代码" placeholder="输入控件、资源键或问题…" autocomplete="off" spellcheck="false"></label>
+    <p id="search-summary" class="search-summary" role="status" aria-live="polite"></p>
+    <div id="search-results" class="search-results"></div>
+    <div class="search-footer"><span><kbd>↑</kbd> <kbd>↓</kbd> 选择　<kbd>Enter</kbd> 跳转</span><span>本地全文搜索</span></div>
+  </dialog>
+  <div id="copy-status" class="toast" role="status" aria-live="polite"></div>
+  <noscript><p class="noscript-note">当前 JavaScript 已关闭，正文和目录仍可阅读。可使用浏览器 Ctrl+F 搜索文字。</p></noscript>
+</body>
+</html>

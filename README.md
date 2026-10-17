@@ -8,7 +8,7 @@
 
 `WPF` · `.NET 10` · `XAML` · `MVVM-friendly`
 
-[使用说明](doc/使用手册.md) · [许可证](LICENSE)
+[网页说明书](docs/index.html) · [Markdown 手册](doc/使用手册.md) · [许可证](LICENSE)
 
 </div>
 
@@ -52,19 +52,35 @@ SUI 的体验重点是**界面好看、动画流畅**。通过排版、留白、
 
 ## 🚀 开始使用
 
-SUI 支持通过 NuGet（`dotnet add package SUI`）或项目引用接入现有 WPF 应用。
+推荐通过 [NuGet 包 SUI](https://www.nuget.org/packages/SUI) 接入现有 WPF 应用。需要修改库源码或联调时，也可以使用本地项目引用。
 
 SUI 面向 Windows 上的 WPF 应用，项目目标框架为 `net10.0-windows7.0`。当前仓库示例通过 `ProjectReference` 引用 SUI。
 
-### 1. 添加项目引用
+### 1. 通过 NuGet 安装
 
-在你的 WPF 项目 `.csproj` 中添加引用，并按实际目录调整相对路径：
+在你的 WPF 项目 `.csproj` 所在目录执行，安装最新稳定版：
+
+```powershell
+dotnet add package SUI
+```
+
+需要固定版本时，可指定已发布版本，例如：
+
+```powershell
+dotnet add package SUI --version 0.0.3
+```
+
+NuGet 会通过 `PackageReference` 管理包内的 `SUI.dll` 引用。安装后继续合并样式、添加 XAML 命名空间即可。
+
+源码开发时，可改用本地项目引用，并按实际目录调整相对路径：
 
 ```xml
 <ItemGroup>
     <ProjectReference Include="..\SUI\SUI.csproj" />
 </ItemGroup>
 ```
+
+同一宿主项目选择 NuGet 包引用或本地项目引用中的一种。完整 API 说明按仓库当前源码编写；使用 NuGet 时请核对安装版本是否包含所用功能。
 
 ### 2. 在应用中加载样式
 
@@ -112,9 +128,20 @@ dotnet run --project .\samples\SUI.Gallery\SUI.Gallery.csproj
 
 手册包含命名空间、控件属性、导航接入、主题资源和常见问题。
 
+也可以直接打开 [`docs/index.html`](docs/index.html) 阅读网页说明书，支持章节目录、本地全文搜索、代码复制和文档明暗主题，无需安装前端依赖。GitHub 文件页不会直接渲染 HTML；克隆后双击打开即可。需要静态托管时发布整个 `docs/` 目录。
+
+修改手册后，在仓库根目录用 PowerShell 7 重新生成并检查网页：
+
+```powershell
+pwsh -File scripts/Build-Docs.ps1
+pwsh -File scripts/Build-Docs.ps1 -Check
+```
+
 ## 🧭 文档导航
 
+- [网页说明书](docs/index.html) —— 可离线浏览的 HTML 版本，正文与 Markdown 手册同步。
 - [使用说明](doc/使用手册.md) —— 完整接入流程与控件 API。
+- [网页说明书维护规范](doc/网页说明书维护规范.md) —— 内容来源、生成流程与验收规则。
 - [产品设计书](SUI-产品设计书.md) —— SUI 的核心体验方向与设计约定。
 - [产品定位与控件路线图](SUI-产品定位与精简控件路线图.md) —— 面向场景的产品范围、视觉系统与实施阶段。
 - [样式开发任务单](doc/样式开发任务单.md) —— 控件样式实现与验收约定。

@@ -1,0 +1,32 @@
+name: Documentation
+
+on:
+  push:
+    paths: ['doc/**', 'docs/**', 'scripts/Build-Docs.ps1', 'scripts/docs/**', '.github/workflows/docs.yml']
+  pull_request:
+    paths: ['doc/**', 'docs/**', 'scripts/Build-Docs.ps1', 'scripts/docs/**', '.github/workflows/docs.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check generated manual and links
+        shell: pwsh
+        run: ./scripts/Build-Docs.ps1 -Check
+      - name: Check JavaScript syntax
+        shell: pwsh
+        run: |
+          node --check docs/assets/theme.js
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node --check docs/assets/manual.js
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sui-manual
+          path: docs/
+          if-no-files-found: error
