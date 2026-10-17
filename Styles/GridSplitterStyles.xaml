@@ -5,10 +5,44 @@
         <ResourceDictionary Source="/SUI;component/Themes/Colors.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <!-- WPF 的拖动预览由独立的 Control 绘制；只显示位置线和短握柄。 -->
+    <Style x:Key="SUI.GridSplitter.Preview.Vertical" TargetType="{x:Type Control}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Control}">
+                    <Grid Background="Transparent" SnapsToDevicePixels="True">
+                        <Rectangle Width="2" HorizontalAlignment="Center"
+                                   Fill="{StaticResource SUI.Brush.Accent}" />
+                        <Border Width="4" Height="24" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" CornerRadius="2"
+                                Background="{StaticResource SUI.Brush.Accent}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SUI.GridSplitter.Preview.Horizontal" TargetType="{x:Type Control}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Control}">
+                    <Grid Background="Transparent" SnapsToDevicePixels="True">
+                        <Rectangle Height="2" VerticalAlignment="Center"
+                                   Fill="{StaticResource SUI.Brush.Accent}" />
+                        <Border Width="24" Height="4" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" CornerRadius="2"
+                                Background="{StaticResource SUI.Brush.Accent}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- 默认样式继续提供竖向分隔线。透明背景用于覆盖完整拖动命中区域。 -->
     <Style x:Key="CustomGridSplitterStyle" TargetType="{x:Type GridSplitter}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="ShowsPreview" Value="True" />
+        <Setter Property="PreviewStyle" Value="{StaticResource SUI.GridSplitter.Preview.Vertical}" />
         <Setter Property="ResizeDirection" Value="Columns" />
         <Setter Property="ResizeBehavior" Value="PreviousAndNext" />
         <Setter Property="Cursor" Value="SizeWE" />
@@ -44,6 +78,7 @@
            BasedOn="{StaticResource CustomGridSplitterStyle}"
            TargetType="{x:Type GridSplitter}">
         <Setter Property="ResizeDirection" Value="Rows" />
+        <Setter Property="PreviewStyle" Value="{StaticResource SUI.GridSplitter.Preview.Horizontal}" />
         <Setter Property="Cursor" Value="SizeNS" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Center" />

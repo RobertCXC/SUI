@@ -56,7 +56,7 @@
             <g:Example
                 Title="设备工作区"
                 Description="点击树中的在线 / 离线节点筛选；点击表头排序；按住 Ctrl 或 Shift 选择多行。表头背景延伸到右侧滚动条槽位。"
-                Hint="拖动树与表格之间的竖线，或树下方的横线，调整工作区布局。">
+                Hint="拖动树与表格之间的竖线，或树下方的横线；拖动预览显示强调色细线与中央短握柄，松开后调整布局。">
                 <demo:DeviceWorkspace />
             </g:Example>
             <Border
