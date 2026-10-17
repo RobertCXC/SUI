@@ -8,7 +8,9 @@
 
 `WPF` · `.NET 10` · `XAML` · `MVVM-friendly`
 
-[在线网页说明书](https://robertcxc.github.io/SUI/) · [Markdown 手册](doc/使用手册.md) · [许可证](LICENSE)
+[GitHub 项目](https://github.com/RobertCXC/SUI) · [在线网页说明书](https://robertcxc.github.io/SUI/) · [NuGet 包](https://www.nuget.org/packages/SUI)
+
+[Markdown 手册](https://github.com/RobertCXC/SUI/blob/main/doc/使用手册.md) · [许可证](https://github.com/RobertCXC/SUI/blob/main/LICENSE)
 
 </div>
 
@@ -126,9 +128,9 @@ dotnet run --project .\samples\SUI.Gallery\SUI.Gallery.csproj
 
 </div>
 
-手册包含命名空间、控件属性、导航接入、主题资源和常见问题。Markdown 正文位于 [`doc/使用手册.md`](doc/使用手册.md)，在线网页由默认分支上的 GitHub Actions 自动部署。
+手册包含命名空间、控件属性、导航接入、主题资源和常见问题。Markdown 正文位于 [GitHub 上的 `doc/使用手册.md`](https://github.com/RobertCXC/SUI/blob/main/doc/使用手册.md)，在线网页由默认分支上的 GitHub Actions 自动部署。
 
-网页说明书支持章节目录、本地全文搜索、代码复制和文档明暗主题，无需安装前端依赖。克隆仓库后也可以直接打开 [`docs/index.html`](docs/index.html) 离线阅读；该文件由 Markdown 手册生成，请勿手工编辑。
+网页说明书支持章节目录、本地全文搜索、代码复制和文档明暗主题，无需安装前端依赖。克隆仓库后也可以直接打开 `docs/index.html` 离线阅读；该文件由 Markdown 手册生成，请勿手工编辑。
 
 修改手册后，在仓库根目录用 PowerShell 7 重新生成并检查网页：
 
@@ -140,12 +142,12 @@ pwsh -File scripts/Build-Docs.ps1 -Check
 ## 🧭 文档导航
 
 - [在线网页说明书](https://robertcxc.github.io/SUI/) —— GitHub Pages 上的在线版本；克隆后也可打开 `docs/index.html` 离线阅读。
-- [使用说明](doc/使用手册.md) —— 完整接入流程与控件 API。
-- [网页说明书维护规范](doc/网页说明书维护规范.md) —— 内容来源、生成流程与验收规则。
-- [产品设计书](SUI-产品设计书.md) —— SUI 的核心体验方向与设计约定。
-- [产品定位与控件路线图](SUI-产品定位与精简控件路线图.md) —— 面向场景的产品范围、视觉系统与实施阶段。
-- [样式开发任务单](doc/样式开发任务单.md) —— 控件样式实现与验收约定。
-- [许可证](LICENSE) —— SUI UI License 1.0 自定义授权条款。
+- [使用说明](https://github.com/RobertCXC/SUI/blob/main/doc/使用手册.md) —— 完整接入流程与控件 API。
+- [网页说明书维护规范](https://github.com/RobertCXC/SUI/blob/main/doc/网页说明书维护规范.md) —— 内容来源、生成流程与验收规则。
+- [产品设计书](https://github.com/RobertCXC/SUI/blob/main/SUI-产品设计书.md) —— SUI 的核心体验方向与设计约定。
+- [产品定位与控件路线图](https://github.com/RobertCXC/SUI/blob/main/SUI-产品定位与精简控件路线图.md) —— 面向场景的产品范围、视觉系统与实施阶段。
+- [样式开发任务单](https://github.com/RobertCXC/SUI/blob/main/doc/样式开发任务单.md) —— 控件样式实现与验收约定。
+- [许可证](https://github.com/RobertCXC/SUI/blob/main/LICENSE) —— SUI UI License 1.0 自定义授权条款。
 
 ## 🗂️ 项目结构
 
@@ -200,7 +202,7 @@ SUI 目前处于持续迭代阶段。`SUICard` 和 `SUINavigationView` 已可作
 
 ## ⚖️ 许可证
 
-SUI 使用 [SUI UI License 1.0](LICENSE)。个人、学习、研究和非商业使用可免费进行；商业项目可以使用、修改、集成和分发。当某个商业项目或产品累计取得人民币 10,000 元或以上的等值商业收入时，需要向作者支付一次性人民币 500 元授权费。完整条款以 `LICENSE` 为准。
+SUI 使用 [SUI UI License 1.0](https://github.com/RobertCXC/SUI/blob/main/LICENSE)。个人、学习、研究和非商业使用可免费进行；商业项目可以使用、修改、集成和分发。当某个商业项目或产品累计取得人民币 10,000 元或以上的等值商业收入时，需要向作者支付一次性人民币 500 元授权费。完整条款以 `LICENSE` 为准。
 
 <div align="center">
 
