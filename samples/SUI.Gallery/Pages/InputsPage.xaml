@@ -44,8 +44,8 @@
             </g:Example>
             <g:Example
                 Title="列表与滚动"
-                Description="按住 Ctrl 多选，按住 Shift 连选；列表和文本区域都使用统一的细滚动条。"
-                Hint="内部列表滚动到边界后，可将指针移至外侧继续滚动页面。">
+                Description="按住 Ctrl 多选，按住 Shift 连选；竖向列表和横向文本都使用统一的细滑块。悬停或拖动时滑块加宽、加深。"
+                Hint="可拖动滚动条滑块或使用滚轮；内部列表滚动到边界后，可将指针移至外侧继续滚动页面。">
                 <demo:ListAndScroll />
             </g:Example>
         </StackPanel>

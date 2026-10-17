@@ -600,7 +600,7 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 </code></pre></div>
 <p><code>SUINavigationView</code> 内部的 ListBox 使用自己的显式样式，不受此隐式样式影响。</p>
 <h3 id="scrollbar-与-scrollviewer">ScrollBar 与 ScrollViewer<a class="heading-link" href="#scrollbar-与-scrollviewer" aria-label="链接到：ScrollBar 与 ScrollViewer">#</a></h3>
-<p>细滚动条（宽/高 10），轨道透明，滑块圆角；悬停或拖动时滑块变深。垂直和水平都支持，保留鼠标滚轮与翻页命令。<code>DataGrid</code>、<code>ListBox</code>、多行 <code>TextBox</code>、<code>ComboBox</code> 下拉里的滚动条外观一致。</p>
+<p>滚动条宽/高为 10，透明轨道保留完整的拖动命中区域；滑块以居中的细圆角条显示，悬停或拖动时加宽并加深。垂直和水平都支持，保留鼠标滚轮与翻页命令。<code>DataGrid</code>、<code>ListBox</code>、多行 <code>TextBox</code>、<code>ComboBox</code> 下拉里的滚动条外观一致。</p>
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;ScrollViewer HorizontalScrollBarVisibility=&quot;Auto&quot; VerticalScrollBarVisibility=&quot;Auto&quot;&gt;
     &lt;!-- 内容 --&gt;
 &lt;/ScrollViewer&gt;
@@ -644,7 +644,7 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 &lt;ProgressBar IsIndeterminate=&quot;True&quot; /&gt;
 </code></pre></div>
 <h3 id="datagrid">DataGrid<a class="heading-link" href="#datagrid" aria-label="链接到：DataGrid">#</a></h3>
-<p>隐式样式已覆盖 <code>DataGrid</code>，也可使用显式键 <code>CommonDataGridStyle</code>。表头为 <code>SurfaceAlt</code> 底；行有交替底色；悬停为 <code>Hover</code> 底；选中行为 <code>Selected</code> 底，窗口失焦后依然保持。表头支持排序箭头（升序/降序小三角）。保持了行虚拟化，大数据量滚动流畅，不要在行或单元格里使用 <code>Effect</code>。</p>
+<p>隐式样式已覆盖 <code>DataGrid</code>，也可使用显式键 <code>CommonDataGridStyle</code>。表头为 <code>SurfaceAlt</code> 底，并延伸到右侧垂直滚动条槽位，使表格顶边连续铺满；行有交替底色；悬停为 <code>Hover</code> 底；选中行为 <code>Selected</code> 底，窗口失焦后依然保持。表头支持排序箭头（升序/降序小三角）。保持了行虚拟化，大数据量滚动流畅，不要在行或单元格里使用 <code>Effect</code>。</p>
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;DataGrid ItemsSource=&quot;{Binding Rows}&quot;
           AutoGenerateColumns=&quot;False&quot;
           SelectionMode=&quot;Extended&quot;

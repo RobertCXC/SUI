@@ -202,5 +202,11 @@
         </Setter>
     </Style>
 
+    <!-- The WPF DataGrid places its header presenter in the data column and its
+         vertical scrollbar in the adjacent column. Let the filler header span both. -->
+    <Style TargetType="{x:Type primitives:DataGridColumnHeadersPresenter}">
+        <Setter Property="Grid.ColumnSpan" Value="2" />
+    </Style>
+
     <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource CommonDataGridStyle}" />
 </ResourceDictionary>
