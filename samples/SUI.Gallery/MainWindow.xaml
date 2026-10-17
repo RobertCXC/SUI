@@ -142,7 +142,7 @@
                 Margin="24,0">
                 <TextBlock
                     DockPanel.Dock="Right"
-                    Text="WPF / .NET 10     ·     Tab 切换焦点，Space 操作"
+                    Text="WPF     ·     Tab 切换焦点，Space 操作"
                     VerticalAlignment="Center"
                     Style="{StaticResource Gallery.Muted}" />
                 <TextBlock

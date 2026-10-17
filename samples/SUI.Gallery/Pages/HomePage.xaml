@@ -38,6 +38,9 @@
                     Margin="0,0,0,8" />
             </WrapPanel>
             <TextBlock
+                x:Name="RuntimeInfo"
+                Style="{StaticResource Gallery.SectionDesc}" />
+            <TextBlock
                 Text="找到适合你的组件"
                 Style="{StaticResource Gallery.SectionTitle}" />
             <TextBlock

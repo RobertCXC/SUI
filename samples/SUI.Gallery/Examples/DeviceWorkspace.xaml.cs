@@ -29,7 +29,7 @@ public partial class DeviceWorkspace : UserControl
         var row = (Row)item;
         var query = Filter.Text.Trim();
         var status = (StatusFilter.SelectedItem as ComboBoxItem)?.Content?.ToString();
-        return (row.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || row.Id.ToString().Contains(query))
+        return (row.Name.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 || row.Id.ToString().Contains(query))
             && (StatusFilter.SelectedIndex == 0 || row.Status == status);
     }
     private void OnFilterChanged(object sender, RoutedEventArgs e)
@@ -66,5 +66,11 @@ public partial class DeviceWorkspace : UserControl
         public string OI { get; } = oi;
         public ObservableCollection<Node> Children { get; } = new(children);
     }
-    public sealed record Row(int Id, string Name, string Status, double Load);
+    public sealed class Row(int id, string name, string status, double load)
+    {
+        public int Id { get; } = id;
+        public string Name { get; } = name;
+        public string Status { get; } = status;
+        public double Load { get; } = load;
+    }
 }

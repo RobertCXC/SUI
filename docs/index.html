@@ -50,16 +50,19 @@
     </div>
     <aside class="note"><span class="note-icon" aria-hidden="true">i</span><p><strong>说明书与 Gallery，一起使用。</strong> 本页提供可复制的代码与 API；真实控件效果请运行 Gallery。<code>FileUpload</code> 与 <code>TimePicker</code> 仍为骨架，能力说明见<a href="#fileupload-与-timepicker">对应章节</a>。</p></aside>
     <article class="manual-content" aria-label="完整使用手册"><div class="manual-intro"><p>本文档对应当前仓库中的 SUI 实现，介绍项目接入方式、控件 API、样式资源和常见使用模式。</p>
-<p>SUI 是供 Windows 桌面应用使用的 WPF 控件与样式库，目标框架是 <code>net10.0-windows7.0</code>。推荐通过 <a href="https://www.nuget.org/packages/SUI">NuGet 包 SUI</a> 接入；需要修改库源码或联调时，也可以使用本地 <code>ProjectReference</code>。</p>
+<p>SUI 是供 Windows 桌面应用使用的 WPF 控件与样式库，目标框架是 <code>net48</code>、<code>net8.0-windows</code>、<code>net10.0-windows</code>。推荐通过 <a href="https://www.nuget.org/packages/SUI">NuGet 包 SUI</a> 接入；需要修改库源码或联调时，也可以使用本地 <code>ProjectReference</code>。</p>
 <p>以下 NuGet 示例以已发布的 <code>0.0.3</code> 版本为例。手册 API 按当前仓库源码编写；安装其他版本或使用尚未发布的功能时，请核对对应版本的源码和发布说明。</p>
 </div>
 <section class="doc-section" aria-labelledby="快速开始"><div class="section-number">01 / SUI 手册</div><h2 id="快速开始">快速开始<a class="heading-link" href="#快速开始" aria-label="链接到：快速开始">#</a></h2>
 <h3 id="环境要求">环境要求<a class="heading-link" href="#环境要求" aria-label="链接到：环境要求">#</a></h3>
 <ul>
-<li>Windows 桌面开发环境。</li>
-<li>已安装 .NET 10 SDK。</li>
-<li>宿主项目启用 WPF，目标框架与 SUI 兼容（当前为 <code>net10.0-windows7.0</code>）。</li>
+<li>主要面向 Windows 10 / 11，宿主项目启用 WPF。</li>
+<li>当前源码同时生成 <code>net48</code>、<code>net8.0-windows</code>、<code>net10.0-windows</code> 三个版本：分别供 .NET Framework 4.8 / 4.8.1、.NET 8 / 9、.NET 10 项目使用；现代 .NET 5～7 不在本次支持范围内。</li>
+<li>编译仓库源码需要 .NET 10 SDK，以及 .NET Framework 4.8 目标包（Developer Pack / 引用程序集）。仓库明确使用 C# 12 编译；应用通过 NuGet 引用已编译的库时，无需因此升级其 C# 语言版本。</li>
+<li>运行用户只需应用对应的运行时：Framework 应用使用 4.8 / 4.8.1，现代 WPF 应用使用对应的 .NET Desktop Runtime；不要求安装 SDK。自包含发布由宿主应用决定。</li>
 </ul>
+<p>多目标能力对应当前源码及后续包含此改动的发布包，不代表下文示例中的已发布 <code>0.0.3</code> 包已经支持这些目标。</p>
+<p>一次打包仍生成一个 SUI NuGet 包、使用同一个版本号，内部按目标框架存放三份 <code>SUI.dll</code>，NuGet 自动选取匹配版本。手动引用 DLL 时，请从 <code>bin/Release/&lt;目标框架&gt;/</code> 选取对应文件，不要混用。</p>
 <h3 id="1-通过-nuget-安装-sui">1. 通过 NuGet 安装 SUI<a class="heading-link" href="#1-通过-nuget-安装-sui" aria-label="链接到：1. 通过 NuGet 安装 SUI">#</a></h3>
 <p>在你的 WPF 项目 <code>.csproj</code> 所在目录执行：</p>
 <div class="code-block"><div class="code-toolbar"><span>powershell</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="powershell 代码示例"><code class="language-powershell">dotnet add package SUI --version 0.0.3
@@ -101,8 +104,9 @@
 <p><code>SUINavigationView</code> 使用 <code>SUI.Navigation</code> 命名空间，导航和右侧页面如何映射由宿主应用决定。普通原生控件的样式资源、导航示例和全部属性见本手册后续章节。</p>
 <h3 id="4-运行控件示例">4. 运行控件示例<a class="heading-link" href="#4-运行控件示例" aria-label="链接到：4. 运行控件示例">#</a></h3>
 <p>克隆仓库后，在仓库根目录执行以下命令可运行 SUI Gallery：</p>
-<div class="code-block"><div class="code-toolbar"><span>powershell</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="powershell 代码示例"><code class="language-powershell">dotnet run --project .\samples\SUI.Gallery\SUI.Gallery.csproj
+<div class="code-block"><div class="code-toolbar"><span>powershell</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="powershell 代码示例"><code class="language-powershell">dotnet run --project .\samples\SUI.Gallery\SUI.Gallery.csproj -f net10.0-windows
 </code></pre></div>
+<p>将 <code>-f</code> 改为 <code>net48</code> 或 <code>net8.0-windows</code> 可检查对应版本；Gallery 首页会显示当前编译目标。GitHub Release 将分别提供三个框架的 Gallery ZIP，现代 .NET 版本为依赖框架的 win-x64 发布，需安装对应 Desktop Runtime。</p>
 <p>Gallery 提供概览、按钮与命令、输入与选择、数据与布局、容器与反馈、应用导航、设计基础七个页面。19 组展示均使用真实 SUI 控件，可以直接体验外观、交互状态和操作反馈。Gallery 专注运行效果，接入方法、代码示例与 API 参考统一在本手册中查阅。</p>
 <ul>
 <li><strong>快速定位</strong>：按 <code>Ctrl+K</code> 搜索中文名称、控件名或样式名（例如 <code>Button</code>、<code>开关</code>、<code>DataGrid</code>），按 <code>Enter</code> 打开首个匹配分类，按 <code>Esc</code> 清空搜索。</li>

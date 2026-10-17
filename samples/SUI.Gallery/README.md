@@ -5,10 +5,12 @@ Gallery 用于展示控件的实际外观、状态与交互效果。使用说明
 在仓库根目录运行：
 
 ```powershell
-dotnet run --project .\samples\SUI.Gallery\SUI.Gallery.csproj
+dotnet run --project .\samples\SUI.Gallery\SUI.Gallery.csproj -f net10.0-windows
 ```
 
 ## 展示约定
+
+Gallery 与库同时面向 `net48`、`net8.0-windows`、`net10.0-windows`。运行时必须用 `-f` 选择目标；首页显示当前编译目标。`net48` 使用 Framework 4.8 / 4.8.1，现代目标使用对应的 Desktop Runtime。主要验收系统为 Windows 10 / 11。
 
 - 使用真实库控件与主题资源，保持预览与实际实现一致。
 - `Examples/` 放置可操作的展示控件；页面使用 `Controls/Example` 组织标题、效果预览与操作提示。

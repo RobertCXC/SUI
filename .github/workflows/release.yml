@@ -27,11 +27,20 @@ jobs:
         run: dotnet build SUI.slnx -c Release -p:Version=${{ steps.ver.outputs.version }}
       - name: Pack library
         run: dotnet pack SUI.csproj -c Release --no-build -p:Version=${{ steps.ver.outputs.version }} -o artifacts
-      - name: Publish sample
-        run: dotnet publish samples/SUI.Gallery/SUI.Gallery.csproj -c Release -r win-x64 --self-contained false -p:Version=${{ steps.ver.outputs.version }} -o publish/gallery
-      - name: Zip sample
+      - name: Publish and zip samples for each framework
         shell: pwsh
-        run: Compress-Archive -Path publish/gallery/* -DestinationPath "artifacts/SUI.Gallery-${{ steps.ver.outputs.version }}-win-x64.zip"
+        run: |
+          foreach ($framework in @('net48', 'net8.0-windows', 'net10.0-windows')) {
+            $output = "publish/gallery/$framework"
+            $publishArgs = @('publish', 'samples/SUI.Gallery/SUI.Gallery.csproj', '-c', 'Release', '-f', $framework, '-p:Version=${{ steps.ver.outputs.version }}', '-o', $output)
+            if ($framework -ne 'net48') {
+              $publishArgs += @('-r', 'win-x64', '--self-contained', 'false')
+            }
+            dotnet @publishArgs
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            $platform = if ($framework -eq 'net48') { 'windows' } else { 'win-x64' }
+            Compress-Archive -Path "$output/*" -DestinationPath "artifacts/SUI.Gallery-${{ steps.ver.outputs.version }}-$framework-$platform.zip"
+          }
       - uses: actions/upload-artifact@v4
         with:
           name: release-artifacts

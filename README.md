@@ -6,7 +6,7 @@
 
 轻量、原生、可组合的 WPF UI 基础组件库
 
-`WPF` · `.NET 10` · `XAML` · `MVVM-friendly`
+`WPF` · `.NET Framework 4.8 / .NET 8 / .NET 10` · `XAML` · `MVVM-friendly`
 
 [GitHub 项目](https://github.com/RobertCXC/SUI) · [在线网页说明书](https://robertcxc.github.io/SUI/) · [NuGet 包](https://www.nuget.org/packages/SUI)
 
@@ -56,7 +56,7 @@ SUI 的体验重点是**界面好看、动画流畅**。通过排版、留白、
 
 推荐通过 [NuGet 包 SUI](https://www.nuget.org/packages/SUI) 接入现有 WPF 应用。需要修改库源码或联调时，也可以使用本地项目引用。
 
-SUI 面向 Windows 上的 WPF 应用，项目目标框架为 `net10.0-windows7.0`。当前仓库示例通过 `ProjectReference` 引用 SUI。
+SUI 面向 Windows 上的 WPF 应用，项目目标框架为 `net48`、`net8.0-windows`、`net10.0-windows`。当前仓库示例通过 `ProjectReference` 引用 SUI。主要面向 Windows 10 / 11；一个 NuGet 包包含三个目标的 DLL，自动匹配 Framework 4.8 / 4.8.1、.NET 8 / 9、.NET 10。此能力需使用包含本次改动的新版本，旧包不会自动获得支持。运行用户无需安装 SDK；运行 Gallery 时可用 `-f net48` 或 `-f net8.0-windows` 切换目标。
 
 ### 1. 通过 NuGet 安装
 
@@ -119,7 +119,7 @@ NuGet 会通过 `PackageReference` 管理包内的 `SUI.dll` 引用。安装后�
 想先查看完整控件效果，可以在仓库根目录运行示例程序：
 
 ```powershell
-dotnet run --project .\samples\SUI.Gallery\SUI.Gallery.csproj
+dotnet run --project .\samples\SUI.Gallery\SUI.Gallery.csproj -f net10.0-windows
 ```
 
 <div align="center">
@@ -178,22 +178,22 @@ SUI/
 
 - **源码**：在 GitHub 仓库中持续维护。
 - **NuGet**：推送 `v*.*.*` 版本标签后，Release 工作流构建并发布 SUI 包。
-- **Gallery**：同一版本流程会编译 Gallery，并将 ZIP 附加到 GitHub Release。
+- **Gallery**：同一版本流程为三个目标分别编译 Gallery，并将带框架名称的 ZIP 附加到 GitHub Release；现代 .NET 版本需对应的 Desktop Runtime。
 - **网页说明书**：文档相关改动合并到默认分支并通过检查后，自动部署到 [GitHub Pages](https://robertcxc.github.io/SUI/)。
 
 ## ⚙️ 工程信息
 
 | 项目 | 配置 |
 | --- | --- |
-| 平台 | Windows |
+| 平台 | Windows 10 / 11 |
 | UI 框架 | WPF |
-| Target Framework | `net10.0-windows7.0` |
-| 构建工具 | .NET SDK / MSBuild `10.0.302` |
+| Target Framework | `net48`、`net8.0-windows`、`net10.0-windows` |
+| 构建工具 | .NET 10 SDK，Framework 4.8 目标包；C# 12 |
 
-构建项目时使用固定版本的 MSBuild：
+构建全部目标框架：
 
 ```powershell
-& 'C:\Program Files\dotnet\sdk\10.0.302\MSBuild.exe' .\SUI.csproj /t:Build /p:Configuration=Debug
+dotnet build SUI.slnx -c Release
 ```
 
 ## 📍 项目状态

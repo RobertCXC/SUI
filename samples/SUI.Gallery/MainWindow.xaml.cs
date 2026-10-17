@@ -72,7 +72,7 @@ public partial class MainWindow : Window
         foreach (var item in _items)
         {
             var entry = _catalog.First(p => p.Key == item.Key);
-            item.IsVisible = $"{entry.Title} {entry.Keywords}".Contains(query, StringComparison.OrdinalIgnoreCase);
+            item.IsVisible = $"{entry.Title} {entry.Keywords}".IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0;
         }
         SearchEmpty.Visibility = _items.Any(i => i.IsVisible) ? Visibility.Collapsed : Visibility.Visible;
     }
