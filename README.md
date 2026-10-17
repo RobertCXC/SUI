@@ -8,7 +8,7 @@
 
 `WPF` · `.NET 10` · `XAML` · `MVVM-friendly`
 
-[网页说明书](docs/index.html) · [Markdown 手册](doc/使用手册.md) · [许可证](LICENSE)
+[在线网页说明书](https://robertcxc.github.io/SUI/) · [Markdown 手册](doc/使用手册.md) · [许可证](LICENSE)
 
 </div>
 
@@ -122,13 +122,13 @@ dotnet run --project .\samples\SUI.Gallery\SUI.Gallery.csproj
 
 <div align="center">
 
-### [→ 阅读完整使用手册](doc/使用手册.md)
+### [→ 在线阅读完整使用手册](https://robertcxc.github.io/SUI/)
 
 </div>
 
-手册包含命名空间、控件属性、导航接入、主题资源和常见问题。
+手册包含命名空间、控件属性、导航接入、主题资源和常见问题。Markdown 正文位于 [`doc/使用手册.md`](doc/使用手册.md)，在线网页由默认分支上的 GitHub Actions 自动部署。
 
-也可以直接打开 [`docs/index.html`](docs/index.html) 阅读网页说明书，支持章节目录、本地全文搜索、代码复制和文档明暗主题，无需安装前端依赖。GitHub 文件页不会直接渲染 HTML；克隆后双击打开即可。需要静态托管时发布整个 `docs/` 目录。
+网页说明书支持章节目录、本地全文搜索、代码复制和文档明暗主题，无需安装前端依赖。克隆仓库后也可以直接打开 [`docs/index.html`](docs/index.html) 离线阅读；该文件由 Markdown 手册生成，请勿手工编辑。
 
 修改手册后，在仓库根目录用 PowerShell 7 重新生成并检查网页：
 
@@ -139,7 +139,7 @@ pwsh -File scripts/Build-Docs.ps1 -Check
 
 ## 🧭 文档导航
 
-- [网页说明书](docs/index.html) —— 可离线浏览的 HTML 版本，正文与 Markdown 手册同步。
+- [在线网页说明书](https://robertcxc.github.io/SUI/) —— GitHub Pages 上的在线版本；克隆后也可打开 `docs/index.html` 离线阅读。
 - [使用说明](doc/使用手册.md) —— 完整接入流程与控件 API。
 - [网页说明书维护规范](doc/网页说明书维护规范.md) —— 内容来源、生成流程与验收规则。
 - [产品设计书](SUI-产品设计书.md) —— SUI 的核心体验方向与设计约定。
@@ -151,20 +151,33 @@ pwsh -File scripts/Build-Docs.ps1 -Check
 
 ```text
 SUI/
+├─ .github/workflows/   # 文档站部署与版本发布流程
 ├─ Assets/              # 图片和其他资源
 ├─ Converters/          # WPF 值转换器
-├─ Navigation/          # 侧边导航控件
-├─ Styles/              # 可选样式资源
-│  ├─ TreeStyles.cs     # TreeView 可配置附加属性
-│  └─ TreeStyles.xaml   # TreeView 通用视觉模板
-├─ Themes/              # 默认主题资源
-├─ doc/                 # 使用说明
+├─ Navigation/          # 导航控件及相关代码
+├─ Styles/              # WPF 原生控件样式资源
+├─ Themes/              # 颜色令牌与控件默认主题资源
+├─ doc/                 # Markdown 使用手册与开发规范
+├─ docs/                # 生成的网页说明书及站点资源
+├─ samples/
+│  └─ SUI.Gallery/      # 可运行的控件 Gallery
+│     ├─ Pages/         # Gallery 分类页面
+│     └─ Examples/      # 页面使用的交互示例
+├─ scripts/             # 文档生成脚本与网页模板
 ├─ SUICard.xaml         # 卡片控件
-├─ FileUpload.xaml      # 文件上传控件基础结构
-├─ TimePicker.xaml      # 时间选择控件基础结构
+├─ FileUpload.xaml      # 文件上传控件骨架
+├─ TimePicker.xaml      # 时间选择控件骨架
 ├─ SUIStyles.xaml       # 样式资源总入口
-└─ SUI.csproj
+├─ SUI.csproj           # WPF 控件库项目
+└─ SUI.slnx             # 控件库与 Gallery 解决方案
 ```
+
+## 📦 发布与交付
+
+- **源码**：在 GitHub 仓库中持续维护。
+- **NuGet**：推送 `v*.*.*` 版本标签后，Release 工作流构建并发布 SUI 包。
+- **Gallery**：同一版本流程会编译 Gallery，并将 ZIP 附加到 GitHub Release。
+- **网页说明书**：文档相关改动合并到默认分支并通过检查后，自动部署到 [GitHub Pages](https://robertcxc.github.io/SUI/)。
 
 ## ⚙️ 工程信息
 
