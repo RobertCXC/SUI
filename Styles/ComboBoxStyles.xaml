@@ -87,7 +87,7 @@
 
                             <ToggleButton x:Name="DropDownToggle"
                                           Grid.Column="1"
-                                          Width="{StaticResource SUI.Space.4}"
+                                          Width="{StaticResource SUI.Control.Height}"
                                           ClickMode="Press"
                                           Focusable="False"
                                           IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"

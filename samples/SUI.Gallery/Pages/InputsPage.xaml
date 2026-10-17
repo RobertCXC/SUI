@@ -33,7 +33,7 @@
             <g:Example
                 Title="下拉选择"
                 Description="固定选项、自由输入与禁用状态。用方向键切换，用 Esc 收起下拉面板。"
-                Hint="可编辑 ComboBox 允许输入列表中没有的值；长列表会自动显示滚动条。">
+                Hint="可编辑 ComboBox 允许输入列表中没有的值；右侧下拉触发区域已加宽，点击箭头周围也可展开；长列表会自动显示滚动条。">
                 <demo:ComboChoices />
             </g:Example>
             <g:Example
