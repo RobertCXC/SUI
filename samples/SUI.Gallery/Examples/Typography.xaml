@@ -1,0 +1,57 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SuiExamples.Typography"
+    FontFamily="{StaticResource SUI.Font.Family}"
+    FontSize="{StaticResource SUI.Font.Size.Body}"
+    Foreground="{StaticResource SUI.Brush.Text}"
+    UseLayoutRounding="True"
+    SnapsToDevicePixels="True">
+    <UserControl.Resources>
+        <Style
+            x:Key="Example.Muted"
+            TargetType="TextBlock">
+            <Setter
+                Property="Foreground"
+                Value="{StaticResource SUI.Brush.TextSecondary}" />
+            <Setter
+                Property="FontSize"
+                Value="{StaticResource SUI.Font.Size.Caption}" />
+            <Setter
+                Property="TextWrapping"
+                Value="Wrap" />
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <TextBlock
+            Text="标题 / Small UI. Sharp Experience."
+            FontSize="{StaticResource SUI.Font.Size.Title}"
+            FontWeight="SemiBold" />
+        <TextBlock
+            Text="标题 · 16 px"
+            Style="{StaticResource Example.Muted}"
+            Margin="0,4,0,20" />
+        <TextBlock
+            Text="正文 / 用小而可靠的组件，构建桌面体验。"
+            FontSize="{StaticResource SUI.Font.Size.Body}" />
+        <TextBlock
+            Text="正文 · 13 px"
+            Style="{StaticResource Example.Muted}"
+            Margin="0,4,0,20" />
+        <TextBlock
+            Text="辅助说明 / 最后同步于今天 09:41"
+            FontSize="{StaticResource SUI.Font.Size.Caption}"
+            Foreground="{StaticResource SUI.Brush.TextSecondary}" />
+        <TextBlock
+            Text="辅助说明 · 12 px"
+            Style="{StaticResource Example.Muted}"
+            Margin="0,4,0,20" />
+        <TextBlock
+            Text="09:41:28  /  2026-10-17"
+            FontFamily="{StaticResource SUI.Font.Mono}" />
+        <TextBlock
+            Text="等宽数字 · 时间与编号"
+            Style="{StaticResource Example.Muted}"
+            Margin="0,4,0,0" />
+    </StackPanel>
+</UserControl>

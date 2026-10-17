@@ -1,0 +1,28 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SuiExamples.ToggleStates"
+    FontFamily="{StaticResource SUI.Font.Family}"
+    FontSize="{StaticResource SUI.Font.Size.Body}"
+    Foreground="{StaticResource SUI.Brush.Text}"
+    UseLayoutRounding="True"
+    SnapsToDevicePixels="True">
+    <WrapPanel>
+        <ToggleButton
+            Content="置顶"
+            IsChecked="True"
+            Margin="0,0,12,8" />
+        <ToggleButton
+            Content="自动换行"
+            Margin="0,0,12,8" />
+        <ToggleButton
+            Content="不可用"
+            IsEnabled="False"
+            Margin="0,0,12,8" />
+        <ToggleButton
+            Content="已锁定"
+            IsChecked="True"
+            IsEnabled="False"
+            Margin="0,0,12,8" />
+    </WrapPanel>
+</UserControl>

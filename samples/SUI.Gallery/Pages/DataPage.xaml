@@ -1,100 +1,76 @@
 <UserControl
-    x:Class="SUI.Gallery.Pages.DataPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <UserControl.Resources>
-        <HierarchicalDataTemplate x:Key="SUITreeNodeTemplate" ItemsSource="{Binding Children}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0"
-                           VerticalAlignment="Center"
-                           Text="{Binding Title}"
-                           TextTrimming="CharacterEllipsis"
-                           ToolTip="{Binding Title}" />
-                <TextBlock Grid.Column="1"
-                           Margin="12,0,4,0"
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Center"
-                           FontSize="{StaticResource SUI.Font.Size.Caption}"
-                           Foreground="{StaticResource SUI.Brush.TextSecondary}"
-                           Text="{Binding OI}"
-                           TextAlignment="Right"
-                           ToolTip="对象标识（OI）">
-                    <TextBlock.Style>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding OI}" Value="">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-            </Grid>
-        </HierarchicalDataTemplate>
-    </UserControl.Resources>
-
-    <Grid Margin="32,28">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <StackPanel Grid.Row="0">
-            <TextBlock Style="{StaticResource Gallery.PageTitle}" Text="数据" />
-            <TextBlock Style="{StaticResource Gallery.PageSubtitle}" Text="TreeView、DataGrid 与 GridSplitter。拖动分隔线可调整区域大小。" />
+    xmlns:demo="clr-namespace:SuiExamples"
+    xmlns:g="clr-namespace:SUI.Gallery.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SUI.Gallery.Pages.DataPage">
+    <ScrollViewer
+        VerticalScrollBarVisibility="Auto"
+        HorizontalScrollBarVisibility="Disabled">
+        <StackPanel
+            Style="{StaticResource Gallery.Page}">
+            <TextBlock
+                Text="COMPONENTS / DATA"
+                Style="{StaticResource Gallery.Eyebrow}" />
+            <TextBlock
+                Text="数据与布局"
+                Style="{StaticResource Gallery.PageTitle}" />
+            <TextBlock
+                Text="把分散的信息组织成可操作的工作区。树形导航、数据表格与分隔布局协同工作。"
+                Style="{StaticResource Gallery.PageSubtitle}" />
+            <Border
+                Style="{StaticResource Gallery.SectionCard}">
+                <UniformGrid
+                    Columns="3">
+                    <StackPanel>
+                        <TextBlock
+                            Text="示例设备"
+                            Style="{StaticResource Gallery.Label}" />
+                        <TextBlock
+                            Text="200"
+                            FontSize="28"
+                            FontWeight="SemiBold" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock
+                            Text="在线"
+                            Style="{StaticResource Gallery.Label}" />
+                        <TextBlock
+                            Text="134"
+                            FontSize="28"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource SUI.Brush.Success}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock
+                            Text="离线"
+                            Style="{StaticResource Gallery.Label}" />
+                        <TextBlock
+                            Text="66"
+                            FontSize="28"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource SUI.Brush.TextSecondary}" />
+                    </StackPanel>
+                </UniformGrid>
+            </Border>
+            <g:Example
+                Title="设备工作区"
+                Description="点击树中的在线 / 离线节点筛选；点击表头排序；按住 Ctrl 或 Shift 选择多行。"
+                Hint="拖动树与表格之间的竖线，或树下方的横线，调整工作区布局。">
+                <demo:DeviceWorkspace />
+            </g:Example>
+            <Border
+                Style="{StaticResource Gallery.Note}">
+                <StackPanel>
+                    <TextBlock
+                        Text="键盘也能完成工作"
+                        FontWeight="SemiBold"
+                        Margin="0,0,0,6" />
+                    <TextBlock
+                        Text="表格：方向键移动，Ctrl+C 复制选中行（含表头）。树：左右方向键展开与收起。点击外部输入框后，表格选中状态仍然清晰可见。"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
         </StackPanel>
-
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="260" MinWidth="160" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" MinWidth="240" />
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" MinHeight="120" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="140" MinHeight="80" />
-                </Grid.RowDefinitions>
-
-                <TreeView x:Name="Tree"
-                          Grid.Row="0"
-                          Padding="4"
-                          ItemContainerStyle="{StaticResource Gallery.TreeItem}"
-                          ItemTemplate="{StaticResource SUITreeNodeTemplate}" />
-
-                <GridSplitter Grid.Row="1"
-                              Height="12"
-                              Style="{StaticResource SUI.GridSplitter.Horizontal}" />
-
-                <Border Grid.Row="2"
-                        Background="{StaticResource SUI.Brush.SurfaceAlt}"
-                        BorderBrush="{StaticResource SUI.Brush.Border}"
-                        BorderThickness="{StaticResource SUI.Border.Thickness}"
-                        CornerRadius="{StaticResource SUI.Radius.Panel}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Foreground="{StaticResource SUI.Brush.TextSecondary}"
-                               Text="拖动上方分隔线调整高度" />
-                </Border>
-            </Grid>
-
-            <GridSplitter Grid.Column="1"
-                          Width="16"
-                          HorizontalAlignment="Center"
-                          Style="{StaticResource CustomGridSplitterStyle}" />
-
-            <DataGrid x:Name="Grid"
-                      Grid.Column="2"
-                      AutoGenerateColumns="True"
-                      SelectedIndex="0"
-                      SelectionMode="Extended"
-                      SelectionUnit="FullRow" />
-        </Grid>
-    </Grid>
+    </ScrollViewer>
 </UserControl>

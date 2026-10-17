@@ -1,57 +1,212 @@
 <Application
-    x:Class="SUI.Gallery.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    StartupUri="MainWindow.xaml">
+    x:Class="SUI.Gallery.App"
+    StartupUri="MainWindow.xaml"
+    xmlns:gallery="clr-namespace:SUI.Gallery.Controls">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/SUI;component/SUIStyles.xaml" />
+                <ResourceDictionary
+                    Source="/SUI;component/SUIStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <Style x:Key="Gallery.PageTitle" TargetType="{x:Type TextBlock}">
-                <Setter Property="FontSize" Value="26" />
-                <Setter Property="FontWeight" Value="SemiBold" />
-                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+            <Style
+                x:Key="Gallery.Page"
+                TargetType="StackPanel">
+                <Setter
+                    Property="Margin"
+                    Value="32,28,32,36" />
+                <Setter
+                    Property="MaxWidth"
+                    Value="1120" />
+                <Setter
+                    Property="HorizontalAlignment"
+                    Value="Stretch" />
             </Style>
-
-            <Style x:Key="Gallery.PageSubtitle" TargetType="{x:Type TextBlock}">
-                <Setter Property="Margin" Value="0,6,0,24" />
-                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextSecondary}" />
-                <Setter Property="TextWrapping" Value="Wrap" />
+            <Style
+                x:Key="Gallery.Eyebrow"
+                TargetType="TextBlock">
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource SUI.Brush.Accent}" />
+                <Setter
+                    Property="FontSize"
+                    Value="12" />
+                <Setter
+                    Property="FontWeight"
+                    Value="SemiBold" />
+                <Setter
+                    Property="Margin"
+                    Value="0,0,0,8" />
             </Style>
-
-            <Style x:Key="Gallery.SectionCard" TargetType="{x:Type Border}">
-                <Setter Property="Margin" Value="0,0,0,16" />
-                <Setter Property="Padding" Value="20" />
-                <Setter Property="Background" Value="{StaticResource SUI.Brush.Surface}" />
-                <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
-                <Setter Property="BorderThickness" Value="{StaticResource SUI.Border.Thickness}" />
-                <Setter Property="CornerRadius" Value="{StaticResource SUI.Radius.Panel}" />
+            <Style
+                x:Key="Gallery.PageTitle"
+                TargetType="TextBlock">
+                <Setter
+                    Property="FontSize"
+                    Value="30" />
+                <Setter
+                    Property="FontWeight"
+                    Value="SemiBold" />
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource SUI.Brush.Text}" />
             </Style>
-
-            <Style x:Key="Gallery.SectionTitle" TargetType="{x:Type TextBlock}">
-                <Setter Property="Margin" Value="0,0,0,2" />
-                <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Title}" />
-                <Setter Property="FontWeight" Value="SemiBold" />
-                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+            <Style
+                x:Key="Gallery.Muted"
+                TargetType="TextBlock">
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource SUI.Brush.TextSecondary}" />
+                <Setter
+                    Property="FontSize"
+                    Value="{StaticResource SUI.Font.Size.Caption}" />
+                <Setter
+                    Property="TextWrapping"
+                    Value="Wrap" />
             </Style>
-
-            <Style x:Key="Gallery.SectionDesc" TargetType="{x:Type TextBlock}">
-                <Setter Property="Margin" Value="0,0,0,16" />
-                <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Caption}" />
-                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextSecondary}" />
-                <Setter Property="TextWrapping" Value="Wrap" />
+            <Style
+                x:Key="Gallery.PageSubtitle"
+                TargetType="TextBlock"
+                BasedOn="{StaticResource Gallery.Muted}">
+                <Setter
+                    Property="Margin"
+                    Value="0,10,0,28" />
+                <Setter
+                    Property="FontSize"
+                    Value="14" />
+                <Setter
+                    Property="LineHeight"
+                    Value="23" />
             </Style>
-
-            <Style x:Key="Gallery.Label" TargetType="{x:Type TextBlock}">
-                <Setter Property="Margin" Value="0,0,0,6" />
-                <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Caption}" />
-                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextSecondary}" />
+            <Style
+                x:Key="Gallery.SectionTitle"
+                TargetType="TextBlock">
+                <Setter
+                    Property="FontSize"
+                    Value="{StaticResource SUI.Font.Size.Title}" />
+                <Setter
+                    Property="FontWeight"
+                    Value="SemiBold" />
+                <Setter
+                    Property="TextWrapping"
+                    Value="Wrap" />
+                <Setter
+                    Property="Margin"
+                    Value="0,0,0,6" />
             </Style>
-
-            <Style x:Key="Gallery.TreeItem" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
-                <Setter Property="IsExpanded" Value="True" />
+            <Style
+                x:Key="Gallery.SectionDesc"
+                TargetType="TextBlock"
+                BasedOn="{StaticResource Gallery.Muted}">
+                <Setter
+                    Property="Margin"
+                    Value="0,0,0,16" />
+                <Setter
+                    Property="LineHeight"
+                    Value="20" />
+            </Style>
+            <Style
+                x:Key="Gallery.Label"
+                TargetType="TextBlock"
+                BasedOn="{StaticResource Gallery.Muted}">
+                <Setter
+                    Property="Margin"
+                    Value="0,0,0,8" />
+            </Style>
+            <Style
+                x:Key="Gallery.SectionCard"
+                TargetType="Border">
+                <Setter
+                    Property="Margin"
+                    Value="0,0,0,20" />
+                <Setter
+                    Property="Padding"
+                    Value="24" />
+                <Setter
+                    Property="Background"
+                    Value="{StaticResource SUI.Brush.Surface}" />
+                <Setter
+                    Property="BorderBrush"
+                    Value="{StaticResource SUI.Brush.Border}" />
+                <Setter
+                    Property="BorderThickness"
+                    Value="1" />
+                <Setter
+                    Property="CornerRadius"
+                    Value="{StaticResource SUI.Radius.Panel}" />
+            </Style>
+            <Style
+                x:Key="Gallery.Note"
+                TargetType="Border"
+                BasedOn="{StaticResource Gallery.SectionCard}">
+                <Setter
+                    Property="Background"
+                    Value="{StaticResource SUI.Brush.Selected}" />
+                <Setter
+                    Property="BorderThickness"
+                    Value="0" />
+                <Setter
+                    Property="Padding"
+                    Value="18" />
+            </Style>
+            <Style
+                x:Key="Gallery.Tile"
+                TargetType="Button"
+                BasedOn="{StaticResource {x:Type Button}}">
+                <Setter
+                    Property="HorizontalContentAlignment"
+                    Value="Stretch" />
+                <Setter
+                    Property="VerticalContentAlignment"
+                    Value="Top" />
+                <Setter
+                    Property="Padding"
+                    Value="20" />
+                <Setter
+                    Property="Margin"
+                    Value="0,0,12,12" />
+            </Style>
+            <Style
+                TargetType="gallery:Example">
+                <Setter
+                    Property="AutomationProperties.Name"
+                    Value="{Binding Title, RelativeSource={RelativeSource Self}}" />
+                <Setter
+                    Property="Margin"
+                    Value="0,0,0,24" />
+                <Setter
+                    Property="HorizontalContentAlignment"
+                    Value="Stretch" />
+                <Setter
+                    Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate
+                            TargetType="gallery:Example">
+                            <StackPanel>
+                                <TextBlock
+                                    Text="{TemplateBinding Title}"
+                                    Style="{StaticResource Gallery.SectionTitle}" />
+                                <TextBlock
+                                    Text="{TemplateBinding Description}"
+                                    Style="{StaticResource Gallery.SectionDesc}" />
+                                <Border
+                                    Background="{StaticResource SUI.Brush.Surface}"
+                                    BorderBrush="{StaticResource SUI.Brush.Border}"
+                                    BorderThickness="1"
+                                    CornerRadius="{StaticResource SUI.Radius.Panel}">
+                                    <ContentPresenter
+                                        Margin="24"
+                                        HorizontalAlignment="Stretch" />
+                                </Border>
+                                <TextBlock
+                                    Text="{TemplateBinding Hint}"
+                                    Style="{StaticResource Gallery.Muted}"
+                                    Margin="2,8,0,0" />
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

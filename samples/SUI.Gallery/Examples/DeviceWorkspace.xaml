@@ -1,0 +1,239 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SuiExamples.DeviceWorkspace"
+    FontFamily="{StaticResource SUI.Font.Family}"
+    FontSize="{StaticResource SUI.Font.Size.Body}"
+    Foreground="{StaticResource SUI.Brush.Text}"
+    UseLayoutRounding="True"
+    SnapsToDevicePixels="True">
+    <UserControl.Resources>
+        <Style
+            x:Key="Example.Muted"
+            TargetType="TextBlock">
+            <Setter
+                Property="Foreground"
+                Value="{StaticResource SUI.Brush.TextSecondary}" />
+            <Setter
+                Property="FontSize"
+                Value="{StaticResource SUI.Font.Size.Caption}" />
+            <Setter
+                Property="TextWrapping"
+                Value="Wrap" />
+        </Style>
+        <Style
+            x:Key="Example.Label"
+            TargetType="TextBlock"
+            BasedOn="{StaticResource Example.Muted}">
+            <Setter
+                Property="Margin"
+                Value="0,0,0,8" />
+        </Style>
+        <Style
+            x:Key="Example.TreeItem"
+            TargetType="TreeViewItem"
+            BasedOn="{StaticResource {x:Type TreeViewItem}}">
+            <Setter
+                Property="IsExpanded"
+                Value="True" />
+        </Style>
+        <HierarchicalDataTemplate
+            x:Key="Example.Node"
+            ItemsSource="{Binding Children}">
+            <DockPanel>
+                <TextBlock
+                    DockPanel.Dock="Right"
+                    Text="{Binding OI}"
+                    Margin="8,0,4,0"
+                    Style="{StaticResource Example.Muted}" />
+                <TextBlock
+                    Text="{Binding Title}"
+                    TextTrimming="CharacterEllipsis"
+                    ToolTip="{Binding Title}" />
+            </DockPanel>
+        </HierarchicalDataTemplate>
+    </UserControl.Resources>
+    <StackPanel>
+        <Grid
+            Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition
+                    Width="12" />
+                <ColumnDefinition
+                    Width="144" />
+                <ColumnDefinition
+                    Width="12" />
+                <ColumnDefinition
+                    Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock
+                    Text="搜索设备"
+                    Style="{StaticResource Example.Label}" />
+                <TextBox
+                    x:Name="Filter"
+                    TextChanged="OnFilterChanged"
+                    AutomationProperties.Name="搜索设备"
+                    ToolTip="输入设备名称或编号，如 024" />
+            </StackPanel>
+            <StackPanel
+                Grid.Column="2">
+                <TextBlock
+                    Text="连接状态"
+                    Style="{StaticResource Example.Label}" />
+                <ComboBox
+                    x:Name="StatusFilter"
+                    SelectedIndex="0"
+                    SelectionChanged="OnFilterChanged"
+                    AutomationProperties.Name="连接状态筛选">
+                    <ComboBoxItem
+                        Content="全部状态" />
+                    <ComboBoxItem
+                        Content="在线" />
+                    <ComboBoxItem
+                        Content="离线" />
+                </ComboBox>
+            </StackPanel>
+            <Button
+                Grid.Column="4"
+                Content="重置"
+                VerticalAlignment="Bottom"
+                Click="OnReset" />
+        </Grid>
+        <Grid
+            Height="420">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="180"
+                    MinWidth="135" />
+                <ColumnDefinition
+                    Width="12" />
+                <ColumnDefinition
+                    Width="*"
+                    MinWidth="240" />
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="*"
+                        MinHeight="120" />
+                    <RowDefinition
+                        Height="12" />
+                    <RowDefinition
+                        Height="136"
+                        MinHeight="80" />
+                </Grid.RowDefinitions>
+                <TreeView
+                    x:Name="Tree"
+                    ItemTemplate="{StaticResource Example.Node}"
+                    ItemContainerStyle="{StaticResource Example.TreeItem}"
+                    SelectedItemChanged="OnTreeSelected"
+                    Padding="4"
+                    AutomationProperties.Name="设备分类树" />
+                <GridSplitter
+                    Grid.Row="1"
+                    Style="{StaticResource SUI.GridSplitter.Horizontal}"
+                    Height="12"
+                    AutomationProperties.Name="调整树与详情高度" />
+                <Border
+                    Grid.Row="2"
+                    Background="{StaticResource SUI.Brush.SurfaceAlt}"
+                    CornerRadius="4"
+                    Padding="12">
+                    <StackPanel>
+                        <TextBlock
+                            Text="选择详情"
+                            Style="{StaticResource Example.Label}" />
+                        <TextBlock
+                            x:Name="Detail"
+                            Text="选择树节点或表格行，&#xA;在这里查看详情。"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            x:Name="TreeSelection"
+                            Text="分类：全部设备"
+                            Style="{StaticResource Example.Muted}"
+                            Margin="0,8,0,0" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <GridSplitter
+                Grid.Column="1"
+                Width="12"
+                Style="{StaticResource CustomGridSplitterStyle}"
+                AutomationProperties.Name="调整树与表格宽度" />
+            <Grid
+                Grid.Column="2">
+                <DataGrid
+                    x:Name="Grid"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True"
+                    CanUserAddRows="False"
+                    SelectionMode="Extended"
+                    SelectionUnit="FullRow"
+                    ClipboardCopyMode="IncludeHeader"
+                    SelectionChanged="OnGridSelected"
+                    AutomationProperties.Name="设备数据表">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Header="编号"
+                            Binding="{Binding Id, StringFormat=D3}"
+                            Width="64" />
+                        <DataGridTextColumn
+                            Header="设备名称"
+                            Binding="{Binding Name}"
+                            Width="*"
+                            MinWidth="110" />
+                        <DataGridTemplateColumn
+                            Header="状态"
+                            SortMemberPath="Status"
+                            Width="72">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Text="{Binding Status}"
+                                        VerticalAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style
+                                                TargetType="TextBlock">
+                                                <Setter
+                                                    Property="Foreground"
+                                                    Value="{StaticResource SUI.Brush.TextSecondary}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding Status}"
+                                                        Value="在线">
+                                                        <Setter
+                                                            Property="Foreground"
+                                                            Value="{StaticResource SUI.Brush.Success}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn
+                            Header="负载 %"
+                            Binding="{Binding Load, StringFormat=F1}"
+                            Width="80" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBlock
+                    x:Name="Empty"
+                    Visibility="Collapsed"
+                    Text="没有匹配的设备，请调整筛选。"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource Example.Muted}"
+                    IsHitTestVisible="False" />
+            </Grid>
+        </Grid>
+        <TextBlock
+            x:Name="Count"
+            Margin="0,12,0,0"
+            Style="{StaticResource Example.Muted}"
+            AutomationProperties.LiveSetting="Polite" />
+    </StackPanel>
+</UserControl>

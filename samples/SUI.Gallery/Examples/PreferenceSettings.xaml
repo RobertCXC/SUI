@@ -1,0 +1,130 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SuiExamples.PreferenceSettings"
+    FontFamily="{StaticResource SUI.Font.Family}"
+    FontSize="{StaticResource SUI.Font.Size.Body}"
+    Foreground="{StaticResource SUI.Brush.Text}"
+    UseLayoutRounding="True"
+    SnapsToDevicePixels="True">
+    <UserControl.Resources>
+        <Style
+            x:Key="Example.Muted"
+            TargetType="TextBlock">
+            <Setter
+                Property="Foreground"
+                Value="{StaticResource SUI.Brush.TextSecondary}" />
+            <Setter
+                Property="FontSize"
+                Value="{StaticResource SUI.Font.Size.Caption}" />
+            <Setter
+                Property="TextWrapping"
+                Value="Wrap" />
+        </Style>
+        <Style
+            x:Key="Example.Label"
+            TargetType="TextBlock"
+            BasedOn="{StaticResource Example.Muted}">
+            <Setter
+                Property="Margin"
+                Value="0,0,0,8" />
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock
+                    Text="通知方式"
+                    Style="{StaticResource Example.Label}" />
+                <CheckBox
+                    x:Name="Notifications"
+                    Content="桌面通知"
+                    IsChecked="True"
+                    Checked="OnSettingsChanged"
+                    Unchecked="OnSettingsChanged"
+                    Margin="0,0,0,12" />
+                <CheckBox
+                    Content="邮件摘要"
+                    Margin="0,0,0,12" />
+                <CheckBox
+                    Content="部分选中"
+                    IsThreeState="True"
+                    IsChecked="{x:Null}"
+                    Margin="0,0,0,12" />
+                <CheckBox
+                    Content="组织策略"
+                    IsChecked="True"
+                    IsEnabled="False"
+                    Margin="0,0,0,12" />
+                <CheckBox
+                    Content="不可用选项"
+                    IsEnabled="False" />
+            </StackPanel>
+            <StackPanel
+                Grid.Column="1">
+                <TextBlock
+                    Text="显示密度"
+                    Style="{StaticResource Example.Label}" />
+                <RadioButton
+                    x:Name="Comfortable"
+                    Content="舒适"
+                    GroupName="density"
+                    IsChecked="True"
+                    Checked="OnSettingsChanged"
+                    Margin="0,0,0,12" />
+                <RadioButton
+                    Content="紧凑"
+                    GroupName="density"
+                    Checked="OnSettingsChanged"
+                    Margin="0,0,0,12" />
+                <RadioButton
+                    Content="由组织设置"
+                    GroupName="density"
+                    IsEnabled="False" />
+            </StackPanel>
+            <StackPanel
+                Grid.Column="2">
+                <TextBlock
+                    Text="同步行为"
+                    Style="{StaticResource Example.Label}" />
+                <CheckBox
+                    x:Name="AutoSync"
+                    Content="自动同步"
+                    IsChecked="True"
+                    Style="{StaticResource SUI.Switch}"
+                    Checked="OnSettingsChanged"
+                    Unchecked="OnSettingsChanged"
+                    Margin="0,0,0,12" />
+                <CheckBox
+                    Content="节省流量"
+                    Style="{StaticResource SUI.Switch}"
+                    Margin="0,0,0,12" />
+                <CheckBox
+                    Content="策略锁定"
+                    IsChecked="True"
+                    IsEnabled="False"
+                    Style="{StaticResource SUI.Switch}"
+                    Margin="0,0,0,12" />
+                <CheckBox
+                    Content="暂不可用"
+                    IsEnabled="False"
+                    Style="{StaticResource SUI.Switch}" />
+            </StackPanel>
+        </Grid>
+        <Border
+            Background="{StaticResource SUI.Brush.SurfaceAlt}"
+            Padding="12"
+            CornerRadius="4"
+            Margin="0,20,0,0">
+            <TextBlock
+                x:Name="SettingsSummary"
+                Style="{StaticResource Example.Muted}"
+                AutomationProperties.LiveSetting="Polite" />
+        </Border>
+    </StackPanel>
+</UserControl>

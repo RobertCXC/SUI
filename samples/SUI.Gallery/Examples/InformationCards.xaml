@@ -1,0 +1,35 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:sui="clr-namespace:SUI;assembly=SUI"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SuiExamples.InformationCards"
+    FontFamily="{StaticResource SUI.Font.Family}"
+    FontSize="{StaticResource SUI.Font.Size.Body}"
+    Foreground="{StaticResource SUI.Brush.Text}"
+    UseLayoutRounding="True"
+    SnapsToDevicePixels="True">
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition
+                    Width="16" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <sui:SUICard
+                Title="工作空间"
+                Description="所有资源已同步，可继续工作。"
+                IconText="S" />
+            <sui:SUICard
+                Grid.Column="2"
+                Title="团队协作"
+                Description="12 位成员共同维护设计与开发。"
+                IconText="T" />
+        </Grid>
+        <sui:SUICard
+            Margin="0,16,0,0"
+            Title="为真实内容留出空间"
+            Description="较长的描述也应该自然换行。卡片可以跟随父容器伸展，用于设置说明、项目摘要或设备信息，让内容决定布局，而不被固定宽度限制。"
+            IconText="↗" />
+    </StackPanel>
+</UserControl>

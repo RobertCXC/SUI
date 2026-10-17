@@ -1,0 +1,124 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:nav="clr-namespace:SUI.Navigation;assembly=SUI"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SuiExamples.CustomNavigation"
+    FontFamily="{StaticResource SUI.Font.Family}"
+    FontSize="{StaticResource SUI.Font.Size.Body}"
+    Foreground="{StaticResource SUI.Brush.Text}"
+    UseLayoutRounding="True"
+    SnapsToDevicePixels="True">
+    <UserControl.Resources>
+        <Style
+            x:Key="Example.Eyebrow"
+            TargetType="TextBlock">
+            <Setter
+                Property="Foreground"
+                Value="{StaticResource SUI.Brush.Accent}" />
+            <Setter
+                Property="FontSize"
+                Value="12" />
+            <Setter
+                Property="FontWeight"
+                Value="SemiBold" />
+            <Setter
+                Property="Margin"
+                Value="0,0,0,8" />
+        </Style>
+        <Style
+            x:Key="Example.Muted"
+            TargetType="TextBlock">
+            <Setter
+                Property="Foreground"
+                Value="{StaticResource SUI.Brush.TextSecondary}" />
+            <Setter
+                Property="FontSize"
+                Value="{StaticResource SUI.Font.Size.Caption}" />
+            <Setter
+                Property="TextWrapping"
+                Value="Wrap" />
+        </Style>
+        <Style
+            x:Key="Example.SectionTitle"
+            TargetType="TextBlock">
+            <Setter
+                Property="FontSize"
+                Value="{StaticResource SUI.Font.Size.Title}" />
+            <Setter
+                Property="FontWeight"
+                Value="SemiBold" />
+            <Setter
+                Property="TextWrapping"
+                Value="Wrap" />
+            <Setter
+                Property="Margin"
+                Value="0,0,0,6" />
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <WrapPanel
+            Margin="0,0,0,16">
+            <CheckBox
+                x:Name="EnableSettings"
+                Content="启用设置入口"
+                Checked="OnOptionsChanged"
+                Unchecked="OnOptionsChanged"
+                Margin="0,0,24,8" />
+            <CheckBox
+                x:Name="ShowTools"
+                Content="显示工具入口"
+                IsChecked="True"
+                Checked="OnOptionsChanged"
+                Unchecked="OnOptionsChanged"
+                Margin="0,0,0,8" />
+        </WrapPanel>
+        <Border
+            BorderBrush="{StaticResource SUI.Brush.Border}"
+            BorderThickness="1"
+            CornerRadius="8">
+            <nav:SUINavigationView
+                x:Name="WideNav"
+                PaneWidth="180"
+                Height="290"
+                ItemHeight="48"
+                SelectionChanged="OnWideSelection">
+                <nav:SUINavigationView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Margin="12,0">
+                            <TextBlock
+                                Text="{Binding IconGlyph}"
+                                FontFamily="{StaticResource SUI.Font.Icon}"
+                                FontSize="16"
+                                VerticalAlignment="Center" />
+                            <TextBlock
+                                Text="{Binding Title}"
+                                Margin="12,0,0,0"
+                                VerticalAlignment="Center" />
+                        </StackPanel>
+                    </DataTemplate>
+                </nav:SUINavigationView.ItemTemplate>
+                <StackPanel
+                    Margin="24"
+                    VerticalAlignment="Center">
+                    <TextBlock
+                        Text="CUSTOM TEMPLATE"
+                        Style="{StaticResource Example.Eyebrow}" />
+                    <TextBlock
+                        x:Name="WideTitle"
+                        Style="{StaticResource Example.SectionTitle}" />
+                    <TextBlock
+                        x:Name="WideDescription"
+                        TextWrapping="Wrap"
+                        Style="{StaticResource Example.Muted}" />
+                    <TextBlock
+                        x:Name="SelectionLog"
+                        Margin="0,20,0,0"
+                        Style="{StaticResource Example.Muted}"
+                        AutomationProperties.LiveSetting="Polite" />
+                </StackPanel>
+            </nav:SUINavigationView>
+        </Border>
+    </StackPanel>
+</UserControl>

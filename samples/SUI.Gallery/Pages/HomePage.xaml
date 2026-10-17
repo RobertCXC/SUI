@@ -1,0 +1,160 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:demo="clr-namespace:SuiExamples"
+    xmlns:g="clr-namespace:SUI.Gallery.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SUI.Gallery.Pages.HomePage">
+    <ScrollViewer
+        VerticalScrollBarVisibility="Auto"
+        HorizontalScrollBarVisibility="Disabled">
+        <StackPanel
+            Style="{StaticResource Gallery.Page}">
+            <TextBlock
+                Text="THE SUI COLLECTION / 控件体验馆"
+                Style="{StaticResource Gallery.Eyebrow}" />
+            <TextBlock
+                Text="从一个好用的控件，&#xA;开始一个好看的应用。"
+                FontSize="36"
+                FontWeight="SemiBold"
+                LineHeight="48" />
+            <TextBlock
+                Text="原生 WPF 的熟悉手感，统一而克制的视觉语言。&#xA;在这里查看真实效果，亲手体验控件的每一种状态。"
+                Style="{StaticResource Gallery.PageSubtitle}" />
+            <WrapPanel
+                Margin="0,0,0,28">
+                <Button
+                    Content="开始探索 →"
+                    Tag="buttons"
+                    Style="{StaticResource SUI.Button.Primary}"
+                    Margin="0,0,12,8" />
+                <Button
+                    Content="查看设计基础"
+                    Tag="tokens"
+                    Margin="0,0,12,8" />
+                <TextBlock
+                    Text="原生手感 · 统一视觉 · 即时反馈"
+                    Style="{StaticResource Gallery.Muted}"
+                    VerticalAlignment="Center"
+                    Margin="0,0,0,8" />
+            </WrapPanel>
+            <TextBlock
+                Text="找到适合你的组件"
+                Style="{StaticResource Gallery.SectionTitle}" />
+            <TextBlock
+                Text="按使用场景探索。每个分类都能直接操作，感受控件的外观、状态与反馈。"
+                Style="{StaticResource Gallery.SectionDesc}" />
+            <UniformGrid
+                Columns="2"
+                Margin="0,0,-12,16">
+                <Button
+                    Tag="buttons"
+                    Style="{StaticResource Gallery.Tile}">
+                    <StackPanel>
+                        <TextBlock
+                            Text="01 / ACTION"
+                            Style="{StaticResource Gallery.Eyebrow}" />
+                        <TextBlock
+                            Text="按钮与命令 →"
+                            Style="{StaticResource Gallery.SectionTitle}" />
+                        <TextBlock
+                            Text="主次操作、危险操作、切换状态与即时反馈。"
+                            Style="{StaticResource Gallery.Muted}" />
+                    </StackPanel>
+                </Button>
+                <Button
+                    Tag="inputs"
+                    Style="{StaticResource Gallery.Tile}">
+                    <StackPanel>
+                        <TextBlock
+                            Text="02 / INPUT"
+                            Style="{StaticResource Gallery.Eyebrow}" />
+                        <TextBlock
+                            Text="输入与选择 →"
+                            Style="{StaticResource Gallery.SectionTitle}" />
+                        <TextBlock
+                            Text="文本、校验、下拉、复选与完整设置表单。"
+                            Style="{StaticResource Gallery.Muted}" />
+                    </StackPanel>
+                </Button>
+                <Button
+                    Tag="data"
+                    Style="{StaticResource Gallery.Tile}">
+                    <StackPanel>
+                        <TextBlock
+                            Text="03 / DATA"
+                            Style="{StaticResource Gallery.Eyebrow}" />
+                        <TextBlock
+                            Text="数据与布局 →"
+                            Style="{StaticResource Gallery.SectionTitle}" />
+                        <TextBlock
+                            Text="200 行表格、树形结构、筛选与可调整布局。"
+                            Style="{StaticResource Gallery.Muted}" />
+                    </StackPanel>
+                </Button>
+                <Button
+                    Tag="containers"
+                    Style="{StaticResource Gallery.Tile}">
+                    <StackPanel>
+                        <TextBlock
+                            Text="04 / FEEDBACK"
+                            Style="{StaticResource Gallery.Eyebrow}" />
+                        <TextBlock
+                            Text="容器与反馈 →"
+                            Style="{StaticResource Gallery.SectionTitle}" />
+                        <TextBlock
+                            Text="信息卡片、标签页、菜单和任务进度。"
+                            Style="{StaticResource Gallery.Muted}" />
+                    </StackPanel>
+                </Button>
+                <Button
+                    Tag="navigation"
+                    Style="{StaticResource Gallery.Tile}">
+                    <StackPanel>
+                        <TextBlock
+                            Text="05 / NAVIGATION"
+                            Style="{StaticResource Gallery.Eyebrow}" />
+                        <TextBlock
+                            Text="应用导航 →"
+                            Style="{StaticResource Gallery.SectionTitle}" />
+                        <TextBlock
+                            Text="真实页面切换、自定义模板与禁用状态。"
+                            Style="{StaticResource Gallery.Muted}" />
+                    </StackPanel>
+                </Button>
+                <Button
+                    Tag="tokens"
+                    Style="{StaticResource Gallery.Tile}">
+                    <StackPanel>
+                        <TextBlock
+                            Text="06 / FOUNDATION"
+                            Style="{StaticResource Gallery.Eyebrow}" />
+                        <TextBlock
+                            Text="设计基础 →"
+                            Style="{StaticResource Gallery.SectionTitle}" />
+                        <TextBlock
+                            Text="颜色、字体、圆角与间距的统一约定。"
+                            Style="{StaticResource Gallery.Muted}" />
+                    </StackPanel>
+                </Button>
+            </UniformGrid>
+            <g:Example
+                Title="卡片预览"
+                Description="图标、标题和描述组合成简洁的信息卡片，适合展示工作空间或项目摘要。"
+                Hint="继续探索各个分类，体验更多控件与组合效果。">
+                <demo:GettingStarted />
+            </g:Example>
+            <Border
+                Style="{StaticResource Gallery.Note}">
+                <StackPanel>
+                    <TextBlock
+                        Text="关于组件范围"
+                        FontWeight="SemiBold"
+                        Margin="0,0,0,6" />
+                    <TextBlock
+                        Text="FileUpload 与 TimePicker 目前仍是控件骨架，暂未作为可交互示例提供。当前 Gallery 展示的是已实现能力，具体 API 以使用手册为准。"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

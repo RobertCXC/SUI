@@ -1,0 +1,70 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:demo="clr-namespace:SuiExamples"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SuiExamples.InputValidation"
+    FontFamily="{StaticResource SUI.Font.Family}"
+    FontSize="{StaticResource SUI.Font.Size.Body}"
+    Foreground="{StaticResource SUI.Brush.Text}"
+    UseLayoutRounding="True"
+    SnapsToDevicePixels="True">
+    <UserControl.Resources>
+        <Style
+            x:Key="Example.Muted"
+            TargetType="TextBlock">
+            <Setter
+                Property="Foreground"
+                Value="{StaticResource SUI.Brush.TextSecondary}" />
+            <Setter
+                Property="FontSize"
+                Value="{StaticResource SUI.Font.Size.Caption}" />
+            <Setter
+                Property="TextWrapping"
+                Value="Wrap" />
+        </Style>
+        <Style
+            x:Key="Example.Label"
+            TargetType="TextBlock"
+            BasedOn="{StaticResource Example.Muted}">
+            <Setter
+                Property="Margin"
+                Value="0,0,0,8" />
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <TextBlock
+            Text="工作空间名称 · 3–24 个字符"
+            Style="{StaticResource Example.Label}" />
+        <DockPanel>
+            <Button
+                DockPanel.Dock="Right"
+                Content="保存设置"
+                Style="{StaticResource SUI.Button.Primary}"
+                Click="OnSave"
+                Margin="12,0,0,0" />
+            <TextBox
+                x:Name="ValidatedName"
+                Validation.Error="OnValidationError"
+                AutomationProperties.Name="需要校验的工作空间名称">
+                <TextBox.Text>
+                    <Binding
+                        Path="Name"
+                        UpdateSourceTrigger="PropertyChanged"
+                        NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <demo:WorkspaceNameRule
+                                ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </DockPanel>
+        <TextBlock
+            x:Name="ValidationStatus"
+            Text="输入有效名称后保存，结果会显示在这里。"
+            TextWrapping="Wrap"
+            Foreground="{StaticResource SUI.Brush.TextSecondary}"
+            Margin="0,10,0,0"
+            AutomationProperties.LiveSetting="Polite" />
+    </StackPanel>
+</UserControl>

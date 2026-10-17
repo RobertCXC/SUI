@@ -1,87 +1,47 @@
 <UserControl
-    x:Class="SUI.Gallery.Pages.ContainersPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:demo="clr-namespace:SuiExamples"
+    xmlns:g="clr-namespace:SUI.Gallery.Controls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:sui="clr-namespace:SUI;assembly=SUI">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel MaxWidth="880" Margin="32,28" HorizontalAlignment="Left">
-            <TextBlock Style="{StaticResource Gallery.PageTitle}" Text="容器与反馈" />
-            <TextBlock Style="{StaticResource Gallery.PageSubtitle}" Text="标签页、菜单、提示、进度条与卡片。" />
-
-            <Border Style="{StaticResource Gallery.SectionCard}">
-                <StackPanel>
-                    <TextBlock Style="{StaticResource Gallery.SectionTitle}" Text="TabControl" />
-                    <TextBlock Style="{StaticResource Gallery.SectionDesc}" Text="选中标签带强调色下划线。" />
-                    <TabControl Height="110">
-                        <TabItem Header="常规"><TextBlock Margin="0,12" Text="常规内容" /></TabItem>
-                        <TabItem Header="高级"><TextBlock Margin="0,12" Text="高级内容" /></TabItem>
-                        <TabItem Header="禁用" IsEnabled="False" />
-                    </TabControl>
-                </StackPanel>
-            </Border>
-
-            <Border Style="{StaticResource Gallery.SectionCard}">
-                <StackPanel>
-                    <TextBlock Style="{StaticResource Gallery.SectionTitle}" Text="Menu / ContextMenu / ToolTip" />
-                    <TextBlock Style="{StaticResource Gallery.SectionDesc}" Text="点击菜单、右键按钮、悬停按钮分别查看对应样式。" />
-                    <Menu Margin="0,0,0,12" HorizontalAlignment="Left">
-                        <MenuItem Header="文件">
-                            <MenuItem Header="打开" InputGestureText="Ctrl+O" />
-                            <MenuItem Header="保存" InputGestureText="Ctrl+S" />
-                            <Separator />
-                            <MenuItem Header="退出" />
-                        </MenuItem>
-                        <MenuItem Header="编辑" />
-                    </Menu>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Margin="0,0,12,0"
-                                Content="长文本 ToolTip / 右键菜单"
-                                ToolTip="这是一个较长的 ToolTip 字符串，用于验证提示文字会在三百二十像素的最大宽度内自动换行并完整显示。">
-                            <Button.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="复制" />
-                                    <MenuItem Header="粘贴" />
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                        </Button>
-                        <Button Content="自定义 ToolTip 内容">
-                            <Button.ToolTip>
-                                <StackPanel>
-                                    <TextBlock FontWeight="SemiBold" Text="自定义提示内容" />
-                                    <TextBlock Margin="0,4,0,0" Text="自定义内容也可以包含较长的多行文字，并使用相同的提示框样式。" TextWrapping="Wrap" />
-                                </StackPanel>
-                            </Button.ToolTip>
-                        </Button>
-                    </StackPanel>
-                </StackPanel>
-            </Border>
-
-            <Border Style="{StaticResource Gallery.SectionCard}">
-                <StackPanel>
-                    <TextBlock Style="{StaticResource Gallery.SectionTitle}" Text="ProgressBar" />
-                    <TextBlock Style="{StaticResource Gallery.SectionDesc}" Text="确定进度（0 / 50 / 100）与不确定进度。" />
-                    <ProgressBar Margin="0,0,0,12" Value="0" />
-                    <ProgressBar Margin="0,0,0,12" Value="50" />
-                    <ProgressBar Margin="0,0,0,12" Value="100" />
-                    <ProgressBar IsIndeterminate="True" />
-                </StackPanel>
-            </Border>
-
-            <Border Style="{StaticResource Gallery.SectionCard}">
-                <StackPanel>
-                    <TextBlock Style="{StaticResource Gallery.SectionTitle}" Text="SUICard" />
-                    <TextBlock Style="{StaticResource Gallery.SectionDesc}" Text="可复用的信息卡片。" />
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="16" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <sui:SUICard Title="项目状态" Description="可复用的卡片" IconText="S" />
-                        <sui:SUICard Title="设备在线" Grid.Column="2" Description="12 台设备运行正常" IconText="D" />
-                    </Grid>
-                </StackPanel>
-            </Border>
+    x:Class="SUI.Gallery.Pages.ContainersPage">
+    <ScrollViewer
+        VerticalScrollBarVisibility="Auto"
+        HorizontalScrollBarVisibility="Disabled">
+        <StackPanel
+            Style="{StaticResource Gallery.Page}">
+            <TextBlock
+                Text="COMPONENTS / FEEDBACK"
+                Style="{StaticResource Gallery.Eyebrow}" />
+            <TextBlock
+                Text="容器与反馈"
+                Style="{StaticResource Gallery.PageTitle}" />
+            <TextBlock
+                Text="组织内容，也传达状态。用卡片承载摘要，用标签页建立层次，用及时反馈串联操作。"
+                Style="{StaticResource Gallery.PageSubtitle}" />
+            <g:Example
+                Title="信息卡片"
+                Description="图标、标题与描述组成清晰的信息摘要，适应不同宽度的内容区域。"
+                Hint="查看双列卡片与长描述卡片，比较不同内容的展示效果。">
+                <demo:InformationCards />
+            </g:Example>
+            <g:Example
+                Title="分组内容"
+                Description="用标签页组织同级信息，点击切换；禁用标签不会接收输入。"
+                Hint="选中标签以强调色下划线标识。Tab 与方向键可用于键盘操作。">
+                <demo:ContentTabs />
+            </g:Example>
+            <g:Example
+                Title="命令、上下文与提示"
+                Description="展开菜单或右键按钮，尝试子菜单、选中项与禁用项。悬停按钮查看两种 ToolTip。"
+                Hint="焦点位于本页时，也可使用 Ctrl+N / Ctrl+S 体验新建和保存的操作反馈。">
+                <demo:MenusAndTooltips />
+            </g:Example>
+            <g:Example
+                Title="任务进度"
+                Description="启动模拟任务，体验确定进度、暂停与完成。没有可计算的进度时，使用不确定状态。"
+                Hint="模拟任务只更新本页状态；切换页面会暂停计时，隐藏后的不确定进度条停止动画。">
+                <demo:TaskProgressDemo />
+            </g:Example>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

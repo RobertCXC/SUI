@@ -1,0 +1,41 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:demo="clr-namespace:SuiExamples"
+    xmlns:g="clr-namespace:SUI.Gallery.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SUI.Gallery.Pages.TokensPage">
+    <ScrollViewer
+        VerticalScrollBarVisibility="Auto"
+        HorizontalScrollBarVisibility="Disabled">
+        <StackPanel
+            Style="{StaticResource Gallery.Page}">
+            <TextBlock
+                Text="DESIGN / FOUNDATION"
+                Style="{StaticResource Gallery.Eyebrow}" />
+            <TextBlock
+                Text="设计基础"
+                Style="{StaticResource Gallery.PageTitle}" />
+            <TextBlock
+                Text="颜色、字体与留白共同形成统一的视觉体验。在这里查看界面使用的色彩与尺寸。"
+                Style="{StaticResource Gallery.PageSubtitle}" />
+            <g:Example
+                Title="语义色板"
+                Description="查看主要操作、背景、文字与状态的色彩搭配。"
+                Hint="色板与所有控件使用相同的主题颜色。">
+                <demo:ThemePalette />
+            </g:Example>
+            <g:Example
+                Title="字体层次"
+                Description="用字重与字号建立阅读顺序。正文保持舒适，辅助信息保持清晰。"
+                Hint="比较标题、正文、辅助说明与数字信息的阅读效果。">
+                <demo:Typography />
+            </g:Example>
+            <g:Example
+                Title="形状与节奏"
+                Description="4 px 基础间距、轻量边框与两级圆角，构成界面中稳定的秩序。"
+                Hint="控件默认高度为 32 px。Gallery 展示区的留白服务于阅读，不改变组件本身的尺寸。">
+                <demo:ShapeAndSpacing />
+            </g:Example>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

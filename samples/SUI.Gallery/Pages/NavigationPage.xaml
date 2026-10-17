@@ -1,0 +1,47 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:demo="clr-namespace:SuiExamples"
+    xmlns:g="clr-namespace:SUI.Gallery.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SUI.Gallery.Pages.NavigationPage">
+    <ScrollViewer
+        VerticalScrollBarVisibility="Auto"
+        HorizontalScrollBarVisibility="Disabled">
+        <StackPanel
+            Style="{StaticResource Gallery.Page}">
+            <TextBlock
+                Text="COMPONENTS / NAVIGATION"
+                Style="{StaticResource Gallery.Eyebrow}" />
+            <TextBlock
+                Text="应用导航"
+                Style="{StaticResource Gallery.PageTitle}" />
+            <TextBlock
+                Text="点击不同入口，观察选中状态和内容切换，体验紧凑侧栏与横向图文两种布局。"
+                Style="{StaticResource Gallery.PageSubtitle}" />
+            <g:Example
+                Title="紧凑导航"
+                Description="上图标、下标题的紧凑侧栏。点击不同入口，右侧内容随选中项变化。"
+                Hint="方向键切换导航项；禁用入口不能选中，当前页面始终保持明确的选中反馈。">
+                <demo:CompactNavigation />
+            </g:Example>
+            <g:Example
+                Title="横向图文与入口状态"
+                Description="较宽侧栏使用横向图文布局。试试下面的开关，隐藏工具入口或启用设置。"
+                Hint="入口隐藏或禁用后，当前页面会在需要时自动回到总览。">
+                <demo:CustomNavigation />
+            </g:Example>
+            <Border
+                Style="{StaticResource Gallery.Note}">
+                <StackPanel>
+                    <TextBlock
+                        Text="体验提示"
+                        FontWeight="SemiBold"
+                        Margin="0,0,0,6" />
+                    <TextBlock
+                        Text="试试在两种侧栏中切换页面，再隐藏工具入口或启用设置入口，观察内容与选中反馈。"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,84 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SuiExamples.TextInputs"
+    FontFamily="{StaticResource SUI.Font.Family}"
+    FontSize="{StaticResource SUI.Font.Size.Body}"
+    Foreground="{StaticResource SUI.Brush.Text}"
+    UseLayoutRounding="True"
+    SnapsToDevicePixels="True">
+    <UserControl.Resources>
+        <Style
+            x:Key="Example.Muted"
+            TargetType="TextBlock">
+            <Setter
+                Property="Foreground"
+                Value="{StaticResource SUI.Brush.TextSecondary}" />
+            <Setter
+                Property="FontSize"
+                Value="{StaticResource SUI.Font.Size.Caption}" />
+            <Setter
+                Property="TextWrapping"
+                Value="Wrap" />
+        </Style>
+        <Style
+            x:Key="Example.Label"
+            TargetType="TextBlock"
+            BasedOn="{StaticResource Example.Muted}">
+            <Setter
+                Property="Margin"
+                Value="0,0,0,8" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition
+                Width="24" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <TextBlock
+                Text="工作空间名称"
+                Style="{StaticResource Example.Label}" />
+            <TextBox
+                Text="SUI 工作空间"
+                Margin="0,0,0,16"
+                AutomationProperties.Name="工作空间名称" />
+            <TextBlock
+                Text="访问密码"
+                Style="{StaticResource Example.Label}" />
+            <PasswordBox
+                Password="sample123"
+                Margin="0,0,0,16"
+                AutomationProperties.Name="示例访问密码" />
+            <TextBlock
+                Text="只读标识"
+                Style="{StaticResource Example.Label}" />
+            <TextBox
+                IsReadOnly="True"
+                Text="workspace / sui-gallery"
+                AutomationProperties.Name="只读标识" />
+        </StackPanel>
+        <StackPanel
+            Grid.Column="2">
+            <TextBlock
+                Text="项目描述 / 支持多行"
+                Style="{StaticResource Example.Label}" />
+            <TextBox
+                Height="120"
+                Text="用小而可靠的组件，&#xA;做出好看、顺手的桌面体验。&#xA;&#xA;在这里继续输入，试试中文与文本选择。"
+                AcceptsReturn="True"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto"
+                Margin="0,0,0,16"
+                AutomationProperties.Name="项目描述" />
+            <TextBlock
+                Text="不可编辑"
+                Style="{StaticResource Example.Label}" />
+            <TextBox
+                Text="此字段暂不可用"
+                IsEnabled="False" />
+        </StackPanel>
+    </Grid>
+</UserControl>

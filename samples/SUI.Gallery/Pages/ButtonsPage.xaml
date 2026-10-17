@@ -1,58 +1,41 @@
 <UserControl
-    x:Class="SUI.Gallery.Pages.ButtonsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel MaxWidth="880" Margin="32,28" HorizontalAlignment="Left">
-            <TextBlock Style="{StaticResource Gallery.PageTitle}" Text="按钮" />
-            <TextBlock Style="{StaticResource Gallery.PageSubtitle}" Text="Button 与 ToggleButton 的默认样式及三个显式变体。悬停、按下、禁用和 Tab 键焦点都可以在此检查。" />
-
-            <Border Style="{StaticResource Gallery.SectionCard}">
-                <StackPanel>
-                    <TextBlock Style="{StaticResource Gallery.SectionTitle}" Text="默认样式" />
-                    <TextBlock Style="{StaticResource Gallery.SectionDesc}" Text="无需指定 Style，合并 SUIStyles.xaml 后自动生效。" />
-                    <StackPanel Orientation="Horizontal">
-                        <Button Margin="0,0,12,0" Content="普通按钮" />
-                        <Button Margin="0,0,12,0" Content="默认按钮" IsDefault="True" />
-                        <Button Margin="0,0,12,0" Content="禁用" IsEnabled="False" />
-                        <ToggleButton Margin="0,0,12,0" Content="开关按钮" />
-                        <ToggleButton Content="已选中" IsChecked="True" />
-                    </StackPanel>
-                </StackPanel>
-            </Border>
-
-            <Border Style="{StaticResource Gallery.SectionCard}">
-                <StackPanel>
-                    <TextBlock Style="{StaticResource Gallery.SectionTitle}" Text="Primary" />
-                    <TextBlock Style="{StaticResource Gallery.SectionDesc}" Text="页面中的主要操作，一个区域建议只放一个。" />
-                    <StackPanel Orientation="Horizontal">
-                        <Button Margin="0,0,12,0" Content="保存" Style="{StaticResource SUI.Button.Primary}" />
-                        <Button Content="禁用" IsEnabled="False" Style="{StaticResource SUI.Button.Primary}" />
-                    </StackPanel>
-                </StackPanel>
-            </Border>
-
-            <Border Style="{StaticResource Gallery.SectionCard}">
-                <StackPanel>
-                    <TextBlock Style="{StaticResource Gallery.SectionTitle}" Text="Ghost" />
-                    <TextBlock Style="{StaticResource Gallery.SectionDesc}" Text="无边框的次要操作，悬停时才显示底色。" />
-                    <StackPanel Orientation="Horizontal">
-                        <Button Margin="0,0,12,0" Content="取消" Style="{StaticResource SUI.Button.Ghost}" />
-                        <Button Content="禁用" IsEnabled="False" Style="{StaticResource SUI.Button.Ghost}" />
-                    </StackPanel>
-                </StackPanel>
-            </Border>
-
-            <Border Style="{StaticResource Gallery.SectionCard}">
-                <StackPanel>
-                    <TextBlock Style="{StaticResource Gallery.SectionTitle}" Text="Danger" />
-                    <TextBlock Style="{StaticResource Gallery.SectionDesc}" Text="删除等不可恢复的操作。" />
-                    <StackPanel Orientation="Horizontal">
-                        <Button Margin="0,0,12,0" Content="删除" Style="{StaticResource SUI.Button.Danger}" />
-                        <Button Content="禁用" IsEnabled="False" Style="{StaticResource SUI.Button.Danger}" />
-                    </StackPanel>
-                </StackPanel>
-            </Border>
+    xmlns:demo="clr-namespace:SuiExamples"
+    xmlns:g="clr-namespace:SUI.Gallery.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SUI.Gallery.Pages.ButtonsPage">
+    <ScrollViewer
+        VerticalScrollBarVisibility="Auto"
+        HorizontalScrollBarVisibility="Disabled">
+        <StackPanel
+            Style="{StaticResource Gallery.Page}">
+            <TextBlock
+                Text="COMPONENTS / ACTION"
+                Style="{StaticResource Gallery.Eyebrow}" />
+            <TextBlock
+                Text="按钮与命令"
+                Style="{StaticResource Gallery.PageTitle}" />
+            <TextBlock
+                Text="让操作的主次一目了然。选择合适的视觉权重，用清晰反馈完成一次交互。"
+                Style="{StaticResource Gallery.PageSubtitle}" />
+            <g:Example
+                Title="四种权重，一个操作语言"
+                Description="点击任意可用按钮查看反馈；悬停、按住或使用 Tab 键，检查真实控件状态。"
+                Hint="一个操作区域建议只保留一个 Primary。Danger 用于需要特别注意的操作。">
+                <demo:ButtonVariants />
+            </g:Example>
+            <g:Example
+                Title="交互试验台"
+                Description="换一段文字、切换变体或禁用按钮，观察同一个控件如何响应。"
+                Hint="修改按钮文字、切换视觉变体或禁用按钮，直接观察外观与交互变化。">
+                <demo:ButtonPlayground />
+            </g:Example>
+            <g:Example
+                Title="有状态的操作"
+                Description="ToggleButton 保留选择状态，适合视图选项和工具栏。"
+                Hint="Tab 移动焦点；Space 切换状态。选中与禁用可以独立组合。">
+                <demo:ToggleStates />
+            </g:Example>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

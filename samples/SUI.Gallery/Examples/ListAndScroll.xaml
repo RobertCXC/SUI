@@ -1,0 +1,65 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SuiExamples.ListAndScroll"
+    FontFamily="{StaticResource SUI.Font.Family}"
+    FontSize="{StaticResource SUI.Font.Size.Body}"
+    Foreground="{StaticResource SUI.Brush.Text}"
+    UseLayoutRounding="True"
+    SnapsToDevicePixels="True">
+    <UserControl.Resources>
+        <Style
+            x:Key="Example.Muted"
+            TargetType="TextBlock">
+            <Setter
+                Property="Foreground"
+                Value="{StaticResource SUI.Brush.TextSecondary}" />
+            <Setter
+                Property="FontSize"
+                Value="{StaticResource SUI.Font.Size.Caption}" />
+            <Setter
+                Property="TextWrapping"
+                Value="Wrap" />
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <ListBox
+            x:Name="Choices"
+            Height="150"
+            SelectionMode="Extended"
+            SelectedIndex="0"
+            SelectionChanged="OnListSelectionChanged"
+            AutomationProperties.Name="项目成员角色">
+            <ListBoxItem
+                Content="界面设计" />
+            <ListBoxItem
+                Content="交互开发" />
+            <ListBoxItem
+                Content="质量保障" />
+            <ListBoxItem
+                Content="文档维护" />
+            <ListBoxItem
+                Content="产品管理"
+                IsEnabled="False" />
+            <ListBoxItem
+                Content="技术支持" />
+            <ListBoxItem
+                Content="项目运营" />
+        </ListBox>
+        <TextBlock
+            x:Name="SelectionSummary"
+            Text="已选择 1 个角色"
+            Style="{StaticResource Example.Muted}"
+            Margin="0,8,0,16" />
+        <ScrollViewer
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Disabled"
+            Height="52">
+            <TextBlock
+                Text="SUI / Button / ToggleButton / TextBox / PasswordBox / ComboBox / CheckBox / RadioButton / Switch / ListBox / ScrollViewer / DataGrid / TreeView / GridSplitter / SUICard / SUINavigationView"
+                TextWrapping="NoWrap"
+                VerticalAlignment="Center"
+                FontFamily="{StaticResource SUI.Font.Mono}" />
+        </ScrollViewer>
+    </StackPanel>
+</UserControl>
