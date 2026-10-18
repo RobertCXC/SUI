@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:demo="clr-namespace:SuiExamples"
     xmlns:g="clr-namespace:SUI.Gallery.Controls"
@@ -33,7 +33,7 @@
             <g:Example
                 Title="下拉选择"
                 Description="固定选项、自由输入与禁用状态。用方向键切换，用 Esc 收起下拉面板。"
-                Hint="可编辑 ComboBox 允许输入列表中没有的值；右侧下拉触发区域已加宽，点击箭头周围也可展开；长列表会自动显示滚动条。">
+                Hint="普通下拉框点击任意位置展开；可编辑框仅右侧展开，输入区域滚轮逐项切换（跳过禁用项，到边界停止），仍允许输入自定义值；长列表自动显示滚动条。">
                 <demo:ComboChoices />
             </g:Example>
             <g:Example

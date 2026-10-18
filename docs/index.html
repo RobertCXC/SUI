@@ -578,6 +578,7 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 
 &lt;ComboBox IsEditable=&quot;True&quot; ItemsSource=&quot;{Binding BaudRates}&quot; Text=&quot;{Binding BaudRate}&quot; /&gt;
 </code></pre></div>
+<p>普通模式点击框内任意位置即可展开；可编辑模式仅点击右侧按钮展开，输入区域仍可自由输入。在可编辑框的输入区域滚动鼠标滚轮可逐项切换可选项，无需先聚焦：向上选择上一项，向下选择下一项，跳过禁用项，到首尾停止；自定义文本尚未匹配选项时，向下从第一项、向上从最后一项开始。下拉面板展开后，滚轮保留列表滚动行为。此行为由隐式样式启用，可通过 <code>sui:ComboBoxAssist.EnableEditableMouseWheel=&quot;False&quot;</code> 关闭（<code>sui</code> 指向 <code>clr-namespace:SUI;assembly=SUI</code>）。</p>
 <p>用 <code>MaxDropDownHeight</code> 限制下拉面板高度，超出后出现细滚动条。支持方向键切换、Esc 关闭。</p>
 <h3 id="checkbox-与-radiobutton">CheckBox 与 RadioButton<a class="heading-link" href="#checkbox-与-radiobutton" aria-label="链接到：CheckBox 与 RadioButton">#</a></h3>
 <p>18×18 的方框（CheckBox 圆角 4，RadioButton 为圆形）。选中后为强调色底，CheckBox 显示白色对勾，RadioButton 显示白色圆点；<code>IsThreeState=&quot;True&quot;</code> 的不确定态显示白色短横。</p>
