@@ -49,9 +49,7 @@
     <TabControl
         Height="174">
         <TabItem
-            Header="项目概况"
-            HorizontalContentAlignment="Stretch"
-            VerticalContentAlignment="Stretch">
+            Header="项目概况">
             <Grid
                 Margin="4,18">
                 <Grid.ColumnDefinitions>
@@ -85,9 +83,7 @@
             </Grid>
         </TabItem>
         <TabItem
-            Header="活动记录"
-            HorizontalContentAlignment="Stretch"
-            VerticalContentAlignment="Stretch">
+            Header="活动记录">
             <StackPanel
                 Margin="4,18">
                 <TextBlock

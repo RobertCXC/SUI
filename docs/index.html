@@ -593,6 +593,26 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;CheckBox Content=&quot;启用通知&quot; IsChecked=&quot;{Binding NotifyEnabled}&quot; Style=&quot;{StaticResource SwitchCheckBoxStyle}&quot; /&gt;
 </code></pre></div>
 <h3 id="tabcontrol">TabControl<a class="heading-link" href="#tabcontrol" aria-label="链接到：TabControl">#</a></h3>
+<p><code>TabItem.HorizontalContentAlignment</code> 和 <code>VerticalContentAlignment</code> 默认均为 <code>Stretch</code>，页面内容填充可用内容区；标题独立居中（包括自定义图标标题）。可在单个 <code>TabItem</code> 上显式设为 <code>Center</code> 等值控制页面内容对齐，公开 WPF 属性保持兼容。这两个属性不再用于调整标题位置。</p>
+<p>WPF 在更新选中页时会将这两个属性复制到 <code>PART_SelectedContentHost</code>，因此只给 <code>DataGrid</code> 或内部 <code>Grid</code> 设置 Stretch 不能修复上层宿主居中的问题。运行时更改已选中 TabItem 的内容对齐后，可重新选择该页以应用 WPF 的选中内容更新流程；SUI 未增加额外的即时同步行为。</p>
+<p>填充型布局应由外层 Grid 等提供有限可用空间，不要放在垂直 StackPanel 中期待星号行分配剩余高度：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;TabControl&gt;
+    &lt;TabItem Header=&quot;多条发送&quot;&gt;
+        &lt;Grid Margin=&quot;12&quot;&gt;
+            &lt;Grid.RowDefinitions&gt;
+                &lt;RowDefinition Height=&quot;*&quot; /&gt;
+                &lt;RowDefinition Height=&quot;Auto&quot; /&gt;
+            &lt;/Grid.RowDefinitions&gt;
+            &lt;DataGrid ItemsSource=&quot;{Binding Commands}&quot; AutoGenerateColumns=&quot;True&quot; /&gt;
+            &lt;Button Grid.Row=&quot;1&quot; Margin=&quot;0,12,0,0&quot; Content=&quot;发送所选&quot; /&gt;
+        &lt;/Grid&gt;
+    &lt;/TabItem&gt;
+    &lt;TabItem Header=&quot;居中内容&quot; HorizontalContentAlignment=&quot;Center&quot; VerticalContentAlignment=&quot;Center&quot;&gt;
+        &lt;TextBlock Text=&quot;居中显示&quot; /&gt;
+    &lt;/TabItem&gt;
+&lt;/TabControl&gt;
+</code></pre></div>
+<p><code>Commands</code> 由宿主提供。Gallery「容器与反馈」提供表格、普通 Grid、简单文本及显式 Center 的实际 WPF 展示；网页代码片段不是 WPF 渲染效果证明。</p>
 <p>顶部标签页。选中标签文字为 <code>Text</code> 色并带 2px 强调色下划线，未选中为 <code>TextSecondary</code>；内容区只有顶部一条分隔线。仅保证 <code>TabStripPlacement=&quot;Top&quot;</code>；其他方向不会崩溃，但不保证外观。</p>
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;TabControl&gt;
     &lt;TabItem Header=&quot;常规&quot;&gt;&lt;TextBlock Text=&quot;常规内容&quot; /&gt;&lt;/TabItem&gt;

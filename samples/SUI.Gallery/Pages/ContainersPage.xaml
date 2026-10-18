@@ -31,6 +31,47 @@
                 <demo:ContentTabs />
             </g:Example>
             <g:Example
+                Title="Tab 页面默认填充"
+                Description="真实 WPF 示例：星号行表格占据剩余空间，底部操作栏保持在内容区底部。TabItem 无需显式 Stretch。"
+                Hint="切换普通 Grid、简单文本和显式居中页；缩放窗口，检查标题图标、焦点、禁用态与底部指示线。示例容器高度只用于在滚动展示页中提供有限布局空间。">
+                <TabControl Height="360">
+                    <TabItem>
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="▤" Margin="0,0,6,0" />
+                                <AccessText Text="多条发送(_M)" />
+                            </StackPanel>
+                        </TabItem.Header>
+                        <Grid Margin="12">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="命令" Binding="{Binding Content}" Width="*" />
+                                    <DataGridTextColumn Header="数据" Binding="{Binding Tag}" Width="*" />
+                                </DataGrid.Columns>
+                                <ContentControl Content="读取状态" Tag="01 03 00 00" />
+                                <ContentControl Content="读取温度" Tag="01 03 00 01" />
+                            </DataGrid>
+                            <Button Grid.Row="1" Margin="0,12,0,0" Content="发送所选" />
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="普通 Grid">
+                        <Grid Margin="12" Background="{StaticResource SUI.Brush.SurfaceAlt}">
+                            <TextBlock Text="左上角" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                            <TextBlock Text="右下角：Grid 填满内容区" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="简单文本" Content="默认页面内容宿主填充可用区域" />
+                    <TabItem Header="显式居中" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <TextBlock Text="显式 Center 仍然有效" />
+                    </TabItem>
+                    <TabItem Header="禁用" IsEnabled="False" />
+                </TabControl>
+            </g:Example>
+            <g:Example
                 Title="命令、上下文与提示"
                 Description="展开菜单或右键按钮，尝试子菜单、选中项与禁用项。悬停按钮查看两种 ToolTip。"
                 Hint="焦点位于本页时，也可使用 Ctrl+N / Ctrl+S 体验新建和保存的操作反馈。">
