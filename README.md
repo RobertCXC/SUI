@@ -178,6 +178,7 @@ SUI/
 
 - **源码**：在 GitHub 仓库中持续维护。
 - **NuGet**：推送 `v*.*.*` 版本标签后，Release 工作流构建并发布 SUI 包。
+- **变动日志**：Release 自动收录上一个标签到本次标签之间的全部提交（含合并提交），按从旧到新展示标题、完整正文和提交哈希，不筛选或摘要。上一个标签通过当前标签提交的第一父提交向历史查找最近的可达标签；首个标签收录截至该标签的全部提交。可在仓库根目录运行 `pwsh -File scripts/Build-ReleaseNotes.ps1 -Tag v0.0.7 -OutputPath release-notes.md` 本地预览；新流程不会自动修改已发布的 Release。
 - **Gallery**：同一版本流程为三个目标分别编译 Gallery，并将带框架名称的 ZIP 附加到 GitHub Release；现代 .NET 版本需对应的 Desktop Runtime。
 - **网页说明书**：文档相关改动合并到默认分支并通过检查后，自动部署到 [GitHub Pages](https://robertcxc.github.io/SUI/)。
 
