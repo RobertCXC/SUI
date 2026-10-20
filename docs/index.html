@@ -111,7 +111,7 @@
 <ul>
 <li><strong>快速定位</strong>：按 <code>Ctrl+K</code> 搜索中文名称、控件名或样式名（例如 <code>Button</code>、<code>开关</code>、<code>DataGrid</code>），按 <code>Enter</code> 打开首个匹配分类，按 <code>Esc</code> 清空搜索。</li>
 <li><strong>交互体验</strong>：按钮试验台可实时切换文字、视觉变体和禁用状态；输入页可以验证名称并保存演示设置；数据页提供 200 行数据、筛选、排序、多选与两个方向的布局调整；反馈页可以启动、暂停和重置模拟任务。</li>
-<li><strong>导航与设计</strong>：导航页演示紧凑侧栏、横向图文侧栏及入口状态；设计基础页展示实际主题的颜色、字体、圆角和间距效果。</li>
+<li><strong>导航与设计</strong>：导航页演示紧凑侧栏、固定底部入口、横向图文侧栏及入口状态；设计基础页展示实际主题的颜色、字体、圆角和间距效果。</li>
 <li><strong>状态保留</strong>：切换分类会保留本次会话中的示例状态；离开反馈页时模拟任务自动暂停。所有操作只影响 Gallery 演示数据。</li>
 </ul>
 <p><code>FileUpload</code> 与 <code>TimePicker</code> 当前仍是控件骨架，Gallery 概览中明确标注其状态，暂未提供完整交互示例。</p>
@@ -249,6 +249,30 @@ public ObservableCollection&lt;SUINavigationItem&gt; NavigationItems { get; } =
 public SUINavigationItem? SelectedNavigationItem { get; set; }
 </code></pre></div>
 <p>如果运行时需要从代码修改 <code>SelectedNavigationItem</code> 并刷新界面，该属性应通过 <code>INotifyPropertyChanged</code>、依赖属性或宿主项目已有的 MVVM 属性机制实现通知。</p>
+<h3 id="固定在底部的导航入口">固定在底部的导航入口<a class="heading-link" href="#固定在底部的导航入口" aria-label="链接到：固定在底部的导航入口">#</a></h3>
+<p>将帮助、设置等入口放入 <code>FooterItemsSource</code>。默认模板把它们固定在侧栏底部，上方 <code>ItemsSource</code> 独立滚动；底部项目过多时也会在自己的区域内滚动。未设置或集合为空时，底部区域不占空间。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;suiNav:SUINavigationView
+    ItemsSource=&quot;{Binding NavigationItems}&quot;
+    FooterItemsSource=&quot;{Binding FooterNavigationItems}&quot;
+    SelectedItem=&quot;{Binding SelectedNavigationItem, Mode=TwoWay}&quot;&gt;
+    &lt;ContentControl Content=&quot;{Binding CurrentPage}&quot; /&gt;
+&lt;/suiNav:SUINavigationView&gt;
+</code></pre></div>
+<p>宿主 ViewModel 可以分别准备两组集合：</p>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="csharp 代码示例"><code class="language-csharp">public ObservableCollection&lt;SUINavigationItem&gt; NavigationItems { get; } =
+[
+    new() { Key = &quot;home&quot;, Title = &quot;主页&quot;, IconGlyph = &quot;\uE80F&quot; },
+    new() { Key = &quot;tools&quot;, Title = &quot;工具&quot;, IconGlyph = &quot;\uE90F&quot; }
+];
+
+public ObservableCollection&lt;SUINavigationItem&gt; FooterNavigationItems { get; } =
+[
+    new() { Key = &quot;help&quot;, Title = &quot;帮助&quot;, IconGlyph = &quot;\uE897&quot; },
+    new() { Key = &quot;settings&quot;, Title = &quot;设置&quot;, IconGlyph = &quot;\uE713&quot; }
+];
+</code></pre></div>
+<p>两组共用 <code>SelectedItem</code>、<code>SelectionChanged</code>、<code>ItemTemplate</code>、<code>ItemContainerStyle</code> 和尺寸属性；上下分组切换时只触发一次控件的选中事件，不会先回报空选中。默认双向绑定同样适用于底部入口，代码也可以直接把 <code>SelectedItem</code> 设置成底部集合中的项目。两组中的项目与 <code>Key</code> 应保持唯一，不要把同一个项目同时放入两组。</p>
+<p><code>Tab</code> 可以在上下列表之间移动焦点，方向键在当前组内切换。底部项目同样支持 <code>IsVisible</code>、<code>IsEnabled</code> 和属性变更通知。隐藏或禁用当前项目后需要切换到哪个页面，由宿主决定；Gallery 示例会主动回到总览。</p>
 <h3 id="将导航-key-映射到页面">将导航 Key 映射到页面<a class="heading-link" href="#将导航-key-映射到页面" aria-label="链接到：将导航 Key 映射到页面">#</a></h3>
 <p>建议由宿主应用维护页面工厂，并按 <code>Key</code> 缓存页面实例：</p>
 <div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="csharp 代码示例"><code class="language-csharp">private readonly Dictionary&lt;string, Func&lt;UserControl&gt;&gt; _pageFactories = new()
@@ -301,13 +325,19 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 <td><code>ItemsSource</code></td>
 <td><code>IEnumerable?</code></td>
 <td><code>null</code></td>
-<td>导航项目集合，也可以使用自定义数据模型。</td>
+<td>上方导航项目集合，也可以使用自定义数据模型。</td>
+</tr>
+<tr>
+<td><code>FooterItemsSource</code></td>
+<td><code>IEnumerable?</code></td>
+<td><code>null</code></td>
+<td>固定在侧栏底部的导航项目集合，与上方共用选中状态、模板和样式。</td>
 </tr>
 <tr>
 <td><code>SelectedItem</code></td>
 <td><code>object?</code></td>
 <td><code>null</code></td>
-<td>当前选中项目，默认双向绑定。</td>
+<td>当前选中项目，可来自上方或底部集合，默认双向绑定。</td>
 </tr>
 <tr>
 <td><code>ItemTemplate</code></td>
@@ -432,7 +462,7 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 </code></pre></div>
 <h3 id="导航使用建议">导航使用建议<a class="heading-link" href="#导航使用建议" aria-label="链接到：导航使用建议">#</a></h3>
 <ol>
-<li><code>Key</code> 在同一个导航列表中保持唯一，并与宿主应用的页面路由表一致。</li>
+<li><code>Key</code> 在同一个导航控件的上下两组中保持唯一，并与宿主应用的页面路由表一致。</li>
 <li>默认图标依赖 Windows 的 <code>Segoe Fluent Icons</code> 字体；需要图片或自定义矢量图时使用 <code>ItemTemplate</code>。</li>
 <li>建议为 <code>SelectedItem</code> 设置初始值，避免程序启动时右侧内容为空。</li>
 <li>如果不需要前进/后退历史，建议使用 <code>ContentControl</code>，不必使用 <code>Frame</code>。</li>

@@ -88,7 +88,7 @@
                     x:Name="CompactDescription"
                     Style="{StaticResource Example.PageSubtitle}" />
                 <TextBlock
-                    Text="点击左侧入口，体验内容切换与清晰的选中反馈。"
+                    Text="滚动上方菜单，再点击底部的帮助或设置，体验统一的选中反馈。"
                     TextWrapping="Wrap"
                     Style="{StaticResource Example.Muted}" />
             </StackPanel>

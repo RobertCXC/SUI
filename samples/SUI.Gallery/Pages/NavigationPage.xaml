@@ -16,18 +16,18 @@
                 Text="应用导航"
                 Style="{StaticResource Gallery.PageTitle}" />
             <TextBlock
-                Text="点击不同入口，观察选中状态和内容切换，体验紧凑侧栏与横向图文两种布局。"
+                Text="体验紧凑侧栏与横向图文两种布局，帮助和设置等入口可以固定在侧栏底部。"
                 Style="{StaticResource Gallery.PageSubtitle}" />
             <g:Example
-                Title="紧凑导航"
-                Description="上图标、下标题的紧凑侧栏。点击不同入口，右侧内容随选中项变化。"
-                Hint="方向键切换导航项；禁用入口不能选中，当前页面始终保持明确的选中反馈。">
+                Title="紧凑导航与底部入口"
+                Description="上方菜单可独立滚动，帮助和设置固定靠下。点击任意一组入口，右侧内容随之切换。"
+                Hint="两组菜单共用一个选中状态；Tab 可在分组间移动，方向键切换组内入口。">
                 <demo:CompactNavigation />
             </g:Example>
             <g:Example
                 Title="横向图文与入口状态"
-                Description="较宽侧栏使用横向图文布局。试试下面的开关，隐藏工具入口或启用设置。"
-                Hint="入口隐藏或禁用后，当前页面会在需要时自动回到总览。">
+                Description="上方和底部入口共用横向图文布局。试试开关，隐藏底部帮助或启用底部设置。"
+                Hint="禁用入口不能通过点击选中；示例会在当前入口被隐藏或禁用时回到总览。">
                 <demo:CustomNavigation />
             </g:Example>
             <Border
@@ -38,7 +38,7 @@
                         FontWeight="SemiBold"
                         Margin="0,0,0,6" />
                     <TextBlock
-                        Text="试试在两种侧栏中切换页面，再隐藏工具入口或启用设置入口，观察内容与选中反馈。"
+                        Text="试试滚动上方菜单，再切换到底部帮助或设置。隐藏底部入口或切换分类后，继续观察选中状态与内容。"
                         TextWrapping="Wrap" />
                 </StackPanel>
             </Border>

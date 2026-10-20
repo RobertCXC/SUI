@@ -65,6 +65,13 @@
                 Unchecked="OnOptionsChanged"
                 Margin="0,0,24,8" />
             <CheckBox
+                x:Name="ShowHelp"
+                Content="显示底部帮助"
+                IsChecked="True"
+                Checked="OnOptionsChanged"
+                Unchecked="OnOptionsChanged"
+                Margin="0,0,24,8" />
+            <CheckBox
                 x:Name="ShowTools"
                 Content="显示工具入口"
                 IsChecked="True"
