@@ -105,7 +105,7 @@
                             Text="容器与反馈 →"
                             Style="{StaticResource Gallery.SectionTitle}" />
                         <TextBlock
-                            Text="信息卡片、标签页、菜单和任务进度。"
+                            Text="状态徽标、信息卡片、标签页、菜单和任务进度。"
                             Style="{StaticResource Gallery.Muted}" />
                     </StackPanel>
                 </Button>

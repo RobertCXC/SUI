@@ -30,6 +30,7 @@ SUI 的体验重点是**界面好看、动画流畅**。通过排版、留白、
 
 | 模块 | 组件 | 关键词 |
 | --- | --- | --- |
+| 状态反馈 | `SUIBadge` | 胶囊 / 圆角矩形 · 五种语义颜色 · 状态绑定 · 自定义内容 |
 | 内容表达 | `SUICard` | 图标 · 标题 · 描述 · 依赖属性 |
 | 应用导航 | `SUINavigationView` / `SUINavigationItem` | 绑定 · 底部入口 · 统一选中 · 路由解耦 · 自定义模板 |
 | 视觉资源 | `SUIStyles.xaml` / `Styles/` / `Themes/` | 主题令牌 · Button · TextBox · ComboBox · CheckBox · Tab · ListBox · Menu · ToolTip · ProgressBar · DataGrid · GridSplitter · Switch · TreeView |
@@ -116,6 +117,14 @@ NuGet 会通过 `PackageReference` 管理包内的 `SUI.dll` 引用。安装后�
 </Window>
 ```
 
+状态徽标示例（需要包含 SUIBadge 的版本）：
+
+```xml
+<sui:SUIBadge Content="已连接" Variant="Success" Shape="Pill" />
+```
+
+默认是两端半圆、上下平直的浅色胶囊；支持 Neutral、Success、Warning、Danger、Info 五种语义颜色。连接状态由宿主绑定，控件不负责连接设备。完整属性和限制见使用手册的“SUIBadge 状态徽标”章节。
+
 想先查看完整控件效果，可以在仓库根目录运行示例程序：
 
 ```powershell
@@ -156,6 +165,7 @@ SUI/
 ├─ .github/workflows/   # 文档站部署与版本发布流程
 ├─ Assets/              # 图片和其他资源
 ├─ Converters/          # WPF 值转换器
+├─ Controls/            # 通用控件（SUIBadge）
 ├─ Navigation/          # 导航控件及相关代码
 ├─ Styles/              # WPF 原生控件样式资源
 ├─ Themes/              # 颜色令牌与控件默认主题资源
@@ -199,7 +209,7 @@ dotnet build SUI.slnx -c Release
 
 ## 📍 项目状态
 
-SUI 目前处于持续迭代阶段。`SUICard` 和 `SUINavigationView` 已可作为通用基础组件使用；`FileUpload` 和 `TimePicker` 当前仍是基础控件骨架，具体交互能力会继续完善。
+SUI 目前处于持续迭代阶段。`SUIBadge`、`SUICard` 和 `SUINavigationView` 已在当前源码中实现，可作为通用基础组件使用；新增徽标尚需包含该功能的 NuGet 版本发布后才能通过包引用使用；`FileUpload` 和 `TimePicker` 当前仍是基础控件骨架，具体交互能力会继续完善。
 
 ## ⚖️ 许可证
 

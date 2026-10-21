@@ -1,5 +1,6 @@
 <UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:sui="clr-namespace:SUI;assembly=SUI"
     xmlns:demo="clr-namespace:SuiExamples"
     xmlns:g="clr-namespace:SUI.Gallery.Controls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -18,6 +19,33 @@
             <TextBlock
                 Text="组织内容，也传达状态。用卡片承载摘要，用标签页建立层次，用及时反馈串联操作。"
                 Style="{StaticResource Gallery.PageSubtitle}" />
+            <g:Example Title="状态徽标 Badge" Description="按参考图展示浅色胶囊：两端半圆，上下平直；支持语义颜色及圆角矩形。" Hint="切换下拉选项检查状态绑定更新。">
+                <StackPanel>
+                    <WrapPanel>
+                        <sui:SUIBadge Content="已连接" Variant="Success" Margin="0,0,12,12" />
+                        <sui:SUIBadge Content="未连接" Margin="0,0,12,12" />
+                        <sui:SUIBadge Content="连接中" Variant="Info" Margin="0,0,12,12" />
+                        <sui:SUIBadge Content="已断开" Variant="Danger" Margin="0,0,12,12" />
+                        <sui:SUIBadge Content="警告" Variant="Warning" Margin="0,0,12,12" />
+                    </WrapPanel>
+                    <WrapPanel>
+                        <sui:SUIBadge Content="圆角矩形" Variant="Success" Shape="Rounded" Margin="0,0,12,12" />
+                        <sui:SUIBadge Content="禁用" Variant="Success" IsEnabled="False" Margin="0,0,12,12" />
+                        <sui:SUIBadge Content="自定义" Background="Navy" Foreground="White" Padding="14,4" Margin="0,0,12,12" />
+                        <sui:SUIBadge Variant="Info" AutomationProperties.Name="运行中" Margin="0,0,12,12">
+                            <StackPanel Orientation="Horizontal"><TextBlock Text="●" Margin="0,0,5,0" /><TextBlock Text="运行中" /></StackPanel>
+                        </sui:SUIBadge>
+                    </WrapPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox x:Name="BadgeStatus" SelectedIndex="0" Width="120" Margin="0,0,12,0">
+                            <ComboBoxItem Content="已连接" Tag="Success" />
+                            <ComboBoxItem Content="连接中" Tag="Info" />
+                            <ComboBoxItem Content="已断开" Tag="Danger" />
+                        </ComboBox>
+                        <sui:SUIBadge Content="{Binding SelectedItem.Content, ElementName=BadgeStatus}" Variant="{Binding SelectedItem.Tag, ElementName=BadgeStatus}" />
+                    </StackPanel>
+                </StackPanel>
+            </g:Example>
             <g:Example
                 Title="信息卡片"
                 Description="图标、标题与描述组成清晰的信息摘要，适应不同宽度的内容区域。"

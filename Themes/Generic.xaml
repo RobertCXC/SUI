@@ -5,6 +5,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SUI;component/Themes/Colors.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/BadgeStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="SUINavigationListBoxStyle" TargetType="ListBox">

@@ -63,7 +63,7 @@ for ($i = 1; $i -lt $sections.Length; $i++) {
 $nav = '<a class="nav-link overview-link" href="#概览">概览<span>开始阅读</span></a>'
 $groupStarts = @{
     '快速开始' = '开始使用'
-    'suicard-卡片控件' = '控件与样式'
+    'suibadge-状态徽标' = '控件与样式'
     '转换器' = '参考与支持'
 }
 foreach ($heading in $headings.Where({ $_.Level -eq 2 })) {

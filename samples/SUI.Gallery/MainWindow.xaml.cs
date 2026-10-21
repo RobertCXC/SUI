@@ -15,7 +15,7 @@ public partial class MainWindow : Window
         ("buttons", "按钮与命令", "\uE8A7", "Button ToggleButton Primary Ghost Danger 按钮 命令", () => new ButtonsPage()),
         ("inputs", "输入与选择", "\uE70F", "TextBox PasswordBox ComboBox CheckBox RadioButton Switch ListBox ScrollViewer 输入 密码 下拉 复选 单选 开关 列表 滚动 验证", () => new InputsPage()),
         ("data", "数据与布局", "\uE80A", "DataGrid TreeView GridSplitter 数据 表格 树 分隔 布局", () => new DataPage()),
-        ("containers", "容器与反馈", "\uE737", "SUICard TabControl Menu ContextMenu ToolTip ProgressBar 容器 卡片 标签 菜单 提示 进度", () => new ContainersPage()),
+        ("containers", "容器与反馈", "\uE737", "SUIBadge Badge 徽标 状态 胶囊 SUICard TabControl Menu ContextMenu ToolTip ProgressBar 容器 卡片 标签 菜单 提示 进度", () => new ContainersPage()),
         ("navigation", "应用导航", "\uE700", "SUINavigationView SUINavigationItem 应用 导航", () => new NavigationPage()),
         ("tokens", "设计基础", "\uE790", "Colors Brush Font 主题 颜色 字体 令牌 圆角 间距 设计", () => new TokensPage()),
     ];

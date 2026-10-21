@@ -100,4 +100,8 @@
     <sys:Double x:Key="SUI.Space.3">12</sys:Double>
     <sys:Double x:Key="SUI.Space.4">16</sys:Double>
 
+    <!-- 徽标浅色背景，与对应语义文字配对。 -->
+    <SolidColorBrush x:Key="SUI.Brush.SuccessSubtle" po:Freeze="True" Color="#EDF7ED" />
+    <SolidColorBrush x:Key="SUI.Brush.WarningSubtle" po:Freeze="True" Color="#FFF4E5" />
+    <SolidColorBrush x:Key="SUI.Brush.DangerSubtle" po:Freeze="True" Color="#FDE7E9" />
 </ResourceDictionary>
