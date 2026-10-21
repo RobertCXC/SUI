@@ -17,3 +17,9 @@
 - 新增控件或样式时，为其增加或更新对应的 Gallery 展示；如果变更不影响 Gallery 可见的外观和交互，在完成说明中简要说明原因。
 - 视觉或交互行为有变化时，运行 `samples/SUI.Gallery/SUI.Gallery.csproj` 并检查对应页面，确认展示与实现一致。
 - 样式实现和验收细节遵循 `doc/样式开发任务单.md`；如果该文档与本规则对 Gallery 同步的要求有冲突，以本规则为准。
+
+## 主题资源分工
+
+- `Themes/Colors.xaml` 只定义颜色和画刷；`Themes/Metrics.xaml` 定义字体、字号、高度、边框厚度、圆角与间距。新增资源按职责归类，不把尺寸写入 Colors。
+- 保留已有资源键名；样式通过 `StaticResource` 引用。资源入口先合并 Colors、再合并 Metrics，最后合并控件样式；可独立使用的样式字典也要加载所需基础字典。
+- C#/WPF 构建固定使用 `C:\Program Files\dotnet\sdk\10.0.302\MSBuild.exe`，先确认文件存在；不直接运行默认 SDK 的 dotnet build/pack/test，不修改目标框架或 global.json。

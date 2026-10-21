@@ -1,0 +1,67 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+    <!-- SUI 字体、尺寸、圆角与间距资源；颜色和画刷见 Colors.xaml。 -->
+
+    <!-- 字体 -->
+    <FontFamily x:Key="SUI.Font.Family">Segoe UI Variable, Segoe UI, Microsoft YaHei UI</FontFamily>
+    <FontFamily x:Key="SUI.Font.Mono">Cascadia Mono, Consolas, Microsoft YaHei UI</FontFamily>
+    <FontFamily x:Key="SUI.Font.Icon">Segoe Fluent Icons, Segoe MDL2 Assets</FontFamily>
+    <sys:Double x:Key="SUI.Font.Size.Body">13</sys:Double>
+    <sys:Double x:Key="SUI.Font.Size.Caption">12</sys:Double>
+    <sys:Double x:Key="SUI.Font.Size.Title">16</sys:Double>
+
+    <!-- 圆角 -->
+    <CornerRadius x:Key="SUI.Radius.Control">4</CornerRadius>
+    <CornerRadius x:Key="SUI.Radius.Panel">8</CornerRadius>
+    <CornerRadius x:Key="SUI.Radius.ScrollBarThumb">3</CornerRadius>
+
+    <!-- 边框与尺寸 -->
+    <Thickness x:Key="SUI.Border.Thickness">1</Thickness>
+    <sys:Double x:Key="SUI.Control.Height">32</sys:Double>
+    <sys:Double x:Key="SUI.Control.ScrollBarSize">10</sys:Double>
+    <Thickness x:Key="SUI.Space.ButtonPadding">12,0</Thickness>
+    <Thickness x:Key="SUI.Space.TextBox.Padding">10,0</Thickness>
+    <Thickness x:Key="SUI.Space.TextBox.Padding.Multiline">10,6</Thickness>
+    <Thickness x:Key="SUI.Space.ComboBoxPopupPadding">4</Thickness>
+    <Thickness x:Key="SUI.Space.ComboBoxItemPadding">6,0</Thickness>
+    <sys:Double x:Key="SUI.Control.ComboBoxItemMinHeight">28</sys:Double>
+    <Thickness x:Key="SUI.Space.CheckRadioContent">8,0,0,0</Thickness>
+    <sys:Double x:Key="SUI.Control.CheckRadioSize">18</sys:Double>
+    <sys:Double x:Key="SUI.Border.StrokeThickness">1</sys:Double>
+    <Thickness x:Key="SUI.Space.TabPadding">12,0</Thickness>
+    <sys:Double x:Key="SUI.Control.TabHeight">36</sys:Double>
+    <sys:Double x:Key="SUI.Control.TabIndicatorThickness">2</sys:Double>
+    <Thickness x:Key="SUI.Space.ListBoxItemPadding">10,0</Thickness>
+    <Thickness x:Key="SUI.Space.ListBoxItemMargin">2</Thickness>
+    <Thickness x:Key="SUI.Space.MenuPanelPadding">4</Thickness>
+    <Thickness x:Key="SUI.Space.MenuItemPadding">8,0</Thickness>
+    <Thickness x:Key="SUI.Space.MenuGestureMargin">12,0,8,0</Thickness>
+    <Thickness x:Key="SUI.Space.MenuArrowMargin">8,0,2,0</Thickness>
+    <Thickness x:Key="SUI.Space.MenuSeparatorMargin">0,4</Thickness>
+    <Thickness x:Key="SUI.Space.ToolTipPadding">8,4</Thickness>
+    <Thickness x:Key="SUI.Space.DataGridHeaderPadding">10,8</Thickness>
+    <Thickness x:Key="SUI.Space.DataGridCellPadding">10,5</Thickness>
+    <Thickness x:Key="SUI.Space.DataGridSortArrowMargin">4,0,4,0</Thickness>
+    <Thickness x:Key="SUI.Border.FocusThickness">2</Thickness>
+    <sys:Double x:Key="SUI.Control.MenuIconColumnWidth">20</sys:Double>
+    <CornerRadius x:Key="SUI.Radius.ProgressBar">2</CornerRadius>
+    <sys:Double x:Key="SUI.Control.ProgressBarHeight">4</sys:Double>
+    <CornerRadius x:Key="SUI.Radius.SwitchTrack">10</CornerRadius>
+    <sys:Double x:Key="SUI.Control.SwitchWidth">40</sys:Double>
+    <sys:Double x:Key="SUI.Control.SwitchHeight">20</sys:Double>
+    <sys:Double x:Key="SUI.Control.SwitchKnobSize">12</sys:Double>
+    <sys:Double x:Key="SUI.Control.SwitchPressedKnobSize">14</sys:Double>
+    <sys:Double x:Key="SUI.Control.SwitchKnobTravel">22</sys:Double>
+    <Thickness x:Key="SUI.Space.SwitchKnobMargin">3,0</Thickness>
+    <Thickness x:Key="SUI.Space.SwitchContentGap">8,0,0,0</Thickness>
+
+    <!-- 间距 -->
+    <sys:Double x:Key="SUI.Space.1">4</sys:Double>
+    <sys:Double x:Key="SUI.Space.2">8</sys:Double>
+    <sys:Double x:Key="SUI.Space.3">12</sys:Double>
+    <sys:Double x:Key="SUI.Space.4">16</sys:Double>
+
+</ResourceDictionary>

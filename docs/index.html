@@ -531,7 +531,7 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 </section>
 <section class="doc-section" aria-labelledby="样式资源"><div class="section-number">06 / SUI 手册</div><h2 id="样式资源">样式资源<a class="heading-link" href="#样式资源" aria-label="链接到：样式资源">#</a></h2>
 <h3 id="总入口">总入口<a class="heading-link" href="#总入口" aria-label="链接到：总入口">#</a></h3>
-<p><a href="https://github.com/RobertCXC/SUI/blob/main/SUIStyles.xaml"><code>SUIStyles.xaml</code></a> 按顺序合并 <code>Themes/Colors.xaml</code>（主题令牌，必须第一个）和 <code>Styles/</code> 下的原生控件样式文件。合并后分两类使用：</p>
+<p><a href="https://github.com/RobertCXC/SUI/blob/main/SUIStyles.xaml"><code>SUIStyles.xaml</code></a> 按顺序合并 <code>Themes/Colors.xaml</code>（颜色与画刷）、<code>Themes/Metrics.xaml</code>（字体与尺寸，紧随 Colors）和 <code>Styles/</code> 下的原生控件样式文件。合并后分两类使用：</p>
 <ul>
 <li><strong>隐式样式</strong>：没有 <code>x:Key</code>，对应类型的控件自动生效，包括 <code>Button</code>、<code>ToggleButton</code>、<code>TextBox</code>、<code>PasswordBox</code>、<code>ComboBox</code>、<code>ComboBoxItem</code>、<code>CheckBox</code>、<code>RadioButton</code>、<code>TabControl</code>、<code>TabItem</code>、<code>ListBox</code>、<code>ListBoxItem</code>、<code>ScrollBar</code>、<code>ScrollViewer</code>、<code>Menu</code>、<code>ContextMenu</code>、<code>MenuItem</code>、<code>Separator</code>、<code>ToolTip</code>、<code>ProgressBar</code>、<code>DataGrid</code>、<code>TreeViewItem</code>。</li>
 <li><strong>显式样式</strong>：需要 <code>Style=&quot;{StaticResource ...}&quot;</code> 指定，包括 <code>SUI.Button.Primary</code>、<code>SUI.Button.Ghost</code>、<code>SUI.Button.Danger</code>、<code>SwitchCheckBoxStyle</code>（别名 <code>SUI.Switch</code>）、<code>CustomGridSplitterStyle</code>、<code>SUI.GridSplitter.Horizontal</code>、<code>CommonDataGridStyle</code>、<code>SUITreeViewItemStyle</code>。</li>
@@ -545,7 +545,10 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 <p>导航控件默认主题和颜色资源位于 <a href="https://github.com/RobertCXC/SUI/blob/main/Themes/Generic.xaml"><code>Themes/Generic.xaml</code></a>。局部属性、<code>ItemTemplate</code> 和 <code>ItemContainerStyle</code> 的设置优先于默认样式，不需要直接修改库内主题文件。</p>
 </section>
 <section class="doc-section" aria-labelledby="主题令牌"><div class="section-number">07 / SUI 手册</div><h2 id="主题令牌">主题令牌<a class="heading-link" href="#主题令牌" aria-label="链接到：主题令牌">#</a></h2>
-<p>所有颜色、字体、圆角、间距都定义在 <a href="https://github.com/RobertCXC/SUI/blob/main/Themes/Colors.xaml"><code>Themes/Colors.xaml</code></a>，样式文件和你自己的界面都应该引用这些资源，不要写死颜色。引用方式统一为 <code>{StaticResource 键名}</code>。</p>
+<h3 id="主题资源文件分工">主题资源文件分工<a class="heading-link" href="#主题资源文件分工" aria-label="链接到：主题资源文件分工">#</a></h3>
+<p><code>Themes/Colors.xaml</code> 仅保存颜色和画刷，<code>Themes/Metrics.xaml</code> 保存字体、字号、高度、边框厚度、圆角与间距。资源键名保持不变；自行加载单个样式字典时，库内已同时合并两个基础字典。宿主手动组合基础资源时，先加载 Colors、再加载 Metrics、最后加载控件样式。直接只加载 Colors 不再提供尺寸资源。</p>
+<p>下拉列表项内边距资源 <code>SUI.Space.ComboBoxItemPadding</code> 默认是 <code>6,0</code>（左、右各 6，上、下为 0），与输入框内边距分开管理。下拉项最小高度资源 <code>SUI.Control.ComboBoxItemMinHeight</code> 默认为 28，独立于输入框的默认高度 32；文字垂直居中，内容较高时仍可撑开。</p>
+<p>颜色与画刷定义在 <a href="https://github.com/RobertCXC/SUI/blob/main/Themes/Colors.xaml"><code>Themes/Colors.xaml</code></a>，字体、字号、圆角、间距及尺寸定义在 <a href="https://github.com/RobertCXC/SUI/blob/main/Themes/Metrics.xaml"><code>Themes/Metrics.xaml</code></a>，样式文件和你自己的界面都应该引用这些资源，不要写死颜色。引用方式统一为 <code>{StaticResource 键名}</code>。</p>
 <div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
 <thead>
 <tr>

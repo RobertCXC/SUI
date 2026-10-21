@@ -4,6 +4,7 @@
     xmlns:sui="clr-namespace:SUI;assembly=SUI">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SUI;component/Themes/Colors.xaml" />
+        <ResourceDictionary Source="/SUI;component/Themes/Metrics.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Geometry x:Key="SUITreeFolderIconGeometry">M 3,5 C 3,3.895 3.895,3 5,3 H 9 L 11,5 H 19 C 20.105,5 21,5.895 21,7 V 17 C 21,18.105 20.105,19 19,19 H 5 C 3.895,19 3,18.105 3,17 Z</Geometry>

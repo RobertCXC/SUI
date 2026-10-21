@@ -16,7 +16,7 @@
                 Text="设计基础"
                 Style="{StaticResource Gallery.PageTitle}" />
             <TextBlock
-                Text="颜色、字体与留白共同形成统一的视觉体验。在这里查看界面使用的色彩与尺寸。"
+                Text="Colors.xaml 管理颜色，Metrics.xaml 管理字体与尺寸。在这里查看界面使用的色彩与尺寸。"
                 Style="{StaticResource Gallery.PageSubtitle}" />
             <g:Example
                 Title="语义色板"
