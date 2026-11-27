@@ -1,0 +1,32 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SUI">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SUI;component/Themes/Colors.xaml" />
+        <ResourceDictionary Source="/SUI;component/Themes/Metrics.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="SUI.FileUpload.EmptyValidationTemplate">
+        <AdornedElementPlaceholder />
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type local:FileUpload}" BasedOn="{StaticResource {x:Type UserControl}}">
+        <Setter Property="AllowDrop" Value="{Binding AllowDropFiles, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="FontFamily" Value="{StaticResource SUI.Font.Family}" />
+        <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Body}" />
+        <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+        <Setter Property="Validation.ErrorTemplate" Value="{StaticResource SUI.FileUpload.EmptyValidationTemplate}" />
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="ToolTip" Value="{Binding Path=(Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- 紧凑单行模式：单行路径框 + 拖放支持 + 清空/浏览按钮，高度贴近 32px。 -->
+    <Style x:Key="SUI.FileUpload.Compact"
+           TargetType="{x:Type local:FileUpload}"
+           BasedOn="{StaticResource {x:Type local:FileUpload}}">
+        <Setter Property="IsCompact" Value="True" />
+    </Style>
+</ResourceDictionary>

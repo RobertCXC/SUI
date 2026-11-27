@@ -16,6 +16,11 @@
     <!-- 圆角 -->
     <CornerRadius x:Key="SUI.Radius.Control">4</CornerRadius>
     <CornerRadius x:Key="SUI.Radius.Panel">8</CornerRadius>
+    <CornerRadius x:Key="SUI.Radius.PanelInner">7</CornerRadius>
+    <CornerRadius x:Key="SUI.Radius.ExpanderHeader.Down">7,7,0,0</CornerRadius>
+    <CornerRadius x:Key="SUI.Radius.ExpanderHeader.Up">0,0,7,7</CornerRadius>
+    <CornerRadius x:Key="SUI.Radius.ExpanderHeader.Left">7,0,0,7</CornerRadius>
+    <CornerRadius x:Key="SUI.Radius.ExpanderHeader.Right">0,7,7,0</CornerRadius>
     <CornerRadius x:Key="SUI.Radius.ScrollBarThumb">3</CornerRadius>
 
     <!-- 边框与尺寸 -->
@@ -49,6 +54,7 @@
     <sys:Double x:Key="SUI.Control.MenuIconColumnWidth">20</sys:Double>
     <CornerRadius x:Key="SUI.Radius.ProgressBar">2</CornerRadius>
     <sys:Double x:Key="SUI.Control.ProgressBarHeight">4</sys:Double>
+    <sys:Double x:Key="SUI.Control.ProgressBarHeight.Medium">8</sys:Double>
     <CornerRadius x:Key="SUI.Radius.SwitchTrack">10</CornerRadius>
     <sys:Double x:Key="SUI.Control.SwitchWidth">40</sys:Double>
     <sys:Double x:Key="SUI.Control.SwitchHeight">20</sys:Double>
@@ -58,9 +64,13 @@
     <Thickness x:Key="SUI.Space.SwitchKnobMargin">3,0</Thickness>
     <Thickness x:Key="SUI.Space.SwitchContentGap">8,0,0,0</Thickness>
 
-    <!-- 紧凑输入（参数网格等高密度布局） -->
+    <!-- 紧凑输入与表格（参数网格、高密度表格等） -->
     <sys:Double x:Key="SUI.Control.Height.Compact">28</sys:Double>
+    <Thickness x:Key="SUI.Space.ButtonPadding.Compact">8,0</Thickness>
     <Thickness x:Key="SUI.Space.TextBox.Padding.Compact">6,0</Thickness>
+    <sys:Double x:Key="SUI.Control.DataGridRowHeight.Compact">28</sys:Double>
+    <Thickness x:Key="SUI.Space.DataGridHeaderPadding.Compact">6,5</Thickness>
+    <Thickness x:Key="SUI.Space.DataGridCellPadding.Compact">6,2</Thickness>
     <!-- 输入框占位文字相对 Padding 的额外缩进，对齐 TextBox 内部光标起点 -->
     <Thickness x:Key="SUI.Space.PlaceholderInset">2,0,2,0</Thickness>
 
@@ -69,13 +79,21 @@
     <CornerRadius x:Key="SUI.Radius.Pill">14</CornerRadius>
     <Thickness x:Key="SUI.Space.PillPadding">12,0</Thickness>
 
-    <!-- 卡片与分组容器 -->
+    <!-- 卡片、分组与折叠容器 -->
     <Thickness x:Key="SUI.Space.CardPadding">16</Thickness>
     <Thickness x:Key="SUI.Space.CardHeaderMargin">0,0,0,12</Thickness>
     <Thickness x:Key="SUI.Space.CardDescriptionMargin">0,4</Thickness>
     <sys:Double x:Key="SUI.Control.CardIconSize">48</sys:Double>
     <Thickness x:Key="SUI.Space.CardIconGap">0,0,12,0</Thickness>
     <Thickness x:Key="SUI.Space.CardSlotGap">8,0,0,0</Thickness>
+    <Thickness x:Key="SUI.Space.ExpanderHeaderPadding">14,10</Thickness>
+    <Thickness x:Key="SUI.Space.ExpanderPlainHeaderPadding">6,6</Thickness>
+    <sys:Double x:Key="SUI.Control.ExpanderHeaderMinHeight">40</sys:Double>
+    <sys:Double x:Key="SUI.Control.ExpanderChevronSize">24</sys:Double>
+
+    <!-- 步骤条 -->
+    <sys:Double x:Key="SUI.Control.StepperBadgeSize">28</sys:Double>
+    <sys:Double x:Key="SUI.Control.StepperConnectorThickness">2</sys:Double>
 
     <!-- 标签页关闭按钮与标题溢出 -->
     <sys:Double x:Key="SUI.Control.TabCloseButtonSize">20</sys:Double>
@@ -89,6 +107,7 @@
     <sys:Double x:Key="SUI.Control.CalendarButtonMinHeight">36</sys:Double>
     <Thickness x:Key="SUI.Space.CalendarPadding">8</Thickness>
     <sys:Double x:Key="SUI.Control.PickerButtonWidth">32</sys:Double>
+    <sys:Double x:Key="SUI.Control.PickerButtonWidth.Compact">28</sys:Double>
     <sys:Double x:Key="SUI.Control.TimeColumnWidth">56</sys:Double>
     <sys:Double x:Key="SUI.Control.TimeListHeight">224</sys:Double>
 

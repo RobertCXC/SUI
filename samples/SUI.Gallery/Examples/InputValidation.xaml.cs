@@ -1,6 +1,8 @@
-using System.Windows.Controls;
+using System.Collections;
+using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace SuiExamples;
@@ -27,9 +29,94 @@ public partial class InputValidation : UserControl
     }
 }
 
-public sealed class WorkspaceSettings
+public sealed class WorkspaceSettings : INotifyPropertyChanged, INotifyDataErrorInfo
 {
+    private readonly Dictionary<string, List<string>> _errors = new();
+    private double? _port = 8080;
+    private TimeSpan? _scheduleTime = new(9, 30, 0);
+    private DateTime? _effectiveAt = new(2026, 11, 27, 10, 0, 0);
+    private string _protocolMode = "698.45";
+
     public string Name { get; set; } = "SUI 工作空间";
+
+    public string[] ProtocolModes { get; } = ["请选择...", "698.45", "645-2007", "Modbus-RTU"];
+
+    public string ProtocolMode
+    {
+        get => _protocolMode;
+        set
+        {
+            if (_protocolMode == value) return;
+            _protocolMode = value;
+            OnPropertyChanged(nameof(ProtocolMode));
+            SetError(nameof(ProtocolMode), value == "请选择..." ? "请选择有效的通信规约。" : null);
+        }
+    }
+
+    public double? Port
+    {
+        get => _port;
+        set
+        {
+            if (_port == value) return;
+            _port = value;
+            OnPropertyChanged(nameof(Port));
+            ValidatePort();
+        }
+    }
+
+    public TimeSpan? ScheduleTime
+    {
+        get => _scheduleTime;
+        set
+        {
+            if (_scheduleTime == value) return;
+            _scheduleTime = value;
+            OnPropertyChanged(nameof(ScheduleTime));
+            SetError(nameof(ScheduleTime), value is null ? "请选择执行时间。" : null);
+        }
+    }
+
+    public DateTime? EffectiveAt
+    {
+        get => _effectiveAt;
+        set
+        {
+            if (_effectiveAt == value) return;
+            _effectiveAt = value;
+            OnPropertyChanged(nameof(EffectiveAt));
+            SetError(nameof(EffectiveAt), value is null ? "请选择生效日期时间。" : null);
+        }
+    }
+
+    private void ValidatePort()
+    {
+        var invalid = _port is null || _port < 1 || _port > 65535;
+        SetError(nameof(Port), invalid ? "端口号必须在 1 到 65535 之间。" : null);
+    }
+
+    private void SetError(string propertyName, string? message)
+    {
+        if (string.IsNullOrEmpty(message))
+        {
+            _errors.Remove(propertyName);
+        }
+        else
+        {
+            _errors[propertyName] = [message!];
+        }
+        ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+    }
+
+    public bool HasErrors => _errors.Count > 0;
+    public event PropertyChangedEventHandler? PropertyChanged;
+    public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+    public IEnumerable GetErrors(string? propertyName) =>
+        propertyName is not null && _errors.TryGetValue(propertyName, out var list) ? list : Array.Empty<string>();
+
+    private void OnPropertyChanged(string propertyName) =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }
 
 public sealed class WorkspaceNameRule : ValidationRule

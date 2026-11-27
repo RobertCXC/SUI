@@ -19,155 +19,317 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <UserControl.Style>
-        <Style TargetType="{x:Type UserControl}">
-            <Setter Property="AllowDrop" Value="{Binding AllowDropFiles, RelativeSource={RelativeSource Self}}" />
-            <Setter Property="FontFamily" Value="{StaticResource SUI.Font.Family}" />
-            <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Body}" />
-            <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
-        </Style>
-    </UserControl.Style>
-
-    <StackPanel>
-        <!-- 文件选择与拖放区域 -->
-        <Border x:Name="DropZone"
-                Padding="{StaticResource SUI.Space.CardPadding}"
-                BorderThickness="{StaticResource SUI.Border.Thickness}"
-                CornerRadius="{StaticResource SUI.Radius.Panel}"
-                SnapsToDevicePixels="True">
-            <Border.Style>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="Background" Value="{StaticResource SUI.Brush.SurfaceAlt}" />
-                    <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+    <Grid>
+        <!-- 标准拖放卡片模式 -->
+        <StackPanel x:Name="StandardModePanel">
+            <StackPanel.Style>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Setter Property="Visibility" Value="Visible" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsDragOver, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
-                            <Setter Property="Background" Value="{StaticResource SUI.Brush.Selected}" />
-                            <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Accent}" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False">
-                            <Setter Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
-                            <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+                        <DataTrigger Binding="{Binding IsCompact, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </Border.Style>
+            </StackPanel.Style>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+            <!-- 文件选择与拖放区域 -->
+            <Border x:Name="DropZone"
+                    Padding="{StaticResource SUI.Space.CardPadding}"
+                    BorderThickness="{StaticResource SUI.Border.Thickness}"
+                    CornerRadius="{StaticResource SUI.Radius.Panel}"
+                    SnapsToDevicePixels="True">
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="Background" Value="{StaticResource SUI.Brush.SurfaceAlt}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsDragOver, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                                <Setter Property="Background" Value="{StaticResource SUI.Brush.Selected}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Accent}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=(Validation.HasError), RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                                <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Danger}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False">
+                                <Setter Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
 
-                <Border Grid.Column="0"
-                        Width="{StaticResource SUI.Control.FileUploadIconSize}"
-                        Height="{StaticResource SUI.Control.FileUploadIconSize}"
-                        Margin="{StaticResource SUI.Space.CardIconGap}"
-                        VerticalAlignment="Center"
-                        Background="{StaticResource SUI.Brush.Selected}"
-                        CornerRadius="{StaticResource SUI.Radius.Panel}">
-                    <TextBlock HorizontalAlignment="Center"
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0"
+                            Width="{StaticResource SUI.Control.FileUploadIconSize}"
+                            Height="{StaticResource SUI.Control.FileUploadIconSize}"
+                            Margin="{StaticResource SUI.Space.CardIconGap}"
+                            VerticalAlignment="Center"
+                            Background="{StaticResource SUI.Brush.Selected}"
+                            CornerRadius="{StaticResource SUI.Radius.Panel}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{StaticResource SUI.Font.Icon}"
+                                   FontSize="{StaticResource SUI.Font.Size.Title}"
+                                   Foreground="{StaticResource SUI.Brush.Accent}"
+                                   Text="&#xE898;" />
+                    </Border>
+
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock FontWeight="SemiBold"
+                                   Foreground="{StaticResource SUI.Brush.Text}"
+                                   Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   TextWrapping="Wrap" />
+                        <TextBlock Margin="0,4,0,0"
+                                   FontSize="{StaticResource SUI.Font.Size.Caption}"
+                                   Foreground="{StaticResource SUI.Brush.TextSecondary}"
+                                   Text="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   TextWrapping="Wrap">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2"
+                                Margin="{StaticResource SUI.Space.CardSlotGap}"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                        <Button x:Name="ClearButton"
+                                Margin="0,0,8,0"
+                                Click="OnClearClick"
+                                Content="清空"
+                                Visibility="Collapsed" />
+                        <Button x:Name="BrowseButton"
+                                Click="OnBrowseClick"
+                                Content="{Binding ButtonText, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- 已选文件列表 -->
+            <ItemsControl x:Name="SelectedFilesList"
+                          Margin="0,8,0,0"
+                          ItemsSource="{Binding SelectedFiles, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                          Visibility="Collapsed">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="{StaticResource SUI.Space.FileUploadItemMargin}"
+                                Padding="{StaticResource SUI.Space.FileUploadItemPadding}"
+                                Background="{StaticResource SUI.Brush.Surface}"
+                                BorderBrush="{StaticResource SUI.Brush.Border}"
+                                BorderThickness="{StaticResource SUI.Border.Thickness}"
+                                CornerRadius="{StaticResource SUI.Radius.Control}"
+                                ToolTip="{Binding}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           Margin="0,0,8,0"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{StaticResource SUI.Font.Icon}"
+                                           FontSize="{StaticResource SUI.Font.Size.Body}"
+                                           Foreground="{StaticResource SUI.Brush.Accent}"
+                                           Text="&#xE8A5;" />
+                                <TextBlock Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           Foreground="{StaticResource SUI.Brush.Text}"
+                                           Text="{Binding}"
+                                           TextTrimming="CharacterEllipsis" />
+                                <Button Grid.Column="2"
+                                        Width="{StaticResource SUI.Control.IconButtonSize}"
+                                        Height="{StaticResource SUI.Control.IconButtonSize}"
+                                        MinHeight="{StaticResource SUI.Control.IconButtonSize}"
+                                        Margin="8,0,0,0"
+                                        Padding="0"
+                                        AutomationProperties.Name="移除文件"
+                                        Click="OnRemoveFileClick"
+                                        Style="{StaticResource SUI.Button.Ghost}"
+                                        Tag="{Binding}"
+                                        ToolTip="移除">
+                                    <TextBlock FontFamily="{StaticResource SUI.Font.Icon}"
+                                               FontSize="{StaticResource SUI.Font.Size.IconSmall}"
+                                               Foreground="{StaticResource SUI.Brush.TextSecondary}"
+                                               Text="&#xE711;" />
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <!-- 紧凑单行模式 -->
+        <Grid x:Name="CompactModePanel">
+            <Grid.Style>
+                <Style TargetType="{x:Type Grid}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsCompact, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Border x:Name="CompactDropBox"
+                    Grid.Column="0"
+                    MinHeight="{StaticResource SUI.Control.Height}"
+                    Padding="10,0,4,0"
+                    BorderThickness="{StaticResource SUI.Border.Thickness}"
+                    CornerRadius="{StaticResource SUI.Radius.Control}"
+                    SnapsToDevicePixels="True">
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="Background" Value="{StaticResource SUI.Brush.Surface}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HasFiles, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                                <Setter Property="ToolTip" Value="{Binding DisplayFilePath, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                            </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.BorderHover}" />
+                            </MultiDataTrigger>
+                            <DataTrigger Binding="{Binding IsDragOver, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                                <Setter Property="Background" Value="{StaticResource SUI.Brush.Selected}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Accent}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=(Validation.HasError), RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                                <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Danger}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False">
+                                <Setter Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Margin="0,0,8,0"
                                VerticalAlignment="Center"
                                FontFamily="{StaticResource SUI.Font.Icon}"
-                               FontSize="{StaticResource SUI.Font.Size.Title}"
-                               Foreground="{StaticResource SUI.Brush.Accent}"
-                               Text="&#xE898;" />
-                </Border>
+                               FontSize="{StaticResource SUI.Font.Size.Body}"
+                               Text="&#xE8E5;">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextSecondary}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding HasFiles, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                                        <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Accent}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False">
+                                        <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
 
-                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                    <TextBlock FontWeight="SemiBold"
-                               Foreground="{StaticResource SUI.Brush.Text}"
-                               Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                               TextWrapping="Wrap" />
-                    <TextBlock Margin="0,4,0,0"
-                               FontSize="{StaticResource SUI.Font.Size.Caption}"
-                               Foreground="{StaticResource SUI.Brush.TextSecondary}"
-                               Text="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                               TextWrapping="Wrap">
+                    <TextBlock Grid.Column="1"
+                               VerticalAlignment="Center"
+                               Foreground="{StaticResource SUI.Brush.TextDisabled}"
+                               Text="{Binding PlaceholderText, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               TextTrimming="CharacterEllipsis">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Visibility" Value="Visible" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="">
+                                    <DataTrigger Binding="{Binding HasFiles, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
-                </StackPanel>
 
-                <StackPanel Grid.Column="2"
-                            Margin="{StaticResource SUI.Space.CardSlotGap}"
+                    <TextBlock Grid.Column="1"
+                               VerticalAlignment="Center"
+                               Text="{Binding DisplayCompactText, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               TextTrimming="CharacterEllipsis">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding HasFiles, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False">
+                                        <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <Button Grid.Column="2"
+                            Width="{StaticResource SUI.Control.IconButtonSize}"
+                            Height="{StaticResource SUI.Control.IconButtonSize}"
+                            MinWidth="{StaticResource SUI.Control.IconButtonSize}"
+                            MinHeight="{StaticResource SUI.Control.IconButtonSize}"
+                            Margin="4,0,0,0"
+                            Padding="0"
                             VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                    <Button x:Name="ClearButton"
-                            Margin="0,0,8,0"
+                            AutomationProperties.Name="清空已选文件"
                             Click="OnClearClick"
-                            Content="清空"
-                            Visibility="Collapsed" />
-                    <Button x:Name="BrowseButton"
-                            Click="OnBrowseClick"
-                            Content="{Binding ButtonText, RelativeSource={RelativeSource AncestorType=UserControl}}" />
-                </StackPanel>
-            </Grid>
-        </Border>
+                            ToolTip="清空">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SUI.Button.Ghost}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding HasFiles, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <TextBlock FontFamily="{StaticResource SUI.Font.Icon}"
+                                   FontSize="{StaticResource SUI.Font.Size.IconSmall}"
+                                   Foreground="{StaticResource SUI.Brush.TextSecondary}"
+                                   Text="&#xE711;" />
+                    </Button>
+                </Grid>
+            </Border>
 
-        <!-- 已选文件列表 -->
-        <ItemsControl x:Name="SelectedFilesList"
-                      Margin="0,8,0,0"
-                      ItemsSource="{Binding SelectedFiles, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                      Visibility="Collapsed">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Margin="{StaticResource SUI.Space.FileUploadItemMargin}"
-                            Padding="{StaticResource SUI.Space.FileUploadItemPadding}"
-                            Background="{StaticResource SUI.Brush.Surface}"
-                            BorderBrush="{StaticResource SUI.Brush.Border}"
-                            BorderThickness="{StaticResource SUI.Border.Thickness}"
-                            CornerRadius="{StaticResource SUI.Radius.Control}"
-                            ToolTip="{Binding}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0"
-                                       Margin="0,0,8,0"
-                                       VerticalAlignment="Center"
-                                       FontFamily="{StaticResource SUI.Font.Icon}"
-                                       FontSize="{StaticResource SUI.Font.Size.Body}"
-                                       Foreground="{StaticResource SUI.Brush.Accent}"
-                                       Text="&#xE8A5;" />
-                            <TextBlock Grid.Column="1"
-                                       VerticalAlignment="Center"
-                                       Foreground="{StaticResource SUI.Brush.Text}"
-                                       Text="{Binding}"
-                                       TextTrimming="CharacterEllipsis" />
-                            <Button Grid.Column="2"
-                                    Width="{StaticResource SUI.Control.IconButtonSize}"
-                                    Height="{StaticResource SUI.Control.IconButtonSize}"
-                                    MinHeight="{StaticResource SUI.Control.IconButtonSize}"
-                                    Margin="8,0,0,0"
-                                    Padding="0"
-                                    AutomationProperties.Name="移除文件"
-                                    Click="OnRemoveFileClick"
-                                    Style="{StaticResource SUI.Button.Ghost}"
-                                    Tag="{Binding}"
-                                    ToolTip="移除">
-                                <TextBlock FontFamily="{StaticResource SUI.Font.Icon}"
-                                           FontSize="{StaticResource SUI.Font.Size.IconSmall}"
-                                           Foreground="{StaticResource SUI.Brush.TextSecondary}"
-                                           Text="&#xE711;" />
-                            </Button>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </StackPanel>
+            <Button Grid.Column="1"
+                    Margin="8,0,0,0"
+                    Click="OnBrowseClick"
+                    Content="{Binding ButtonText, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+        </Grid>
+    </Grid>
 </UserControl>

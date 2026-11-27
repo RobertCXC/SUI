@@ -12,6 +12,12 @@ public partial class ButtonVariants : UserControl
     private int _clicks;
     private void OnAction(object sender, RoutedEventArgs e)
     {
-        if (e.OriginalSource is Button button) ActionResult.Text = $"已执行「{button.Content}」 · 第 {++_clicks} 次操作（仅演示）";
+        if (e.OriginalSource is Button button)
+        {
+            var label = button.Content is string text && !string.IsNullOrWhiteSpace(text)
+                ? text
+                : button.ToolTip?.ToString() ?? "图标按钮";
+            ActionResult.Text = $"已执行「{label}」 · 第 {++_clicks} 次操作（仅演示）";
+        }
     }
 }

@@ -59,6 +59,12 @@
                 Hint="拖动树与表格之间的竖线，或树下方的横线；拖动预览显示强调色细线与中央短握柄，松开后调整布局。">
                 <demo:DeviceWorkspace />
             </g:Example>
+            <g:Example
+                Title="高密度紧凑表格（SUI.DataGrid.Compact）"
+                Description="28px 紧凑行高，内置居中复选框（SUI.DataGrid.CheckBox）、表内紧凑编辑框（SUI.DataGrid.TextBox / SUI.DataGrid.ComboBox）与语义浅色状态高亮（SuccessSubtle / WarningSubtle / DangerSubtle / InfoSubtle / NeutralSubtle）。"
+                Hint="适合方案设置、通信参数列表与实时报文状态表格。">
+                <demo:CompactDataGridDemo />
+            </g:Example>
             <Border
                 Style="{StaticResource Gallery.Note}">
                 <StackPanel>

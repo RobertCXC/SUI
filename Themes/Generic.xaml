@@ -11,6 +11,10 @@
         <ResourceDictionary Source="/SUI;component/Styles/SettingsCardStyles.xaml" />
         <ResourceDictionary Source="/SUI;component/Styles/InfoBarStyles.xaml" />
         <ResourceDictionary Source="/SUI;component/Styles/NumberBoxStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/StepperStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/TimePickerStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/DateTimePickerStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/FileUploadStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="SUINavigationListBoxStyle" TargetType="ListBox">

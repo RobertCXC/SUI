@@ -1,5 +1,6 @@
 <UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:sui="clr-namespace:SUI;assembly=SUI"
     xmlns:demo="clr-namespace:SuiExamples"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="SuiExamples.InputValidation"
@@ -35,7 +36,7 @@
         <TextBlock
             Text="工作空间名称 · 3–24 个字符"
             Style="{StaticResource Example.Label}" />
-        <DockPanel>
+        <DockPanel Margin="0,0,0,14">
             <Button
                 DockPanel.Dock="Right"
                 Content="保存设置"
@@ -60,11 +61,45 @@
             </TextBox>
         </DockPanel>
         <TextBlock
+            Text="端口与时间参数校验（INotifyDataErrorInfo 同步红框与 ToolTip 提示）"
+            Style="{StaticResource Example.Label}" />
+        <WrapPanel Margin="0,0,0,4">
+            <StackPanel Margin="0,0,16,8">
+                <TextBlock Text="端口 (1–65535，默认触发异常可试 0)" Style="{StaticResource Example.Label}" />
+                <sui:SUINumberBox
+                    x:Name="ValidatedPort"
+                    Width="180"
+                    Minimum="0"
+                    Maximum="70000"
+                    Value="{Binding Port, Mode=TwoWay, ValidatesOnNotifyDataErrors=True}" />
+            </StackPanel>
+            <StackPanel Margin="0,0,16,8">
+                <TextBlock Text="执行时间（清空触发必填校验）" Style="{StaticResource Example.Label}" />
+                <sui:TimePicker
+                    Width="170"
+                    ShowSeconds="True"
+                    SelectedTime="{Binding ScheduleTime, Mode=TwoWay, ValidatesOnNotifyDataErrors=True}" />
+            </StackPanel>
+            <StackPanel Margin="0,0,16,8">
+                <TextBlock Text="生效日期时间（清空触发必填校验）" Style="{StaticResource Example.Label}" />
+                <sui:SUIDateTimePicker
+                    Width="210"
+                    SelectedDateTime="{Binding EffectiveAt, Mode=TwoWay, ValidatesOnNotifyDataErrors=True}" />
+            </StackPanel>
+            <StackPanel Margin="0,0,0,8">
+                <TextBlock Text="通信规约（选「请选择...」触发校验）" Style="{StaticResource Example.Label}" />
+                <ComboBox
+                    Width="160"
+                    ItemsSource="{Binding ProtocolModes}"
+                    SelectedItem="{Binding ProtocolMode, Mode=TwoWay, ValidatesOnNotifyDataErrors=True}" />
+            </StackPanel>
+        </WrapPanel>
+        <TextBlock
             x:Name="ValidationStatus"
-            Text="输入有效名称后保存，结果会显示在这里。"
+            Text="输入有效名称后保存，结果会显示在这里；将端口设为 0 或清空时间可体验红框校验。"
             TextWrapping="Wrap"
             Foreground="{StaticResource SUI.Brush.TextSecondary}"
-            Margin="0,10,0,0"
+            Margin="0,6,0,0"
             AutomationProperties.LiveSetting="Polite" />
     </StackPanel>
 </UserControl>

@@ -1,0 +1,133 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SuiExamples.CompactDataGridDemo"
+    FontFamily="{StaticResource SUI.Font.Family}"
+    FontSize="{StaticResource SUI.Font.Size.Body}"
+    Foreground="{StaticResource SUI.Brush.Text}"
+    UseLayoutRounding="True"
+    SnapsToDevicePixels="True">
+    <StackPanel>
+        <DataGrid
+            x:Name="CompactGrid"
+            Height="230"
+            Style="{StaticResource SUI.DataGrid.Compact}"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            SelectionMode="Single"
+            SelectionUnit="FullRow">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn
+                    Header="启用"
+                    Width="48"
+                    Binding="{Binding Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    ElementStyle="{StaticResource SUI.DataGrid.CheckBox}"
+                    EditingElementStyle="{StaticResource SUI.DataGrid.CheckBox}" />
+                <DataGridTextColumn
+                    Header="对象名"
+                    Width="140"
+                    Binding="{Binding ObjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    EditingElementStyle="{StaticResource SUI.DataGrid.TextBox}" />
+                <DataGridTextColumn
+                    Header="OAD"
+                    Width="92"
+                    IsReadOnly="True"
+                    Binding="{Binding Oad}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontFamily" Value="{StaticResource SUI.Font.Mono}" />
+                            <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Accent}" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridComboBoxColumn
+                    Header="操作类型"
+                    Width="104"
+                    SelectedItemBinding="{Binding Operation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    EditingElementStyle="{StaticResource SUI.DataGrid.ComboBox}">
+                    <DataGridComboBoxColumn.ItemsSource>
+                        <x:Array Type="{x:Type sys:String}" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <sys:String>读取</sys:String>
+                            <sys:String>设置</sys:String>
+                            <sys:String>动作</sys:String>
+                        </x:Array>
+                    </DataGridComboBoxColumn.ItemsSource>
+                </DataGridComboBoxColumn>
+                <DataGridTextColumn
+                    Header="延时 (ms)"
+                    Width="84"
+                    Binding="{Binding DelayMs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    EditingElementStyle="{StaticResource SUI.DataGrid.TextBox}" />
+                <DataGridTemplateColumn
+                    Header="对比结果"
+                    Width="*">
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource SUI.DataGridCell.Compact}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ResultState}" Value="Success">
+                                    <Setter Property="Background" Value="{StaticResource SUI.Brush.SuccessSubtle}" />
+                                    <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Success}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ResultState}" Value="Warning">
+                                    <Setter Property="Background" Value="{StaticResource SUI.Brush.WarningSubtle}" />
+                                    <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Warning}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ResultState}" Value="Danger">
+                                    <Setter Property="Background" Value="{StaticResource SUI.Brush.DangerSubtle}" />
+                                    <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Danger}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ResultState}" Value="Info">
+                                    <Setter Property="Background" Value="{StaticResource SUI.Brush.InfoSubtle}" />
+                                    <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Info}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ResultState}" Value="Neutral">
+                                    <Setter Property="Background" Value="{StaticResource SUI.Brush.NeutralSubtle}" />
+                                    <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextSecondary}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ResultText}" VerticalAlignment="Center" FontWeight="SemiBold" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="操作" Width="92">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Button Content="执行"
+                                        Style="{StaticResource SUI.Button.Compact}"
+                                        Height="22"
+                                        MinHeight="22"
+                                        Padding="6,0"
+                                        FontSize="{StaticResource SUI.Font.Size.Caption}"
+                                        Click="OnRunRowClick"
+                                        Tag="{Binding}" />
+                                <Button Margin="4,0,0,0"
+                                        Style="{StaticResource SUI.Button.Icon.Ghost.Compact}"
+                                        Width="22"
+                                        Height="22"
+                                        MinWidth="22"
+                                        MinHeight="22"
+                                        ToolTip="查看详情"
+                                        Click="OnInspectRowClick"
+                                        Tag="{Binding}">
+                                    <TextBlock FontFamily="{StaticResource SUI.Font.Icon}" FontSize="12" Text="&#xE946;" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock
+            x:Name="RowActionInfo"
+            Margin="0,10,0,0"
+            FontSize="{StaticResource SUI.Font.Size.Caption}"
+            Foreground="{StaticResource SUI.Brush.TextSecondary}"
+            Text="提示：点击「启用」复选框、双击「对象名/延时/操作类型」进入编辑态，或点击行尾操作按钮。" />
+    </StackPanel>
+</UserControl>

@@ -42,6 +42,10 @@
         </Setter>
     </Style>
 
+    <ControlTemplate x:Key="SUI.NumberBox.EmptyValidationTemplate">
+        <AdornedElementPlaceholder />
+    </ControlTemplate>
+
     <Style TargetType="{x:Type local:SUINumberBox}">
         <Setter Property="Background" Value="{StaticResource SUI.Brush.Surface}" />
         <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
@@ -51,6 +55,7 @@
         <Setter Property="Padding" Value="{StaticResource SUI.Space.TextBox.Padding}" />
         <Setter Property="FontFamily" Value="{StaticResource SUI.Font.Family}" />
         <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Body}" />
+        <Setter Property="Validation.ErrorTemplate" Value="{StaticResource SUI.NumberBox.EmptyValidationTemplate}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
@@ -98,6 +103,7 @@
                             <TextBlock x:Name="Placeholder"
                                        Grid.Column="0"
                                        Margin="{TemplateBinding Padding}"
+                                       Padding="{StaticResource SUI.Space.PlaceholderInset}"
                                        VerticalAlignment="Center"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        FontSize="{TemplateBinding FontSize}"
@@ -167,14 +173,32 @@
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter TargetName="OuterBorder" Property="Background" Value="{StaticResource SUI.Brush.SurfaceAlt}" />
                         </Trigger>
+                        <Trigger Property="Validation.HasError" Value="True">
+                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{StaticResource SUI.Brush.Danger}" />
+                            <Setter TargetName="FocusBottomBorder" Property="Background" Value="{StaticResource SUI.Brush.Danger}" />
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
                             <Setter TargetName="OuterBorder" Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
                             <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+                            <Setter TargetName="FocusBottomBorder" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="ToolTip" Value="{Binding Path=(Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- 紧凑数值输入框：高度 28，与 SUI.TextBox.Compact 对齐。 -->
+    <Style x:Key="SUI.NumberBox.Compact"
+           TargetType="{x:Type local:SUINumberBox}"
+           BasedOn="{StaticResource {x:Type local:SUINumberBox}}">
+        <Setter Property="MinHeight" Value="{StaticResource SUI.Control.Height.Compact}" />
+        <Setter Property="Padding" Value="{StaticResource SUI.Space.TextBox.Padding.Compact}" />
     </Style>
 </ResourceDictionary>

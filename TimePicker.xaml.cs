@@ -15,6 +15,7 @@ public partial class TimePicker : UserControl
 
     static TimePicker()
     {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(TimePicker), new FrameworkPropertyMetadata(typeof(TimePicker)));
         IsEnabledProperty.OverrideMetadata(typeof(TimePicker), new FrameworkPropertyMetadata(OnIsEnabledChanged));
     }
 

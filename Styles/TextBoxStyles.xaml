@@ -76,10 +76,10 @@
                             <Setter TargetName="PART_ContentHost" Property="VerticalAlignment" Value="Stretch" />
                             <Setter TargetName="Placeholder" Property="VerticalAlignment" Value="Top" />
                         </Trigger>
-                        <DataTrigger Binding="{Binding Path=(Validation.HasError), RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                        <Trigger Property="Validation.HasError" Value="True">
                             <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource SUI.Brush.Danger}" />
                             <Setter TargetName="FocusBottom" Property="Background" Value="{StaticResource SUI.Brush.Danger}" />
-                        </DataTrigger>
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="FocusBottom" Property="Visibility" Value="Collapsed" />
                         </Trigger>
@@ -172,10 +172,10 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="FocusBottom" Property="Visibility" Value="Visible" />
                         </MultiTrigger>
-                        <DataTrigger Binding="{Binding Path=(Validation.HasError), RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                        <Trigger Property="Validation.HasError" Value="True">
                             <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource SUI.Brush.Danger}" />
                             <Setter TargetName="FocusBottom" Property="Background" Value="{StaticResource SUI.Brush.Danger}" />
-                        </DataTrigger>
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="FocusBottom" Property="Visibility" Value="Collapsed" />
                         </Trigger>

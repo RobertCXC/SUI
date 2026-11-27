@@ -25,6 +25,11 @@ public partial class FileUpload : UserControl
     private bool _syncing;
     private bool _canAcceptDrag;
 
+    static FileUpload()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(FileUpload), new FrameworkPropertyMetadata(typeof(FileUpload)));
+    }
+
     public FileUpload()
     {
         InitializeComponent();
@@ -99,11 +104,62 @@ public partial class FileUpload : UserControl
         nameof(AllowDropFiles), typeof(bool), typeof(FileUpload), new FrameworkPropertyMetadata(true));
 
     /// <summary>是否允许从资源管理器拖放文件。</summary>
-    public bool AllowDropFiles
-    {
-        get => (bool)GetValue(AllowDropFilesProperty);
-        set => SetValue(AllowDropFilesProperty, value);
+    public bool AllowDropFiles
+    {
+        get => (bool)GetValue(AllowDropFilesProperty);
+        set => SetValue(AllowDropFilesProperty, value);
     }
+
+    public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register(
+        nameof(IsCompact), typeof(bool), typeof(FileUpload), new FrameworkPropertyMetadata(false));
+
+    /// <summary>是否启用紧凑单行路径模式。</summary>
+    public bool IsCompact
+    {
+        get => (bool)GetValue(IsCompactProperty);
+        set => SetValue(IsCompactProperty, value);
+    }
+
+    public static readonly DependencyProperty PlaceholderTextProperty = DependencyProperty.Register(
+        nameof(PlaceholderText), typeof(string), typeof(FileUpload), new FrameworkPropertyMetadata("点击浏览或拖放文件..."));
+
+    /// <summary>紧凑单行模式下尚未选择文件时的占位提示。</summary>
+    public string? PlaceholderText
+    {
+        get => (string?)GetValue(PlaceholderTextProperty);
+        set => SetValue(PlaceholderTextProperty, value);
+    }
+
+    private static readonly DependencyPropertyKey HasFilesPropertyKey = DependencyProperty.RegisterReadOnly(
+        nameof(HasFiles), typeof(bool), typeof(FileUpload), new FrameworkPropertyMetadata(false));
+
+    public static readonly DependencyProperty HasFilesProperty = HasFilesPropertyKey.DependencyProperty;
+    /// <summary>当前是否已选择至少一个文件。</summary>
+    public bool HasFiles => (bool)GetValue(HasFilesProperty);
+
+    public static readonly DependencyProperty ShowFullPathProperty = DependencyProperty.Register(
+        nameof(ShowFullPath), typeof(bool), typeof(FileUpload), new FrameworkPropertyMetadata(false, OnShowFullPathChanged));
+
+    /// <summary>紧凑单行模式下是否直接显示完整路径；默认 false（仅显示文件名，完整路径保留在 ToolTip 中）。</summary>
+    public bool ShowFullPath
+    {
+        get => (bool)GetValue(ShowFullPathProperty);
+        set => SetValue(ShowFullPathProperty, value);
+    }
+
+    private static readonly DependencyPropertyKey DisplayFilePathPropertyKey = DependencyProperty.RegisterReadOnly(
+        nameof(DisplayFilePath), typeof(string), typeof(FileUpload), new FrameworkPropertyMetadata(string.Empty));
+
+    public static readonly DependencyProperty DisplayFilePathProperty = DisplayFilePathPropertyKey.DependencyProperty;
+    /// <summary>已选文件的完整路径摘要（用于 ToolTip 或需要完整路径展示的场景）。</summary>
+    public string DisplayFilePath => (string)GetValue(DisplayFilePathProperty);
+
+    private static readonly DependencyPropertyKey DisplayCompactTextPropertyKey = DependencyProperty.RegisterReadOnly(
+        nameof(DisplayCompactText), typeof(string), typeof(FileUpload), new FrameworkPropertyMetadata(string.Empty));
+
+    public static readonly DependencyProperty DisplayCompactTextProperty = DisplayCompactTextPropertyKey.DependencyProperty;
+    /// <summary>紧凑单行模式下框内展示的文本（默认文件名，ShowFullPath=True 时为完整路径）。</summary>
+    public string DisplayCompactText => (string)GetValue(DisplayCompactTextProperty);
 
     public static readonly DependencyProperty SelectedFilePathProperty = DependencyProperty.Register(
         nameof(SelectedFilePath), typeof(string), typeof(FileUpload),
@@ -267,9 +323,32 @@ public partial class FileUpload : UserControl
             command.Execute(snapshot);
     }
 
+    private static void OnShowFullPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        ((FileUpload)d).UpdateListVisibility();
+    }
+
     private void UpdateListVisibility()
     {
-        var hasFiles = SelectedFiles != null && SelectedFiles.Count > 0;
+        var count = SelectedFiles?.Count ?? 0;
+        var hasFiles = count > 0;
+        SetValue(HasFilesPropertyKey, hasFiles);
+        var firstFile = count > 0 ? SelectedFiles![0] : string.Empty;
+        var fileName = count > 0 && Path.GetFileName(firstFile) is { Length: > 0 } name ? name : firstFile;
+        var compactFirst = ShowFullPath ? firstFile : fileName;
+
+        SetValue(DisplayFilePathPropertyKey, count switch
+        {
+            0 => string.Empty,
+            1 => firstFile,
+            _ => $"{firstFile} 等 {count} 个文件",
+        });
+        SetValue(DisplayCompactTextPropertyKey, count switch
+        {
+            0 => string.Empty,
+            1 => compactFirst,
+            _ => $"{compactFirst} 等 {count} 个文件",
+        });
         SelectedFilesList.Visibility = hasFiles ? Visibility.Visible : Visibility.Collapsed;
         ClearButton.Visibility = hasFiles ? Visibility.Visible : Visibility.Collapsed;
     }

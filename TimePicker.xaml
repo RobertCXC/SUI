@@ -113,15 +113,6 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <UserControl.Style>
-        <Style TargetType="{x:Type UserControl}">
-            <Setter Property="MinHeight" Value="{StaticResource SUI.Control.Height}" />
-            <Setter Property="FontFamily" Value="{StaticResource SUI.Font.Family}" />
-            <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Body}" />
-            <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
-        </Style>
-    </UserControl.Style>
-
     <Border x:Name="OuterBorder"
             BorderThickness="{StaticResource SUI.Border.Thickness}"
             CornerRadius="{StaticResource SUI.Radius.Control}"
@@ -141,6 +132,9 @@
                     <DataTrigger Binding="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
                         <Setter Property="Background" Value="{StaticResource SUI.Brush.SurfaceAlt}" />
                     </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=(Validation.HasError), RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                        <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Danger}" />
+                    </DataTrigger>
                     <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False">
                         <Setter Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
                         <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
@@ -157,7 +151,7 @@
 
             <TextBlock x:Name="PlaceholderBlock"
                        Grid.Column="0"
-                       Margin="{StaticResource SUI.Space.TextBox.Padding}"
+                       Margin="{Binding Padding, RelativeSource={RelativeSource AncestorType=UserControl}}"
                        Padding="{StaticResource SUI.Space.PlaceholderInset}"
                        VerticalAlignment="Center"
                        Foreground="{StaticResource SUI.Brush.TextDisabled}"
@@ -170,7 +164,7 @@
                      Grid.Column="0"
                      Style="{x:Null}"
                      MinHeight="0"
-                     Padding="{StaticResource SUI.Space.TextBox.Padding}"
+                     Padding="{Binding Padding, RelativeSource={RelativeSource AncestorType=UserControl}}"
                      Background="Transparent"
                      BorderThickness="0"
                      FontFamily="{Binding FontFamily, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -201,6 +195,9 @@
                 <ToggleButton.Style>
                     <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource SUI.TimePicker.ToggleButtonStyle}">
                         <Style.Triggers>
+                            <DataTrigger Binding="{Binding MinHeight, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{StaticResource SUI.Control.Height.Compact}">
+                                <Setter Property="Width" Value="{StaticResource SUI.Control.PickerButtonWidth.Compact}" />
+                            </DataTrigger>
                             <DataTrigger Binding="{Binding IsOpen, ElementName=PART_Popup}" Value="True">
                                 <Setter Property="IsHitTestVisible" Value="False" />
                             </DataTrigger>
@@ -218,10 +215,10 @@
                     Margin="{StaticResource SUI.Border.Thickness}"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Bottom"
-                    Background="{StaticResource SUI.Brush.Accent}"
                     IsHitTestVisible="False">
                 <Border.Style>
                     <Style TargetType="{x:Type Border}">
+                        <Setter Property="Background" Value="{StaticResource SUI.Brush.Accent}" />
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
                             <MultiDataTrigger>
@@ -233,6 +230,9 @@
                             </MultiDataTrigger>
                             <DataTrigger Binding="{Binding IsDropDownOpen, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
                                 <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=(Validation.HasError), RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                                <Setter Property="Background" Value="{StaticResource SUI.Brush.Danger}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

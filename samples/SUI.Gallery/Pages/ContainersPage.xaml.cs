@@ -73,4 +73,99 @@ public partial class ContainersPage : UserControl
         var ok = SUIDialog.Confirm("将永久删除 128 MB 历史日志且无法恢复，是否继续？", "清理历史日志", "确认清理", "取消", isDanger: true, owner: Window.GetWindow(this));
         ToastHost.Show(ok ? "已执行日志清理。" : "已取消清理。", ok ? InfoSeverity.Warning : InfoSeverity.Info);
     }
+
+    private void OnOpenFormDialog(object sender, RoutedEventArgs e)
+    {
+        var nameInput = new TextBox { Width = 360 };
+        TextBoxAssist.SetPlaceholderText(nameInput, "输入方案名称（不可为空或 default）");
+        var descInput = new TextBox { Width = 360, Height = 72, AcceptsReturn = true, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
+        TextBoxAssist.SetPlaceholderText(descInput, "可选备注说明...");
+
+        var panel = new StackPanel();
+        panel.Children.Add(new TextBlock { Text = "方案名称", Margin = new Thickness(0, 0, 0, 6) });
+        panel.Children.Add(nameInput);
+        panel.Children.Add(new TextBlock { Text = "备注描述", Margin = new Thickness(0, 12, 0, 0) });
+        panel.Children.Add(descInput);
+
+        var result = SUIDialog.Show(panel, new SUIDialogOptions
+        {
+            Title = "新建升级方案（含校验与宽屏支持）",
+            PrimaryText = "创建方案",
+            CancelText = "取消",
+            Owner = Window.GetWindow(this),
+            MaxWidth = 600,
+            Closing = (_, args) =>
+            {
+                if (args.Result != SUIDialogResult.Primary) return;
+                var val = nameInput.Text.Trim();
+                if (string.IsNullOrEmpty(val))
+                {
+                    args.Cancel = true;
+                    args.ErrorMessage = "方案名称不能为空，请输入后重试。";
+                }
+                else if (string.Equals(val, "default", StringComparison.OrdinalIgnoreCase))
+                {
+                    args.Cancel = true;
+                    args.ErrorMessage = "方案名称「default」已存在，请更换名称。";
+                }
+            },
+        });
+
+        if (result == SUIDialogResult.Primary)
+        {
+            ToastHost.Show($"已创建方案「{nameInput.Text.Trim()}」。", InfoSeverity.Success, "SUIDialog 表单");
+        }
+    }
+
+    private void OnStepperPrev(object sender, RoutedEventArgs e)
+    {
+        UpgradeStepper.IsCurrentStepError = false;
+        UpgradeStepper.CurrentStepIndex = Math.Max(0, UpgradeStepper.CurrentStepIndex - 1);
+        UpdateStepperStatus();
+    }
+
+    private void OnStepperNext(object sender, RoutedEventArgs e)
+    {
+        UpgradeStepper.IsCurrentStepError = false;
+        UpgradeStepper.CurrentStepIndex = Math.Min(UpgradeStepper.Items.Count, UpgradeStepper.CurrentStepIndex + 1);
+        UpdateStepperStatus();
+    }
+
+    private void OnStepperToggleError(object sender, RoutedEventArgs e)
+    {
+        if (UpgradeStepper.CurrentStepIndex >= UpgradeStepper.Items.Count)
+            UpgradeStepper.CurrentStepIndex = UpgradeStepper.Items.Count - 1;
+        UpgradeStepper.IsCurrentStepError = !UpgradeStepper.IsCurrentStepError;
+        UpdateStepperStatus();
+    }
+
+    private void OnStepperReset(object sender, RoutedEventArgs e)
+    {
+        UpgradeStepper.IsCurrentStepError = false;
+        UpgradeStepper.CurrentStepIndex = 0;
+        UpdateStepperStatus();
+    }
+
+    private void OnStepperStepClicked(object sender, SUIStepClickedEventArgs e)
+    {
+        UpgradeStepper.IsCurrentStepError = false;
+        UpgradeStepper.CurrentStepIndex = e.Index;
+        UpdateStepperStatus();
+        if (e.Item is SUIStepItem step)
+            ToastHost.Show($"已回看第 {e.StepNumber} 步「{step.Title}」。", InfoSeverity.Info, "SUIStepper");
+    }
+
+    private void UpdateStepperStatus()
+    {
+        var idx = UpgradeStepper.CurrentStepIndex;
+        if (idx >= UpgradeStepper.Items.Count)
+        {
+            StepperStatusText.Text = "全部 5 个步骤已完成。";
+            return;
+        }
+        var title = (UpgradeStepper.Items[idx] as SUIStepItem)?.Title ?? string.Empty;
+        StepperStatusText.Text = UpgradeStepper.IsCurrentStepError
+            ? $"第 {idx + 1} 步「{title}」异常，请检查后重试。"
+            : $"当前处于第 {idx + 1} 步（{title}），已完成步骤支持点击回看。";
+    }
 }

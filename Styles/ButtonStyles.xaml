@@ -219,6 +219,108 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="SUI.Button.Success"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background" Value="{StaticResource SUI.Brush.Success}" />
+        <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextOnAccent}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Success}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsEnabled" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="{StaticResource SUI.Brush.SuccessHover}" />
+                <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.SuccessHover}" />
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsPressed" Value="True" />
+                    <Condition Property="IsEnabled" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="{StaticResource SUI.Brush.SuccessPressed}" />
+                <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.SuccessPressed}" />
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- 紧凑按钮（28px 高）：与 SUI.TextBox.Compact / 工具栏行内操作对齐。 -->
+    <Style x:Key="SUI.Button.Compact"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="MinHeight" Value="{StaticResource SUI.Control.Height.Compact}" />
+        <Setter Property="Padding" Value="{StaticResource SUI.Space.ButtonPadding.Compact}" />
+    </Style>
+
+    <Style x:Key="SUI.Button.Primary.Compact"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource SUI.Button.Primary}">
+        <Setter Property="MinHeight" Value="{StaticResource SUI.Control.Height.Compact}" />
+        <Setter Property="Padding" Value="{StaticResource SUI.Space.ButtonPadding.Compact}" />
+    </Style>
+
+    <Style x:Key="SUI.Button.Ghost.Compact"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource SUI.Button.Ghost}">
+        <Setter Property="MinHeight" Value="{StaticResource SUI.Control.Height.Compact}" />
+        <Setter Property="Padding" Value="{StaticResource SUI.Space.ButtonPadding.Compact}" />
+    </Style>
+
+    <Style x:Key="SUI.Button.Danger.Compact"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource SUI.Button.Danger}">
+        <Setter Property="MinHeight" Value="{StaticResource SUI.Control.Height.Compact}" />
+        <Setter Property="Padding" Value="{StaticResource SUI.Space.ButtonPadding.Compact}" />
+    </Style>
+
+    <Style x:Key="SUI.Button.Success.Compact"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource SUI.Button.Success}">
+        <Setter Property="MinHeight" Value="{StaticResource SUI.Control.Height.Compact}" />
+        <Setter Property="Padding" Value="{StaticResource SUI.Space.ButtonPadding.Compact}" />
+    </Style>
+
+    <!-- 纯图标方形按钮：适合工具栏、行尾操作与表格行内动作。 -->
+    <Style x:Key="SUI.Button.Icon"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Width" Value="{StaticResource SUI.Control.Height}" />
+        <Setter Property="Height" Value="{StaticResource SUI.Control.Height}" />
+        <Setter Property="MinWidth" Value="{StaticResource SUI.Control.Height}" />
+        <Setter Property="MinHeight" Value="{StaticResource SUI.Control.Height}" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <Style x:Key="SUI.Button.Icon.Compact"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource SUI.Button.Icon}">
+        <Setter Property="Width" Value="{StaticResource SUI.Control.Height.Compact}" />
+        <Setter Property="Height" Value="{StaticResource SUI.Control.Height.Compact}" />
+        <Setter Property="MinWidth" Value="{StaticResource SUI.Control.Height.Compact}" />
+        <Setter Property="MinHeight" Value="{StaticResource SUI.Control.Height.Compact}" />
+    </Style>
+
+    <Style x:Key="SUI.Button.Icon.Ghost"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource SUI.Button.Ghost}">
+        <Setter Property="Width" Value="{StaticResource SUI.Control.Height}" />
+        <Setter Property="Height" Value="{StaticResource SUI.Control.Height}" />
+        <Setter Property="MinWidth" Value="{StaticResource SUI.Control.Height}" />
+        <Setter Property="MinHeight" Value="{StaticResource SUI.Control.Height}" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <Style x:Key="SUI.Button.Icon.Ghost.Compact"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource SUI.Button.Icon.Ghost}">
+        <Setter Property="Width" Value="{StaticResource SUI.Control.Height.Compact}" />
+        <Setter Property="Height" Value="{StaticResource SUI.Control.Height.Compact}" />
+        <Setter Property="MinWidth" Value="{StaticResource SUI.Control.Height.Compact}" />
+        <Setter Property="MinHeight" Value="{StaticResource SUI.Control.Height.Compact}" />
+    </Style>
+
     <!-- 多选筛选药丸（ToggleButton 变体）：适合标签过滤、多条件开关。 -->
     <Style x:Key="SUI.ToggleButton.Pill" TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="{StaticResource SUI.Brush.Surface}" />

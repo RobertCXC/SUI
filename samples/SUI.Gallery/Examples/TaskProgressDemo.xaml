@@ -90,7 +90,31 @@
         <ProgressBar
             x:Name="TaskProgress"
             Value="0"
-            Margin="0,0,0,24" />
+            Margin="0,0,0,16" />
+        <TextBlock
+            Text="中型工作台进度条与语义色（SUI.ProgressBar.Medium.*，8px 圆角轨道）"
+            Style="{StaticResource Example.Muted}"
+            Margin="0,0,0,10" />
+        <Grid Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="116" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="24" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="24" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="传输中 (Info)" VerticalAlignment="Center" Style="{StaticResource Example.Muted}" />
+            <ProgressBar Grid.Row="0" Grid.Column="1" Value="62" Style="{StaticResource SUI.ProgressBar.Medium.Info}" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="1" Text="已完成 (Success)" VerticalAlignment="Center" Style="{StaticResource Example.Muted}" />
+            <ProgressBar Grid.Row="1" Grid.Column="1" Value="100" Style="{StaticResource SUI.ProgressBar.Medium.Success}" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="2" Text="已暂停 (Warning)" VerticalAlignment="Center" Style="{StaticResource Example.Muted}" />
+            <ProgressBar Grid.Row="2" Grid.Column="1" Value="48" Style="{StaticResource SUI.ProgressBar.Medium.Warning}" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="3" Text="校验失败 (Danger)" VerticalAlignment="Center" Style="{StaticResource Example.Muted}" />
+            <ProgressBar Grid.Row="3" Grid.Column="1" Value="35" Style="{StaticResource SUI.ProgressBar.Medium.Danger}" VerticalAlignment="Center" />
+        </Grid>
         <CheckBox
             x:Name="Busy"
             IsChecked="True"

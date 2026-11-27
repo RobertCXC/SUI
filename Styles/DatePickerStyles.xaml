@@ -433,15 +433,21 @@
         </Setter>
     </Style>
 
+    <ControlTemplate x:Key="SUI.DatePicker.EmptyValidationTemplate">
+        <AdornedElementPlaceholder />
+    </ControlTemplate>
+
     <Style TargetType="{x:Type DatePicker}">
         <Setter Property="Background" Value="{StaticResource SUI.Brush.Surface}" />
         <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
         <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
         <Setter Property="BorderThickness" Value="{StaticResource SUI.Border.Thickness}" />
         <Setter Property="MinHeight" Value="{StaticResource SUI.Control.Height}" />
+        <Setter Property="Padding" Value="{StaticResource SUI.Space.TextBox.Padding}" />
         <Setter Property="FontFamily" Value="{StaticResource SUI.Font.Family}" />
         <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Body}" />
         <Setter Property="CalendarStyle" Value="{StaticResource SUI.DatePicker.CalendarStyle}" />
+        <Setter Property="Validation.ErrorTemplate" Value="{StaticResource SUI.DatePicker.EmptyValidationTemplate}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
@@ -461,6 +467,7 @@
 
                             <DatePickerTextBox x:Name="PART_TextBox"
                                                Grid.Column="0"
+                                               Padding="{TemplateBinding Padding}"
                                                Focusable="{TemplateBinding Focusable}"
                                                Foreground="{TemplateBinding Foreground}"
                                                FontFamily="{TemplateBinding FontFamily}"
@@ -509,6 +516,13 @@
                         <Trigger Property="IsDropDownOpen" Value="True">
                             <Setter TargetName="FocusBottom" Property="Visibility" Value="Visible" />
                         </Trigger>
+                        <Trigger Property="Validation.HasError" Value="True">
+                            <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource SUI.Brush.Danger}" />
+                            <Setter TargetName="FocusBottom" Property="Background" Value="{StaticResource SUI.Brush.Danger}" />
+                        </Trigger>
+                        <Trigger Property="MinHeight" Value="{StaticResource SUI.Control.Height.Compact}">
+                            <Setter TargetName="PART_Button" Property="Width" Value="{StaticResource SUI.Control.PickerButtonWidth.Compact}" />
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
                             <Setter TargetName="Chrome" Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
@@ -519,5 +533,18 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="ToolTip" Value="{Binding Path=(Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- 紧凑日期选择：高度 28，与 SUI.TextBox.Compact 对齐。 -->
+    <Style x:Key="SUI.DatePicker.Compact"
+           TargetType="{x:Type DatePicker}"
+           BasedOn="{StaticResource {x:Type DatePicker}}">
+        <Setter Property="MinHeight" Value="{StaticResource SUI.Control.Height.Compact}" />
+        <Setter Property="Padding" Value="{StaticResource SUI.Space.TextBox.Padding.Compact}" />
     </Style>
 </ResourceDictionary>

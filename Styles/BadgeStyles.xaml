@@ -4,7 +4,7 @@
                     xmlns:converters="clr-namespace:SUI.Converters">
     <converters:BadgeCornerRadiusConverter x:Key="BadgeCornerRadiusConverter" />
     <Style TargetType="{x:Type local:SUIBadge}">
-        <Setter Property="Background" Value="{DynamicResource SUI.Brush.Hover}" />
+        <Setter Property="Background" Value="{DynamicResource SUI.Brush.NeutralSubtle}" />
         <Setter Property="Foreground" Value="{DynamicResource SUI.Brush.TextSecondary}" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -48,7 +48,7 @@
             </Trigger>
             <Trigger Property="Variant" Value="Info">
                 <Setter Property="Foreground" Value="{DynamicResource SUI.Brush.Info}" />
-                <Setter Property="Background" Value="{DynamicResource SUI.Brush.Selected}" />
+                <Setter Property="Background" Value="{DynamicResource SUI.Brush.InfoSubtle}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{DynamicResource SUI.Brush.TextDisabled}" />

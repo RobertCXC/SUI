@@ -15,6 +15,8 @@ public partial class ThemePalette : UserControl
             ("Text", "主要文字"), ("TextSecondary", "辅助文字"), ("TextDisabled", "禁用文字"),
             ("Border", "默认边框"), ("Hover", "悬停背景"), ("TextOnAccent", "强调色上文字"),
             ("Success", "成功状态"), ("Warning", "注意状态"), ("Danger", "危险操作"),
+            ("Info", "信息提示"), ("SuccessSubtle", "成功浅底"), ("WarningSubtle", "警告浅底"),
+            ("DangerSubtle", "危险浅底"), ("InfoSubtle", "信息浅底"), ("NeutralSubtle", "中性浅底"),
         ];
         Palette.ItemsSource = colors.Select(c =>
         {

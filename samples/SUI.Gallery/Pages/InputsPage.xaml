@@ -92,44 +92,71 @@
                 </StackPanel>
             </g:Example>
             <g:Example
-                Title="日期与时间选择（DatePicker / TimePicker）"
-                Description="原生 DatePicker 与 Calendar 已提供 SUI 隐式样式；TimePicker 支持直接输入与下拉分栏选择（时/分/秒）。"
-                Hint="DatePicker 支持 sui:TextBoxAssist.PlaceholderText；TimePicker 支持按 Enter 提交、Esc 撤销与步长配置。">
-                <WrapPanel>
-                    <StackPanel Margin="0,0,20,12">
-                        <TextBlock Text="开始日期（DatePicker）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
-                        <DatePicker Width="180" sui:TextBoxAssist.PlaceholderText="选择开始日期" />
-                    </StackPanel>
-                    <StackPanel Margin="0,0,20,12">
-                        <TextBlock Text="禁用日期" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
-                        <DatePicker Width="160" IsEnabled="False" />
-                    </StackPanel>
-                    <StackPanel Margin="0,0,20,12">
-                        <TextBlock Text="时间选择（HH:mm，5 分步长）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
-                        <sui:TimePicker Width="160" MinuteIncrement="5" PlaceholderText="选择执行时间" />
-                    </StackPanel>
-                    <StackPanel Margin="0,0,20,12">
-                        <TextBlock Text="含秒数（HH:mm:ss）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
-                        <sui:TimePicker Width="170" ShowSeconds="True" SelectedTime="09:30:15" />
-                    </StackPanel>
-                    <StackPanel Margin="0,0,0,12">
-                        <TextBlock Text="只读时间" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
-                        <sui:TimePicker Width="140" IsReadOnly="True" SelectedTime="18:00:00" />
-                    </StackPanel>
-                </WrapPanel>
+                Title="日期与时间选择（DatePicker / TimePicker / SUIDateTimePicker）"
+                Description="原生 DatePicker 与 Calendar 已提供 SUI 隐式样式；TimePicker 支持仅时间选择；SUIDateTimePicker 提供一体化日期 + 时分秒输入与联合弹出面板。"
+                Hint="SUIDateTimePicker 默认精确到秒（yyyy-MM-dd HH:mm:ss），可设 ShowSeconds=False 切换为 yyyy-MM-dd HH:mm，并支持「此刻 / 今天 / 清除」快捷项。">
+                <StackPanel>
+                    <WrapPanel>
+                        <StackPanel Margin="0,0,20,12">
+                            <TextBlock Text="开始日期（DatePicker）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                            <DatePicker Width="180" sui:TextBoxAssist.PlaceholderText="选择开始日期" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,20,12">
+                            <TextBlock Text="禁用日期" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                            <DatePicker Width="160" IsEnabled="False" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,20,12">
+                            <TextBlock Text="时间选择（HH:mm，5 分步长）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                            <sui:TimePicker Width="160" MinuteIncrement="5" PlaceholderText="选择执行时间" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,20,12">
+                            <TextBlock Text="含秒数（HH:mm:ss）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                            <sui:TimePicker Width="170" ShowSeconds="True" SelectedTime="09:30:15" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,0,12">
+                            <TextBlock Text="只读时间" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                            <sui:TimePicker Width="140" IsReadOnly="True" SelectedTime="18:00:00" />
+                        </StackPanel>
+                    </WrapPanel>
+                    <WrapPanel Margin="0,4,0,0">
+                        <StackPanel Margin="0,0,20,12">
+                            <TextBlock Text="日期时间含秒（SUIDateTimePicker）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                            <sui:SUIDateTimePicker Width="220" PlaceholderText="yyyy-MM-dd HH:mm:ss" SelectedDateTime="2026-11-27 14:30:00" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,20,12">
+                            <TextBlock Text="日期时间无秒（ShowSeconds=False）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                            <sui:SUIDateTimePicker Width="200" ShowSeconds="False" PlaceholderText="yyyy-MM-dd HH:mm" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,20,12">
+                            <TextBlock Text="紧凑模式（SUI.DateTimePicker.Compact）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                            <sui:SUIDateTimePicker Width="200" Style="{StaticResource SUI.DateTimePicker.Compact}" PlaceholderText="立即执行可留空" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,0,12">
+                            <TextBlock Text="只读日期时间" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                            <sui:SUIDateTimePicker Width="210" IsReadOnly="True" SelectedDateTime="2026-11-27 08:00:00" />
+                        </StackPanel>
+                    </WrapPanel>
+                </StackPanel>
             </g:Example>
             <g:Example
                 Title="本地文件选择与拖放（FileUpload）"
-                Description="内置 Win32 OpenFileDialog 扩展名过滤、单选/多选与资源管理器拖放校验，自动列出已选文件并支持逐项移除。"
+                Description="内置 Win32 OpenFileDialog 扩展名过滤、单选/多选与资源管理器拖放校验，自动列出已选文件并支持逐项移除；同时支持紧凑单行模式（IsCompact / SUI.FileUpload.Compact）。"
                 Hint="点击「浏览文件」或直接从资源管理器拖入 .bin / .txt 文件体验效果；非目标扩展名拖入时会被拒绝。">
                 <StackPanel>
+                    <TextBlock Text="紧凑单行模式（IsCompact=True，高度 32px，适合参数表与工作台）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
                     <sui:FileUpload
-                        Title="选择固件或配置文件（单选）"
+                        IsCompact="True"
+                        Title="选择升级固件"
+                        PlaceholderText="选择或拖放 .bin / .hex 固件包..."
+                        Filter="固件文件 (*.bin;*.hex)|*.bin;*.hex|所有文件 (*.*)|*.*"
+                        Margin="0,0,0,14" />
+                    <sui:FileUpload
+                        Title="选择固件或配置文件（单选卡片）"
                         Description="支持 .bin、.txt 文件；点击按钮或直接拖放到此区域"
                         Filter="固件与文本 (*.bin;*.txt)|*.bin;*.txt|所有文件 (*.*)|*.*"
                         Margin="0,0,0,12" />
                     <sui:FileUpload
-                        Title="批量选择附件（多选）"
+                        Title="批量选择附件（多选卡片）"
                         Description="允许一次选择或拖入多个文件，支持逐项移除或一键清空"
                         AllowMultiple="True"
                         ButtonText="添加文件" />

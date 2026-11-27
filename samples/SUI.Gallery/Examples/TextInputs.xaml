@@ -62,27 +62,55 @@
                 Margin="0,0,0,16"
                 AutomationProperties.Name="只读标识" />
             <TextBlock
-                Text="紧凑参数输入（Height 28，适合高密度网格）"
+                Text="紧凑参数输入（Height 28，适合高密度参数网格）"
                 Style="{StaticResource Example.Label}" />
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="8" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+            <WrapPanel>
                 <TextBox
+                    Width="120"
+                    Margin="0,0,8,8"
                     Style="{StaticResource SUI.TextBox.Compact}"
                     sui:TextBoxAssist.PlaceholderText="寄存器地址"
                     AutomationProperties.Name="紧凑文本框" />
                 <ComboBox
-                    Grid.Column="2"
+                    Width="112"
+                    Margin="0,0,8,8"
                     Style="{StaticResource SUI.ComboBox.Compact}"
                     SelectedIndex="0"
                     AutomationProperties.Name="紧凑下拉框">
                     <ComboBoxItem Content="115200 bps" />
                     <ComboBoxItem Content="9600 bps" />
                 </ComboBox>
-            </Grid>
+                <sui:SUINumberBox
+                    Width="96"
+                    Margin="0,0,8,8"
+                    Style="{StaticResource SUI.NumberBox.Compact}"
+                    Minimum="1"
+                    Maximum="65535"
+                    Value="500"
+                    AutomationProperties.Name="紧凑数值框" />
+                <DatePicker
+                    Width="136"
+                    Margin="0,0,8,8"
+                    Style="{StaticResource SUI.DatePicker.Compact}"
+                    sui:TextBoxAssist.PlaceholderText="紧凑日期"
+                    AutomationProperties.Name="紧凑日期框" />
+                <sui:TimePicker
+                    Width="116"
+                    Margin="0,0,8,8"
+                    Style="{StaticResource SUI.TimePicker.Compact}"
+                    PlaceholderText="紧凑时间"
+                    AutomationProperties.Name="紧凑时间框" />
+                <sui:SUIDateTimePicker
+                    Width="188"
+                    Margin="0,0,8,8"
+                    Style="{StaticResource SUI.DateTimePicker.Compact}"
+                    PlaceholderText="紧凑日期时间"
+                    AutomationProperties.Name="紧凑日期时间框" />
+                <Button
+                    Margin="0,0,0,8"
+                    Content="写入"
+                    Style="{StaticResource SUI.Button.Primary.Compact}" />
+            </WrapPanel>
         </StackPanel>
         <StackPanel
             Grid.Column="2">

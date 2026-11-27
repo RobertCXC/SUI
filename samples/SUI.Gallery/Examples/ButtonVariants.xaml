@@ -37,21 +37,19 @@
                 <ColumnDefinition
                     Width="*" />
                 <ColumnDefinition
-                    Width="150" />
+                    Width="170" />
                 <ColumnDefinition
-                    Width="150" />
+                    Width="170" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition
-                    Height="Auto" />
-                <RowDefinition
-                    Height="52" />
-                <RowDefinition
-                    Height="52" />
-                <RowDefinition
-                    Height="52" />
-                <RowDefinition
-                    Height="52" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="52" />
+                <RowDefinition Height="52" />
+                <RowDefinition Height="52" />
+                <RowDefinition Height="52" />
+                <RowDefinition Height="52" />
+                <RowDefinition Height="52" />
+                <RowDefinition Height="52" />
             </Grid.RowDefinitions>
             <TextBlock
                 Text="用途 / 样式"
@@ -64,96 +62,82 @@
                 Grid.Column="2"
                 Text="禁用"
                 Style="{StaticResource Example.Label}" />
-            <StackPanel
-                Grid.Row="1"
-                VerticalAlignment="Center">
-                <TextBlock
-                    Text="Default"
-                    FontWeight="SemiBold" />
-                <TextBlock
-                    Text="一般操作 · 常用交互"
-                    Style="{StaticResource Example.Muted}" />
+
+            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                <TextBlock Text="Default" FontWeight="SemiBold" />
+                <TextBlock Text="一般操作 · 常用交互" Style="{StaticResource Example.Muted}" />
             </StackPanel>
-            <Button
-                Grid.Row="1"
-                Grid.Column="1"
-                Content="默认操作"
-                Margin="0,8,16,8" />
-            <Button
-                Grid.Row="1"
-                Grid.Column="2"
-                Content="默认操作"
-                IsEnabled="False"
-                Margin="0,8,0,8" />
-            <StackPanel
-                Grid.Row="2"
-                VerticalAlignment="Center">
-                <TextBlock
-                    Text="Primary"
-                    FontWeight="SemiBold" />
-                <TextBlock
-                    Text="主要操作 · 强调关键行动"
-                    Style="{StaticResource Example.Muted}" />
+            <Button Grid.Row="1" Grid.Column="1" Content="默认操作" Margin="0,8,16,8" />
+            <Button Grid.Row="1" Grid.Column="2" Content="默认操作" IsEnabled="False" Margin="0,8,0,8" />
+
+            <StackPanel Grid.Row="2" VerticalAlignment="Center">
+                <TextBlock Text="Primary" FontWeight="SemiBold" />
+                <TextBlock Text="主要操作 · 强调关键行动" Style="{StaticResource Example.Muted}" />
             </StackPanel>
-            <Button
-                Grid.Row="2"
-                Grid.Column="1"
-                Content="保存更改"
-                Style="{StaticResource SUI.Button.Primary}"
-                Margin="0,8,16,8" />
-            <Button
-                Grid.Row="2"
-                Grid.Column="2"
-                Content="保存更改"
-                Style="{StaticResource SUI.Button.Primary}"
-                IsEnabled="False"
-                Margin="0,8,0,8" />
-            <StackPanel
-                Grid.Row="3"
-                VerticalAlignment="Center">
-                <TextBlock
-                    Text="Ghost"
-                    FontWeight="SemiBold" />
-                <TextBlock
-                    Text="轻量操作 · 保持视觉轻盈"
-                    Style="{StaticResource Example.Muted}" />
+            <Button Grid.Row="2" Grid.Column="1" Content="保存更改" Style="{StaticResource SUI.Button.Primary}" Margin="0,8,16,8" />
+            <Button Grid.Row="2" Grid.Column="2" Content="保存更改" Style="{StaticResource SUI.Button.Primary}" IsEnabled="False" Margin="0,8,0,8" />
+
+            <StackPanel Grid.Row="3" VerticalAlignment="Center">
+                <TextBlock Text="Success" FontWeight="SemiBold" />
+                <TextBlock Text="完成确认 · 启动执行" Style="{StaticResource Example.Muted}" />
             </StackPanel>
-            <Button
-                Grid.Row="3"
-                Grid.Column="1"
-                Content="稍后处理"
-                Style="{StaticResource SUI.Button.Ghost}"
-                Margin="0,8,16,8" />
-            <Button
-                Grid.Row="3"
-                Grid.Column="2"
-                Content="稍后处理"
-                Style="{StaticResource SUI.Button.Ghost}"
-                IsEnabled="False"
-                Margin="0,8,0,8" />
-            <StackPanel
-                Grid.Row="4"
-                VerticalAlignment="Center">
-                <TextBlock
-                    Text="Danger"
-                    FontWeight="SemiBold" />
-                <TextBlock
-                    Text="谨慎操作 · 提醒注意风险"
-                    Style="{StaticResource Example.Muted}" />
+            <Button Grid.Row="3" Grid.Column="1" Content="执行升级" Style="{StaticResource SUI.Button.Success}" Margin="0,8,16,8" />
+            <Button Grid.Row="3" Grid.Column="2" Content="执行升级" Style="{StaticResource SUI.Button.Success}" IsEnabled="False" Margin="0,8,0,8" />
+
+            <StackPanel Grid.Row="4" VerticalAlignment="Center">
+                <TextBlock Text="Ghost" FontWeight="SemiBold" />
+                <TextBlock Text="轻量操作 · 保持视觉轻盈" Style="{StaticResource Example.Muted}" />
             </StackPanel>
-            <Button
-                Grid.Row="4"
-                Grid.Column="1"
-                Content="移除项目"
-                Style="{StaticResource SUI.Button.Danger}"
-                Margin="0,8,16,8" />
-            <Button
-                Grid.Row="4"
-                Grid.Column="2"
-                Content="移除项目"
-                Style="{StaticResource SUI.Button.Danger}"
-                IsEnabled="False"
-                Margin="0,8,0,8" />
+            <Button Grid.Row="4" Grid.Column="1" Content="稍后处理" Style="{StaticResource SUI.Button.Ghost}" Margin="0,8,16,8" />
+            <Button Grid.Row="4" Grid.Column="2" Content="稍后处理" Style="{StaticResource SUI.Button.Ghost}" IsEnabled="False" Margin="0,8,0,8" />
+
+            <StackPanel Grid.Row="5" VerticalAlignment="Center">
+                <TextBlock Text="Danger" FontWeight="SemiBold" />
+                <TextBlock Text="谨慎操作 · 提醒注意风险" Style="{StaticResource Example.Muted}" />
+            </StackPanel>
+            <Button Grid.Row="5" Grid.Column="1" Content="移除项目" Style="{StaticResource SUI.Button.Danger}" Margin="0,8,16,8" />
+            <Button Grid.Row="5" Grid.Column="2" Content="移除项目" Style="{StaticResource SUI.Button.Danger}" IsEnabled="False" Margin="0,8,0,8" />
+
+            <StackPanel Grid.Row="6" VerticalAlignment="Center">
+                <TextBlock Text="Compact (28px)" FontWeight="SemiBold" />
+                <TextBlock Text="高密度行内与工具栏按钮" Style="{StaticResource Example.Muted}" />
+            </StackPanel>
+            <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="读取" Style="{StaticResource SUI.Button.Compact}" Margin="0,0,6,0" />
+                <Button Content="应用" Style="{StaticResource SUI.Button.Primary.Compact}" Margin="0,0,6,0" />
+                <Button Content="通过" Style="{StaticResource SUI.Button.Success.Compact}" />
+            </StackPanel>
+            <StackPanel Grid.Row="6" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="读取" Style="{StaticResource SUI.Button.Compact}" IsEnabled="False" Margin="0,0,6,0" />
+                <Button Content="应用" Style="{StaticResource SUI.Button.Primary.Compact}" IsEnabled="False" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="7" VerticalAlignment="Center">
+                <TextBlock Text="Icon（纯图标方钮）" FontWeight="SemiBold" />
+                <TextBlock Text="32px / 28px 紧凑 · 边框与 Ghost" Style="{StaticResource Example.Muted}" />
+            </StackPanel>
+            <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Style="{StaticResource SUI.Button.Icon}" ToolTip="刷新端口" Margin="0,0,6,0">
+                    <TextBlock FontFamily="{StaticResource SUI.Font.Icon}" FontSize="14" Text="&#xE72C;" />
+                </Button>
+                <Button Style="{StaticResource SUI.Button.Icon.Compact}" ToolTip="紧凑编辑" Margin="0,0,6,0">
+                    <TextBlock FontFamily="{StaticResource SUI.Font.Icon}" FontSize="13" Text="&#xE70F;" />
+                </Button>
+                <Button Style="{StaticResource SUI.Button.Icon.Ghost}" ToolTip="更多设置" Margin="0,0,6,0">
+                    <TextBlock FontFamily="{StaticResource SUI.Font.Icon}" FontSize="14" Text="&#xE713;" />
+                </Button>
+                <Button Style="{StaticResource SUI.Button.Icon.Ghost.Compact}" ToolTip="紧凑删除">
+                    <TextBlock FontFamily="{StaticResource SUI.Font.Icon}" FontSize="12" Text="&#xE74D;" />
+                </Button>
+            </StackPanel>
+            <StackPanel Grid.Row="7" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Style="{StaticResource SUI.Button.Icon}" IsEnabled="False" ToolTip="禁用刷新" Margin="0,0,6,0">
+                    <TextBlock FontFamily="{StaticResource SUI.Font.Icon}" FontSize="14" Text="&#xE72C;" />
+                </Button>
+                <Button Style="{StaticResource SUI.Button.Icon.Ghost.Compact}" IsEnabled="False" ToolTip="禁用设置">
+                    <TextBlock FontFamily="{StaticResource SUI.Font.Icon}" FontSize="12" Text="&#xE713;" />
+                </Button>
+            </StackPanel>
         </Grid>
         <Border
             Background="{StaticResource SUI.Brush.SurfaceAlt}"

@@ -36,14 +36,18 @@
 
     <!-- 状态色 -->
     <SolidColorBrush x:Key="SUI.Brush.Success" po:Freeze="True" Color="#107C10" />
+    <SolidColorBrush x:Key="SUI.Brush.SuccessHover" po:Freeze="True" Color="#0E6F0E" />
+    <SolidColorBrush x:Key="SUI.Brush.SuccessPressed" po:Freeze="True" Color="#0B5A0B" />
     <SolidColorBrush x:Key="SUI.Brush.Warning" po:Freeze="True" Color="#BC4B09" />
     <SolidColorBrush x:Key="SUI.Brush.Danger" po:Freeze="True" Color="#C50F1F" />
     <SolidColorBrush x:Key="SUI.Brush.DangerHover" po:Freeze="True" Color="#A4262C" />
     <SolidColorBrush x:Key="SUI.Brush.DangerPressed" po:Freeze="True" Color="#751D24" />
     <SolidColorBrush x:Key="SUI.Brush.Info" po:Freeze="True" Color="#0F6CBD" />
 
-    <!-- 徽标浅色背景，与对应语义文字配对。 -->
+    <!-- 语义浅色背景，与对应语义文字配对。 -->
     <SolidColorBrush x:Key="SUI.Brush.SuccessSubtle" po:Freeze="True" Color="#EDF7ED" />
     <SolidColorBrush x:Key="SUI.Brush.WarningSubtle" po:Freeze="True" Color="#FFF4E5" />
     <SolidColorBrush x:Key="SUI.Brush.DangerSubtle" po:Freeze="True" Color="#FDE7E9" />
+    <SolidColorBrush x:Key="SUI.Brush.InfoSubtle" po:Freeze="True" Color="#E5F1FB" />
+    <SolidColorBrush x:Key="SUI.Brush.NeutralSubtle" po:Freeze="True" Color="#F0F0F0" />
 </ResourceDictionary>

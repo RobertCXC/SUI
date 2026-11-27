@@ -5,7 +5,46 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SUI;component/Themes/Colors.xaml" />
         <ResourceDictionary Source="/SUI;component/Themes/Metrics.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/CheckRadioStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/TextBoxStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/ComboBoxStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
+    <!-- 表内控件样式：适配 DataGridCheckBoxColumn / TextBox / ComboBox。 -->
+    <Style x:Key="SUI.DataGrid.CheckBox"
+           TargetType="{x:Type CheckBox}"
+           BasedOn="{StaticResource {x:Type CheckBox}}">
+        <Setter Property="MinHeight" Value="20" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Style.Triggers>
+            <Trigger Property="HasContent" Value="False">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+            </Trigger>
+            <DataTrigger Binding="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type DataGridCell}}}" Value="True">
+                <Setter Property="IsHitTestVisible" Value="False" />
+                <Setter Property="Focusable" Value="False" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="SUI.DataGrid.TextBox"
+           TargetType="{x:Type TextBox}"
+           BasedOn="{StaticResource SUI.TextBox.Compact}">
+        <Setter Property="MinHeight" Value="22" />
+        <Setter Property="Padding" Value="4,0" />
+        <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Caption}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="SUI.DataGrid.ComboBox"
+           TargetType="{x:Type ComboBox}"
+           BasedOn="{StaticResource SUI.ComboBox.Compact}">
+        <Setter Property="MinHeight" Value="22" />
+        <Setter Property="Padding" Value="4,0" />
+        <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Caption}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
 
     <Style x:Key="CommonDataGridHeaderGripperStyle" TargetType="{x:Type Thumb}">
         <Setter Property="Background" Value="Transparent" />
@@ -113,13 +152,23 @@
     </Style>
 
     <Style x:Key="CommonDataGridCellStyle" TargetType="{x:Type DataGridCell}">
+        <Style.Resources>
+            <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource SUI.DataGrid.CheckBox}" />
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource SUI.DataGrid.TextBox}">
+                <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Body}" />
+            </Style>
+            <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource SUI.DataGrid.ComboBox}">
+                <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Body}" />
+            </Style>
+        </Style.Resources>
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="{StaticResource SUI.Border.Thickness}" />
         <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
         <Setter Property="Padding" Value="{StaticResource SUI.Space.DataGridCellPadding}" />
-        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="FontFamily" Value="{StaticResource SUI.Font.Family}" />
         <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Body}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -140,9 +189,17 @@
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="CellChrome" Property="BorderBrush" Value="{StaticResource SUI.Brush.Focus}" />
+                        <Trigger Property="IsEditing" Value="True">
+                            <Setter TargetName="CellChrome" Property="Background" Value="{StaticResource SUI.Brush.Surface}" />
+                            <Setter TargetName="CellChrome" Property="BorderBrush" Value="Transparent" />
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsKeyboardFocused" Value="True" />
+                                <Condition Property="IsEditing" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="CellChrome" Property="BorderBrush" Value="{StaticResource SUI.Brush.Focus}" />
+                        </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
                             <Setter TargetName="CellChrome" Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
@@ -151,6 +208,60 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="SUI.DataGridColumnHeader.Compact"
+           TargetType="{x:Type DataGridColumnHeader}"
+           BasedOn="{StaticResource CommonDataGridColumnHeaderStyle}">
+        <Setter Property="Padding" Value="{StaticResource SUI.Space.DataGridHeaderPadding.Compact}" />
+        <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Caption}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextSecondary}" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+    </Style>
+
+    <Style x:Key="SUI.DataGridCell.Compact"
+           TargetType="{x:Type DataGridCell}"
+           BasedOn="{StaticResource CommonDataGridCellStyle}">
+        <Style.Resources>
+            <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource SUI.DataGrid.CheckBox}" />
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource SUI.DataGrid.TextBox}" />
+            <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource SUI.DataGrid.ComboBox}" />
+        </Style.Resources>
+        <Setter Property="Padding" Value="{StaticResource SUI.Space.DataGridCellPadding.Compact}" />
+        <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Caption}" />
+    </Style>
+
+    <Style x:Key="SUI.DataGridRow.Compact" TargetType="{x:Type DataGridRow}">
+        <Setter Property="Background" Value="{StaticResource SUI.Brush.Surface}" />
+        <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+        <Setter Property="MinHeight" Value="{StaticResource SUI.Control.DataGridRowHeight.Compact}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Style.Triggers>
+            <Trigger Property="AlternationIndex" Value="1">
+                <Setter Property="Background" Value="{StaticResource SUI.Brush.SurfaceAlt}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource SUI.Brush.Hover}" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource SUI.Brush.Selected}" />
+                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsSelected" Value="True" />
+                    <Condition Property="{x:Static primitives:Selector.IsSelectionActiveProperty}" Value="False" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="{StaticResource SUI.Brush.Selected}" />
+                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+            </MultiTrigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
+                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="CommonDataGridStyle" TargetType="{x:Type DataGrid}">
@@ -210,4 +321,14 @@
     </Style>
 
     <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource CommonDataGridStyle}" />
+
+    <!-- 高密度紧凑表格（行高 28、紧凑表头与单元格、表内紧凑勾选/编辑控件）。 -->
+    <Style x:Key="SUI.DataGrid.Compact"
+           TargetType="{x:Type DataGrid}"
+           BasedOn="{StaticResource CommonDataGridStyle}">
+        <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Caption}" />
+        <Setter Property="ColumnHeaderStyle" Value="{StaticResource SUI.DataGridColumnHeader.Compact}" />
+        <Setter Property="CellStyle" Value="{StaticResource SUI.DataGridCell.Compact}" />
+        <Setter Property="RowStyle" Value="{StaticResource SUI.DataGridRow.Compact}" />
+    </Style>
 </ResourceDictionary>

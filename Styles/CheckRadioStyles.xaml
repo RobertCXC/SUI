@@ -21,7 +21,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <Border Background="Transparent"
+                    <Border x:Name="FocusBorder"
+                            Background="Transparent"
                             BorderBrush="Transparent"
                             BorderThickness="2"
                             CornerRadius="{StaticResource SUI.Radius.Control}"
@@ -70,7 +71,8 @@
                                   StrokeThickness="2"
                                   Visibility="Collapsed" />
 
-                            <ContentPresenter Grid.Column="1"
+                            <ContentPresenter x:Name="ContentHost"
+                                              Grid.Column="1"
                                               Margin="{StaticResource SUI.Space.CheckRadioContent}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -80,6 +82,9 @@
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="HasContent" Value="False">
+                            <Setter TargetName="ContentHost" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="BoxSurface" Property="Background" Value="{StaticResource SUI.Brush.Accent}" />
                             <Setter TargetName="BoxSurface" Property="BorderBrush" Value="{StaticResource SUI.Brush.Accent}" />
@@ -107,6 +112,9 @@
                             <Setter TargetName="BoxSurface" Property="Background" Value="{StaticResource SUI.Brush.AccentPressed}" />
                             <Setter TargetName="BoxSurface" Property="BorderBrush" Value="{StaticResource SUI.Brush.AccentPressed}" />
                         </MultiTrigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="FocusBorder" Property="BorderBrush" Value="{StaticResource SUI.Brush.Focus}" />
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
                             <Setter TargetName="BoxSurface" Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
@@ -118,6 +126,10 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="SUI.CheckBox.Compact" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}">
+        <Setter Property="MinHeight" Value="{StaticResource SUI.Control.Height.Compact}" />
     </Style>
 
     <Style TargetType="{x:Type RadioButton}">
@@ -137,7 +149,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
-                    <Border Background="Transparent"
+                    <Border x:Name="FocusBorder"
+                            Background="Transparent"
                             BorderBrush="Transparent"
                             BorderThickness="2"
                             CornerRadius="{StaticResource SUI.Radius.Control}"
@@ -166,7 +179,8 @@
                                      Fill="{StaticResource SUI.Brush.TextOnAccent}"
                                      Visibility="Collapsed" />
 
-                            <ContentPresenter Grid.Column="1"
+                            <ContentPresenter x:Name="ContentHost"
+                                              Grid.Column="1"
                                               Margin="{StaticResource SUI.Space.CheckRadioContent}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -176,6 +190,9 @@
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="HasContent" Value="False">
+                            <Setter TargetName="ContentHost" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="RadioSurface" Property="Fill" Value="{StaticResource SUI.Brush.Accent}" />
                             <Setter TargetName="RadioSurface" Property="Stroke" Value="{StaticResource SUI.Brush.Accent}" />
@@ -197,6 +214,9 @@
                             <Setter TargetName="RadioSurface" Property="Fill" Value="{StaticResource SUI.Brush.AccentPressed}" />
                             <Setter TargetName="RadioSurface" Property="Stroke" Value="{StaticResource SUI.Brush.AccentPressed}" />
                         </MultiTrigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="FocusBorder" Property="BorderBrush" Value="{StaticResource SUI.Brush.Focus}" />
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
                             <Setter TargetName="RadioSurface" Property="Fill" Value="{StaticResource SUI.Brush.Disabled}" />

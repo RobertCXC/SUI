@@ -25,6 +25,10 @@
         </Setter>
     </Style>
 
+    <ControlTemplate x:Key="SUI.ComboBox.EmptyValidationTemplate">
+        <AdornedElementPlaceholder />
+    </ControlTemplate>
+
     <Style TargetType="{x:Type ComboBox}">
         <Setter Property="local:ComboBoxAssist.EnableEditableMouseWheel" Value="True" />
         <Setter Property="Background" Value="{StaticResource SUI.Brush.Surface}" />
@@ -37,6 +41,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="FontFamily" Value="{StaticResource SUI.Font.Family}" />
         <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Body}" />
+        <Setter Property="Validation.ErrorTemplate" Value="{StaticResource SUI.ComboBox.EmptyValidationTemplate}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
@@ -102,7 +107,7 @@
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <Border Grid.Column="1" Width="{StaticResource SUI.Control.Height}">
+                                            <Border x:Name="ArrowHost" Grid.Column="1" Width="{StaticResource SUI.Control.PickerButtonWidth}">
                                             <Path x:Name="DropDownArrow"
                                                   Width="8"
                                                   Height="4"
@@ -117,6 +122,9 @@
                                             </Grid>
                                         </Border>
                                         <ControlTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding MinHeight, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="{StaticResource SUI.Control.Height.Compact}">
+                                                <Setter TargetName="ArrowHost" Property="Width" Value="{StaticResource SUI.Control.PickerButtonWidth.Compact}" />
+                                            </DataTrigger>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter TargetName="DropDownArrow" Property="Stroke" Value="{StaticResource SUI.Brush.Accent}" />
                                             </Trigger>
@@ -199,9 +207,20 @@
                         <Trigger Property="IsEditable" Value="True">
                             <Setter TargetName="DropDownToggle" Property="Grid.Column" Value="1" />
                             <Setter TargetName="DropDownToggle" Property="Grid.ColumnSpan" Value="1" />
-                            <Setter TargetName="DropDownToggle" Property="Width" Value="{StaticResource SUI.Control.Height}" />
+                            <Setter TargetName="DropDownToggle" Property="Width" Value="{StaticResource SUI.Control.PickerButtonWidth}" />
                             <Setter TargetName="SelectionBoxItem" Property="Visibility" Value="Hidden" />
                             <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEditable" Value="True" />
+                                <Condition Property="MinHeight" Value="{StaticResource SUI.Control.Height.Compact}" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="DropDownToggle" Property="Width" Value="{StaticResource SUI.Control.PickerButtonWidth.Compact}" />
+                        </MultiTrigger>
+                        <Trigger Property="Validation.HasError" Value="True">
+                            <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource SUI.Brush.Danger}" />
+                            <Setter TargetName="FocusBottom" Property="Background" Value="{StaticResource SUI.Brush.Danger}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="FocusBottom" Property="Visibility" Value="Collapsed" />
@@ -218,6 +237,9 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.BorderHover}" />
             </MultiTrigger>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="ToolTip" Value="{Binding Path=(Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}" />
+            </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
                 <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />

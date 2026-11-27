@@ -45,7 +45,7 @@
     </Style>
 
     <Style TargetType="{x:Type local:SUIInfoBar}">
-        <Setter Property="Background" Value="{StaticResource SUI.Brush.Selected}" />
+        <Setter Property="Background" Value="{StaticResource SUI.Brush.InfoSubtle}" />
         <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
         <Setter Property="BorderThickness" Value="{StaticResource SUI.Border.Thickness}" />
         <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />

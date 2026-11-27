@@ -64,8 +64,81 @@
                         <Button Content="错误 Toast" Tag="Error" Click="OnShowToast" Margin="0,0,8,8" />
                         <Button Content="普通 Toast" Tag="Info" Click="OnShowToast" Margin="0,0,8,8" />
                         <Button Content="确认弹窗" Click="OnOpenConfirmDialog" Margin="0,0,8,8" />
-                        <Button Content="危险确认弹窗" Style="{StaticResource SUI.Button.Danger}" Click="OnOpenDangerDialog" Margin="0,0,0,8" />
+                        <Button Content="危险确认弹窗" Style="{StaticResource SUI.Button.Danger}" Click="OnOpenDangerDialog" Margin="0,0,8,8" />
+                        <Button Content="表单校验弹窗" Style="{StaticResource SUI.Button.Primary}" Click="OnOpenFormDialog" Margin="0,0,0,8" />
                     </WrapPanel>
+                </StackPanel>
+            </g:Example>
+            <g:Example
+                Title="流程步骤条（SUIStepper）"
+                Description="支持步骤序号或图标、标题、副标题，清晰区分 Completed / Active / Pending / Error 四态，支持横向/纵向布局与点击已完成步骤回看。"
+                Hint="点击「上一步 / 下一步 / 切换异常态」观察状态流转；开启回看后可直接点击已完成的步骤序号回跳。">
+                <StackPanel>
+                    <sui:SUIStepper x:Name="UpgradeStepper"
+                                    CurrentStepIndex="2"
+                                    AllowCompletedClick="True"
+                                    StepClicked="OnStepperStepClicked"
+                                    Margin="0,0,0,14">
+                        <sui:SUIStepItem Title="参数准备" Description="校验固件与分包大小" />
+                        <sui:SUIStepItem Title="启动传输" Description="下发升级启动指令" />
+                        <sui:SUIStepItem Title="顺序写块" Description="写入第 128/256 帧" />
+                        <sui:SUIStepItem Title="位图检漏" Description="检查缺块并补发" />
+                        <sui:SUIStepItem Title="执行升级" Description="重启并运行 APP" />
+                    </sui:SUIStepper>
+                    <DockPanel Margin="0,0,0,14">
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                            <Button Content="上一步" Style="{StaticResource SUI.Button.Compact}" Click="OnStepperPrev" Margin="0,0,8,0" />
+                            <Button Content="下一步" Style="{StaticResource SUI.Button.Primary.Compact}" Click="OnStepperNext" Margin="0,0,8,0" />
+                            <Button Content="切换异常态" Style="{StaticResource SUI.Button.Danger.Compact}" Click="OnStepperToggleError" Margin="0,0,8,0" />
+                            <Button Content="重置" Style="{StaticResource SUI.Button.Ghost.Compact}" Click="OnStepperReset" />
+                        </StackPanel>
+                        <TextBlock x:Name="StepperStatusText"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource SUI.Text.Caption}"
+                                   Text="当前处于第 3 步（顺序写块），可点击第 1–2 步回看。" />
+                    </DockPanel>
+                    <Border Style="{StaticResource SUI.Border.Card}" Padding="14">
+                        <StackPanel>
+                            <TextBlock Text="纵向步骤条（Orientation=Vertical，独立 SUIStepItem.Status 驱动）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,10" />
+                            <sui:SUIStepper Orientation="Vertical">
+                                <sui:SUIStepItem Title="鉴权验证" Description="已完成安全密码校验" Status="Completed" />
+                                <sui:SUIStepItem Title="差分块写入" Description="第 42 块 CRC 校验失败" Status="Error" />
+                                <sui:SUIStepItem Title="执行重启" Description="等待前序步骤通过" Status="Pending" />
+                            </sui:SUIStepper>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </g:Example>
+            <g:Example
+                Title="可折叠分组（Expander）"
+                Description="Expander 默认渲染为 SUI 圆角卡片与 Fluent 展开箭头；也可通过 SUI.Expander.Plain 嵌入已有卡片容器内，避免双重边框。"
+                Hint="点击标题栏或使用键盘 Space / Enter 展开收起次要高级参数。">
+                <StackPanel>
+                    <Expander Header="高级通信参数（独立圆角卡片）" IsExpanded="True" Margin="0,0,0,10">
+                        <WrapPanel>
+                            <StackPanel Margin="0,0,16,4">
+                                <TextBlock Text="重发超时 (ms)" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,4" />
+                                <sui:SUINumberBox Width="140" Style="{StaticResource SUI.NumberBox.Compact}" Value="1500" />
+                            </StackPanel>
+                            <StackPanel Margin="0,0,16,4">
+                                <TextBlock Text="最大重试次数" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,4" />
+                                <sui:SUINumberBox Width="120" Style="{StaticResource SUI.NumberBox.Compact}" Value="3" />
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="操作者代码" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,4" />
+                                <TextBox Width="140" Style="{StaticResource SUI.TextBox.Compact}" Text="ADMIN01" />
+                            </StackPanel>
+                        </WrapPanel>
+                    </Expander>
+                    <Border Style="{StaticResource SUI.Border.Card}" Margin="0,0,0,10">
+                        <Expander Header="运行 APP 扩展参数（SUI.Expander.Plain 嵌套在卡片中）" Style="{StaticResource SUI.Expander.Plain}" IsExpanded="False">
+                            <TextBlock Text="AppName / Argc / Argv 等次要参数默认收起，减少主工作台视觉干扰。" Style="{StaticResource SUI.Text.Caption}" />
+                        </Expander>
+                    </Border>
+                    <Expander Header="不可用分组（Disabled）" IsEnabled="False">
+                        <TextBlock Text="禁用内容" />
+                    </Expander>
                 </StackPanel>
             </g:Example>
             <g:Example
