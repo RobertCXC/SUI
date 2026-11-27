@@ -10,6 +10,7 @@
         <ResourceDictionary Source="/SUI;component/Styles/BadgeStyles.xaml" />
         <ResourceDictionary Source="/SUI;component/Styles/SettingsCardStyles.xaml" />
         <ResourceDictionary Source="/SUI;component/Styles/InfoBarStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/NumberBoxStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="SUINavigationListBoxStyle" TargetType="ListBox">

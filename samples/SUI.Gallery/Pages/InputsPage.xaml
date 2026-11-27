@@ -1,5 +1,6 @@
-﻿<UserControl
+<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:sui="clr-namespace:SUI;assembly=SUI"
     xmlns:demo="clr-namespace:SuiExamples"
     xmlns:g="clr-namespace:SUI.Gallery.Controls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -23,6 +24,29 @@
                 Description="体验单行、多行、密码、只读和禁用状态。点击输入框，观察焦点底边。"
                 Hint="只读内容仍可选择和复制；禁用控件不参与键盘导航。">
                 <demo:TextInputs />
+            </g:Example>
+            <g:Example
+                Title="数值输入 NumberBox"
+                Description="支持整数与小数、范围限制、上下步进按钮、键盘方向键与聚焦滚轮微调。"
+                Hint="清空或输入越界数值后按 Enter 或移开焦点，观察自动规范化效果。">
+                <WrapPanel>
+                    <StackPanel Margin="0,0,20,12">
+                        <TextBlock Text="单文件上限 (MiB)" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                        <sui:SUINumberBox Width="160" Minimum="1" Maximum="1024" Step="16" Value="64" />
+                    </StackPanel>
+                    <StackPanel Margin="0,0,20,12">
+                        <TextBlock Text="阈值比例 (小数)" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                        <sui:SUINumberBox Width="160" Minimum="0" Maximum="1" Step="0.05" DecimalPlaces="2" Value="0.75" />
+                    </StackPanel>
+                    <StackPanel Margin="0,0,20,12">
+                        <TextBlock Text="允许空值 (无按钮)" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                        <sui:SUINumberBox Width="160" Minimum="0" Maximum="9999" AllowEmpty="True" ShowButtons="False" PlaceholderText="留空表示不限制" Value="{x:Null}" />
+                    </StackPanel>
+                    <StackPanel Margin="0,0,0,12">
+                        <TextBlock Text="禁用状态" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                        <sui:SUINumberBox Width="140" Value="30" IsEnabled="False" />
+                    </StackPanel>
+                </WrapPanel>
             </g:Example>
             <g:Example
                 Title="校验与操作反馈"
