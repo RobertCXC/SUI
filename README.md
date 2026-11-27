@@ -70,7 +70,7 @@ dotnet add package SUI
 需要固定版本时，可指定已发布版本，例如：
 
 ```powershell
-dotnet add package SUI --version 0.0.3
+dotnet add package SUI --version 0.0.9
 ```
 
 NuGet 会通过 `PackageReference` 管理包内的 `SUI.dll` 引用。安装后继续合并样式、添加 XAML 命名空间即可。
@@ -209,7 +209,7 @@ dotnet build SUI.slnx -c Release
 
 ## 📍 项目状态
 
-SUI 目前处于持续迭代阶段。`SUIBadge`、`SUICard` 和 `SUINavigationView` 已在当前源码中实现，可作为通用基础组件使用；新增徽标尚需包含该功能的 NuGet 版本发布后才能通过包引用使用；`FileUpload` 和 `TimePicker` 当前仍是基础控件骨架，具体交互能力会继续完善。
+SUI 目前处于持续迭代阶段。`SUIBadge`（自 `0.0.9` 起发布）、`SUICard` 和 `SUINavigationView` 已可作为通用基础组件使用；`SUISettingsCard`、`SUIInfoBar`、`SUIToastHost`、`SUIDialog`、`SUINumberBox` 等新增组件位于当前主干源码中；`FileUpload` 和 `TimePicker` 当前仍是基础控件骨架，具体交互能力会继续完善。
 
 ## ⚖️ 许可证
 

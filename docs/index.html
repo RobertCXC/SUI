@@ -51,26 +51,31 @@
     <aside class="note"><span class="note-icon" aria-hidden="true">i</span><p><strong>说明书与 Gallery，一起使用。</strong> 本页提供可复制的代码与 API；真实控件效果请运行 Gallery。<code>FileUpload</code> 与 <code>TimePicker</code> 仍为骨架，能力说明见<a href="#fileupload-与-timepicker">对应章节</a>。</p></aside>
     <article class="manual-content" aria-label="完整使用手册"><div class="manual-intro"><p>本文档对应当前仓库中的 SUI 实现，介绍项目接入方式、控件 API、样式资源和常见使用模式。</p>
 <p>SUI 是供 Windows 桌面应用使用的 WPF 控件与样式库，目标框架是 <code>net48</code>、<code>net8.0-windows</code>、<code>net10.0-windows</code>。推荐通过 <a href="https://www.nuget.org/packages/SUI">NuGet 包 SUI</a> 接入；需要修改库源码或联调时，也可以使用本地 <code>ProjectReference</code>。</p>
-<p>以下 NuGet 示例以已发布的 <code>0.0.3</code> 版本为例。手册 API 按当前仓库源码编写；安装其他版本或使用尚未发布的功能时，请核对对应版本的源码和发布说明。</p>
+<p>以下 NuGet 示例以当前已发布的 <code>0.0.9</code> 版本为例。手册正文按当前仓库主干源码编写，会在对应章节标明 <code>0.0.9 已提供</code> 与 <code>0.0.9 之后（主干源码）新增</code> 的能力边界；安装特定版本或使用尚未发版的新特性时，请核对对应版本的发布说明或改用本地源码引用。</p>
 </div>
 <section class="doc-section" aria-labelledby="快速开始"><div class="section-number">01 / SUI 手册</div><h2 id="快速开始">快速开始<a class="heading-link" href="#快速开始" aria-label="链接到：快速开始">#</a></h2>
 <h3 id="环境要求">环境要求<a class="heading-link" href="#环境要求" aria-label="链接到：环境要求">#</a></h3>
 <ul>
-<li>主要面向 Windows 10 / 11，宿主项目启用 WPF。</li>
-<li>当前源码同时生成 <code>net48</code>、<code>net8.0-windows</code>、<code>net10.0-windows</code> 三个版本：分别供 .NET Framework 4.8 / 4.8.1、.NET 8 / 9、.NET 10 项目使用；现代 .NET 5～7 不在本次支持范围内。</li>
-<li>编译仓库源码需要 .NET 10 SDK，以及 .NET Framework 4.8 目标包（Developer Pack / 引用程序集）。仓库明确使用 C# 12 编译；应用通过 NuGet 引用已编译的库时，无需因此升级其 C# 语言版本。</li>
-<li>运行用户只需应用对应的运行时：Framework 应用使用 4.8 / 4.8.1，现代 WPF 应用使用对应的 .NET Desktop Runtime；不要求安装 SDK。自包含发布由宿主应用决定。</li>
+<li><p>主要面向 Windows 10 / 11，宿主项目启用 WPF。</p>
+</li>
+<li><p>当前源码同时生成 <code>net48</code>、<code>net8.0-windows</code>、<code>net10.0-windows</code> 三个版本：分别供 .NET Framework 4.8 / 4.8.1、.NET 8 / 9、.NET 10 项目使用；现代 .NET 5～7 不在本次支持范围内。</p>
+</li>
+<li><p>编译仓库源码需要 .NET 10 SDK，以及 .NET Framework 4.8 目标包（Developer Pack / 引用程序集）。仓库明确使用 C# 12 编译；应用通过 NuGet 引用已编译的库时，无需因此升级其 C# 语言版本。</p>
+</li>
+<li><p>运行用户只需应用对应的运行时：Framework 应用使用 4.8 / 4.8.1，现代 WPF 应用使用对应的 .NET Desktop Runtime；不要求安装 SDK。自包含发布由宿主应用决定。</p>
+</li>
+<li><p><strong>版本能力对照</strong>：NuGet <code>0.0.9</code>（基于 <code>v0.0.9</code> / <code>52024e5</code>）已包含多目标框架支持、<code>SUIBadge</code> 以及 <code>SUI.Brush.SuccessSubtle</code> / <code>WarningSubtle</code> / <code>DangerSubtle</code> 浅色语义画刷；<code>Themes/Metrics.xaml</code> 独立拆分、下拉紧凑令牌（<code>cad9212</code>）及 <code>SUIInfoBar</code>、<code>SUIToastHost</code>、<code>SUIDialog</code>、<code>SUINumberBox</code>、<code>SUISettingsCard</code>、横向导航布局（<code>PaneLayout=&quot;Horizontal&quot;</code>）、<code>SUI.ListBox.Navigation</code>、<code>SUI.Separator</code>、<code>SUI.Text.*</code> 等属于 <code>0.0.9</code> 之后主干源码新增，需待后续版本发布或通过 <code>ProjectReference</code> 使用。</p>
+</li>
 </ul>
-<p>多目标能力对应当前源码及后续包含此改动的发布包，不代表下文示例中的已发布 <code>0.0.3</code> 包已经支持这些目标。</p>
 <p>一次打包仍生成一个 SUI NuGet 包、使用同一个版本号，内部按目标框架存放三份 <code>SUI.dll</code>，NuGet 自动选取匹配版本。手动引用 DLL 时，请从 <code>bin/Release/&lt;目标框架&gt;/</code> 选取对应文件，不要混用。</p>
 <h3 id="1-通过-nuget-安装-sui">1. 通过 NuGet 安装 SUI<a class="heading-link" href="#1-通过-nuget-安装-sui" aria-label="链接到：1. 通过 NuGet 安装 SUI">#</a></h3>
 <p>在你的 WPF 项目 <code>.csproj</code> 所在目录执行：</p>
-<div class="code-block"><div class="code-toolbar"><span>powershell</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="powershell 代码示例"><code class="language-powershell">dotnet add package SUI --version 0.0.3
+<div class="code-block"><div class="code-toolbar"><span>powershell</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="powershell 代码示例"><code class="language-powershell">dotnet add package SUI --version 0.0.9
 </code></pre></div>
 <p>也可以在 Visual Studio 的“管理 NuGet 程序包”中搜索 <code>SUI</code>，确认作者为 <code>RobertCXC</code> 后安装。包地址：<a href="https://www.nuget.org/packages/SUI">nuget.org/packages/SUI</a>。</p>
 <p>NuGet 会添加包引用，并在还原、构建时自动引用包中的 <code>SUI.dll</code>。对应的项目配置如下（与上面的安装命令二选一）：</p>
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;ItemGroup&gt;
-    &lt;PackageReference Include=&quot;SUI&quot; Version=&quot;0.0.3&quot; /&gt;
+    &lt;PackageReference Include=&quot;SUI&quot; Version=&quot;0.0.9&quot; /&gt;
 &lt;/ItemGroup&gt;
 </code></pre></div>
 <p>接下来合并样式并使用控件即可；只有运行仓库 Gallery 或修改库源码时才需要克隆仓库。</p>
@@ -119,7 +124,7 @@
 <section class="doc-section" aria-labelledby="接入项目"><div class="section-number">02 / SUI 手册</div><h2 id="接入项目">接入项目<a class="heading-link" href="#接入项目" aria-label="链接到：接入项目">#</a></h2>
 <h3 id="nuget-包引用推荐">NuGet 包引用（推荐）<a class="heading-link" href="#nuget-包引用推荐" aria-label="链接到：NuGet 包引用（推荐）">#</a></h3>
 <p>常规应用集成使用 <a href="https://www.nuget.org/packages/SUI">SUI NuGet 包</a>。在宿主 WPF 项目目录执行：</p>
-<div class="code-block"><div class="code-toolbar"><span>powershell</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="powershell 代码示例"><code class="language-powershell">dotnet add package SUI --version 0.0.3
+<div class="code-block"><div class="code-toolbar"><span>powershell</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="powershell 代码示例"><code class="language-powershell">dotnet add package SUI --version 0.0.9
 </code></pre></div>
 <p>如果希望安装 NuGet 源中的最新稳定版，可省略 <code>--version</code>：</p>
 <div class="code-block"><div class="code-toolbar"><span>powershell</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="powershell 代码示例"><code class="language-powershell">dotnet add package SUI
@@ -153,7 +158,7 @@
 <p><code>SUINavigationView</code> 的默认样式位于 <a href="https://github.com/RobertCXC/SUI/blob/main/Themes/Generic.xaml"><code>../Themes/Generic.xaml</code></a>，WPF 会通过默认样式键自动加载，不需要在应用中重复合并。</p>
 </section>
 <section class="doc-section" aria-labelledby="suibadge-状态徽标"><div class="section-number">03 / SUI 手册</div><h2 id="suibadge-状态徽标">SUIBadge 状态徽标<a class="heading-link" href="#suibadge-状态徽标" aria-label="链接到：SUIBadge 状态徽标">#</a></h2>
-<p>命名空间为 SUI，沿用 SUICard、SUINavigationView 的命名方式。用于连接状态、任务结果等简短信息，默认显示浅色胶囊（圆角半径为实际高度的一半，两端为半圆，上下边保持平直）；它是非交互 ContentControl，不占用 Tab 焦点，不提供点击、关闭、通知计数或连接逻辑。当前源码已实现，使用 NuGet 时须等待包含此控件的版本发布。</p>
+<p>命名空间为 SUI，沿用 SUICard、SUINavigationView 的命名方式。用于连接状态、任务结果等简短信息，默认显示浅色胶囊（圆角半径为实际高度的一半，两端为半圆，上下边保持平直）；它是非交互 ContentControl，不占用 Tab 焦点，不提供点击、关闭、通知计数或连接逻辑。自 NuGet <code>0.0.9</code> 起提供。</p>
 <p>声明 <code>xmlns:sui=&quot;clr-namespace:SUI;assembly=SUI&quot;</code> 后使用：</p>
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;sui:SUIBadge Content=&quot;已连接&quot; Variant=&quot;Success&quot; Shape=&quot;Pill&quot; /&gt;
 &lt;sui:SUIBadge Content=&quot;连接中&quot; Variant=&quot;Info&quot; /&gt;
@@ -735,6 +740,9 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 </section>
 <section class="doc-section" aria-labelledby="主题令牌"><div class="section-number">11 / SUI 手册</div><h2 id="主题令牌">主题令牌<a class="heading-link" href="#主题令牌" aria-label="链接到：主题令牌">#</a></h2>
 <h3 id="主题资源文件分工">主题资源文件分工<a class="heading-link" href="#主题资源文件分工" aria-label="链接到：主题资源文件分工">#</a></h3>
+<blockquote>
+<p>注：<code>Themes/Metrics.xaml</code> 的独立拆分及下拉紧凑令牌（<code>SUI.Space.ComboBoxItemPadding</code>、<code>SUI.Control.ComboBoxItemMinHeight</code>）提交于 <code>v0.0.9</code> 之后（提交 <code>cad9212</code>）；在 NuGet <code>0.0.9</code> 包中，尺寸与字号令牌仍合并在 <code>Themes/Colors.xaml</code> 中，且尚未包含上述下拉紧凑令牌。</p>
+</blockquote>
 <p><code>Themes/Colors.xaml</code> 仅保存颜色和画刷，<code>Themes/Metrics.xaml</code> 保存字体、字号、高度、边框厚度、圆角与间距。资源键名保持不变；自行加载单个样式字典时，库内已同时合并两个基础字典。宿主手动组合基础资源时，先加载 Colors、再加载 Metrics、最后加载控件样式。直接只加载 Colors 不再提供尺寸资源。</p>
 <p>下拉列表项内边距资源 <code>SUI.Space.ComboBoxItemPadding</code> 默认是 <code>6,0</code>（左、右各 6，上、下为 0），与输入框内边距分开管理。下拉项最小高度资源 <code>SUI.Control.ComboBoxItemMinHeight</code> 默认为 28，独立于输入框的默认高度 32；文字垂直居中，内容较高时仍可撑开。</p>
 <p>颜色与画刷定义在 <a href="https://github.com/RobertCXC/SUI/blob/main/Themes/Colors.xaml"><code>Themes/Colors.xaml</code></a>，字体、字号、圆角、间距及尺寸定义在 <a href="https://github.com/RobertCXC/SUI/blob/main/Themes/Metrics.xaml"><code>Themes/Metrics.xaml</code></a>，样式文件和你自己的界面都应该引用这些资源，不要写死颜色。引用方式统一为 <code>{StaticResource 键名}</code>。</p>
