@@ -53,6 +53,33 @@
                 <demo:InformationCards />
             </g:Example>
             <g:Example
+                Title="设置卡片、分组标题与分隔线"
+                Description="SUISettingsCard 统一左标题/副标题、右操作控件布局；配合 SUI.Text.SectionHeader 与 SUI.Separator 快速组织设置页。"
+                Hint="当未设置 Description 或 IconGlyph 时对应区域会自动折叠。">
+                <StackPanel>
+                    <TextBlock Text="常规偏好" Style="{StaticResource SUI.Text.SectionHeader}" Margin="0,0,0,8" />
+                    <sui:SUISettingsCard Title="启动时自动检查更新"
+                                         Description="仅在空闲时拉取版本清单，不阻塞启动。"
+                                         IconGlyph="&#xE895;"
+                                         Margin="0,0,0,8">
+                        <CheckBox Style="{StaticResource SUI.Switch}" IsChecked="True" />
+                    </sui:SUISettingsCard>
+                    <sui:SUISettingsCard Title="默认语言"
+                                         Description="更改后将在下次打开窗口时生效。"
+                                         IconGlyph="&#xE775;">
+                        <ComboBox Width="140" SelectedIndex="0">
+                            <ComboBoxItem Content="简体中文" />
+                            <ComboBoxItem Content="English" />
+                        </ComboBox>
+                    </sui:SUISettingsCard>
+                    <Separator Style="{StaticResource SUI.Separator}" />
+                    <TextBlock Text="维护与诊断" Style="{StaticResource SUI.Text.SectionHeader}" Margin="0,0,0,8" />
+                    <sui:SUISettingsCard Title="无图标精简条目">
+                        <Button Content="打开目录" />
+                    </sui:SUISettingsCard>
+                </StackPanel>
+            </g:Example>
+            <g:Example
                 Title="分组内容"
                 Description="用标签页组织同级信息，点击切换；禁用标签不会接收输入。"
                 Hint="选中标签以强调色下划线标识。Tab 与方向键可用于键盘操作。">
