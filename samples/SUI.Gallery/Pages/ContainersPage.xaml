@@ -19,7 +19,7 @@
             <TextBlock
                 Text="组织内容，也传达状态。用卡片承载摘要，用标签页建立层次，用及时反馈串联操作。"
                 Style="{StaticResource Gallery.PageSubtitle}" />
-            <g:Example Title="状态徽标 Badge" Description="按参考图展示浅色胶囊：两端半圆，上下平直；支持语义颜色及圆角矩形。" Hint="切换下拉选项检查状态绑定更新。">
+            <g:Example Title="状态徽标 Badge" Description="按参考图展示浅色胶囊：两端半圆，上下平直；支持语义颜色、圆角矩形及 ContentStringFormat 格式化。" Hint="切换下拉选项检查状态绑定更新。">
                 <StackPanel>
                     <WrapPanel>
                         <sui:SUIBadge Content="已连接" Variant="Success" Margin="0,0,12,12" />
@@ -42,10 +42,11 @@
                             <ComboBoxItem Content="连接中" Tag="Info" />
                             <ComboBoxItem Content="已断开" Tag="Danger" />
                         </ComboBox>
-                        <sui:SUIBadge Content="{Binding SelectedItem.Content, ElementName=BadgeStatus}" Variant="{Binding SelectedItem.Tag, ElementName=BadgeStatus}" />
+                        <sui:SUIBadge Content="{Binding SelectedItem.Content, ElementName=BadgeStatus}" Variant="{Binding SelectedItem.Tag, ElementName=BadgeStatus}" Margin="0,0,12,0" />
+                        <sui:SUIBadge Content="{Binding Items.Count, ElementName=BadgeStatus}" ContentStringFormat="共 {0} 种状态" Variant="Neutral" />
                     </StackPanel>
                 </StackPanel>
-                        </g:Example>
+            </g:Example>
             <g:Example Title="内嵌提示条 InfoBar 与轻提示 Toast" Description="用于保存结果、参数校验失败或环境变量覆盖告警；Toast 支持自动消失与手动关闭。" Hint="点击下方轻提示按钮可在页面右下角弹出 SUIToastHost 通知。">
                 <StackPanel>
                     <sui:SUIInfoBar x:Name="InteractiveInfoBar" Title="提示" Message="已启用自动保存，修改会同步到本地配置。" Severity="Info" Margin="0,0,0,8">
@@ -72,6 +73,87 @@
                 Description="图标、标题与描述组成清晰的信息摘要，适应不同宽度的内容区域。"
                 Hint="查看双列卡片与长描述卡片，比较不同内容的展示效果。">
                 <demo:InformationCards />
+            </g:Example>
+            <g:Example
+                Title="交互式卡片与扩展插槽（SUICard）"
+                Description="支持 IsInteractive / Command / Click 交互状态、IconGlyph 字形图标、标题自动换行、BadgeContent 状态徽标与 ActionContent 操作插槽。"
+                Hint="点击卡片触发 Click 事件；点击右侧操作按钮不会误触发卡片点击；Tab 聚焦后可用 Enter / Space 触发。">
+                <UniformGrid Columns="2">
+                    <sui:SUICard
+                        Margin="0,0,12,12"
+                        Title="串口调试与帧分析工具"
+                        Description="支持自定义波特率、十六进制收发与指令队列管理。"
+                        IconGlyph="&#xE839;"
+                        IsInteractive="True"
+                        Click="OnInteractiveCardClick">
+                        <sui:SUICard.BadgeContent>
+                            <sui:SUIBadge Content="需串口" Variant="Info" />
+                        </sui:SUICard.BadgeContent>
+                        <sui:SUICard.ActionContent>
+                            <Button Content="配置" Style="{StaticResource SUI.Button.Ghost}" Click="OnCardActionClick" Tag="串口调试与帧分析工具" />
+                        </sui:SUICard.ActionContent>
+                    </sui:SUICard>
+                    <sui:SUICard
+                        Margin="0,0,0,12"
+                        Title="本地固件校验与差异比对（支持较长标题自动换行）"
+                        Description="纯离线运行，无需硬件连接即可计算 CRC32 与生成差异补丁。"
+                        IconGlyph="&#xE8B7;"
+                        IconColor="{StaticResource SUI.Brush.Success}"
+                        IsInteractive="True"
+                        Click="OnInteractiveCardClick">
+                        <sui:SUICard.BadgeContent>
+                            <sui:SUIBadge Content="纯本地" Variant="Success" />
+                        </sui:SUICard.BadgeContent>
+                    </sui:SUICard>
+                    <sui:SUICard
+                        Margin="0,0,12,0"
+                        Title="远程诊断同步（暂未开放）"
+                        Description="禁用态下不响应点击与悬停反馈。"
+                        IconGlyph="&#xE753;"
+                        IsInteractive="True"
+                        IsEnabled="False">
+                        <sui:SUICard.BadgeContent>
+                            <sui:SUIBadge Content="计划中" Variant="Warning" />
+                        </sui:SUICard.BadgeContent>
+                    </sui:SUICard>
+                </UniformGrid>
+            </g:Example>
+            <g:Example
+                Title="分组容器（GroupBox 与 SUI.Border.Card）"
+                Description="GroupBox 默认渲染为带标题栏的圆角卡片容器，适合组织多字段表单；轻量场景可直接使用 SUI.Border.Card。"
+                Hint="当 GroupBox.Header 为空时标题栏自动折叠。">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Grid.Column="0" Header="串口连接参数">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="端口" VerticalAlignment="Center" Margin="0,0,12,8" />
+                            <ComboBox Grid.Row="0" Grid.Column="1" Style="{StaticResource SUI.ComboBox.Compact}" SelectedIndex="0" Margin="0,0,0,8">
+                                <ComboBoxItem Content="COM3" />
+                                <ComboBoxItem Content="COM4" />
+                            </ComboBox>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="超时 (ms)" VerticalAlignment="Center" Margin="0,0,12,0" />
+                            <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource SUI.TextBox.Compact}" Text="1500" />
+                        </Grid>
+                    </GroupBox>
+                    <Border Grid.Column="2" Style="{StaticResource SUI.Border.Card}">
+                        <StackPanel>
+                            <TextBlock Text="通用表单卡片（SUI.Border.Card）" FontWeight="SemiBold" Margin="0,0,0,6" />
+                            <TextBlock Text="统一 Surface 底色、1px Border 边框、Panel 圆角与 16px 内边距，可替代各应用重复编写的卡片容器样板。" Style="{StaticResource SUI.Text.Caption}" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
             </g:Example>
             <g:Example
                 Title="设置卡片、分组标题与分隔线"
@@ -105,6 +187,43 @@
                 Description="用标签页组织同级信息，点击切换；禁用标签不会接收输入。"
                 Hint="选中标签以强调色下划线标识。Tab 与方向键可用于键盘操作。">
                 <demo:ContentTabs />
+            </g:Example>
+            <g:Example
+                Title="可关闭文档页与横向滚动溢出（TabControlAssist）"
+                Description="通过 sui:TabControlAssist.IsClosable 开启关闭按钮（支持中键和 Ctrl+F4），通过 IsHeaderScrollable 在多标签溢出时提供左右滚动与全部标签下拉菜单。"
+                Hint="点击「新建标签页」增加标签观察溢出控制；首页标签已设置 IsClosable=False 保持常驻。">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <Button Content="新建标签页" Style="{StaticResource SUI.Button.Primary}" Click="OnAddClosableTab" Margin="0,0,8,0" />
+                        <Button Content="重置演示标签" Click="OnResetClosableTabs" />
+                    </StackPanel>
+                    <TabControl x:Name="ClosableTabs"
+                                Height="170"
+                                sui:TabControlAssist.IsClosable="True"
+                                sui:TabControlAssist.IsHeaderScrollable="True">
+                        <TabItem Header="应用中心（常驻）" sui:TabControlAssist.IsClosable="False">
+                            <TextBlock Margin="12" Text="该标签显式设置了 sui:TabControlAssist.IsClosable=&quot;False&quot;，不会显示关闭按钮。" TextWrapping="Wrap" />
+                        </TabItem>
+                        <TabItem>
+                            <TabItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="0,0,6,0"
+                                               VerticalAlignment="Center"
+                                               FontFamily="{StaticResource SUI.Font.Icon}"
+                                               Text="&#xE839;" />
+                                    <TextBlock VerticalAlignment="Center" Text="串口监视器 #1" />
+                                </StackPanel>
+                            </TabItem.Header>
+                            <TextBlock Margin="12" Text="点击标签右侧 ×、鼠标中键（在标签头按下并松开）或聚焦后按 Ctrl+F4 即可关闭此标签。" TextWrapping="Wrap" />
+                        </TabItem>
+                        <TabItem Header="帧解析工具 #2">
+                            <TextBlock Margin="12" Text="当标签总宽度超出容器宽度时，右侧自动出现左右滚动按钮与「全部标签」下拉菜单。" TextWrapping="Wrap" />
+                        </TabItem>
+                        <TabItem Header="固件烧录 #3">
+                            <TextBlock Margin="12" Text="标题栏区域支持直接滚动鼠标滚轮横向移动标签列表。" TextWrapping="Wrap" />
+                        </TabItem>
+                    </TabControl>
+                </StackPanel>
             </g:Example>
             <g:Example
                 Title="Tab 页面默认填充"

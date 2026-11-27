@@ -163,7 +163,6 @@ pwsh -File scripts/Build-Docs.ps1 -Check
 ```text
 SUI/
 ├─ .github/workflows/   # 文档站部署与版本发布流程
-├─ Assets/              # 图片和其他资源
 ├─ Converters/          # WPF 值转换器
 ├─ Controls/            # 通用控件（SUIBadge）
 ├─ Navigation/          # 导航控件及相关代码
@@ -177,8 +176,8 @@ SUI/
 │     └─ Examples/      # 页面使用的交互示例
 ├─ scripts/             # 文档生成脚本与网页模板
 ├─ SUICard.xaml         # 卡片控件
-├─ FileUpload.xaml      # 文件上传控件骨架
-├─ TimePicker.xaml      # 时间选择控件骨架
+├─ FileUpload.xaml      # 文件上传控件
+├─ TimePicker.xaml      # 时间选择控件
 ├─ SUIStyles.xaml       # 样式资源总入口
 ├─ SUI.csproj           # WPF 控件库项目
 └─ SUI.slnx             # 控件库与 Gallery 解决方案
@@ -209,7 +208,7 @@ dotnet build SUI.slnx -c Release
 
 ## 📍 项目状态
 
-SUI 目前处于持续迭代阶段。`SUIBadge`（自 `0.0.9` 起发布）、`SUICard` 和 `SUINavigationView` 已可作为通用基础组件使用；`SUISettingsCard`、`SUIInfoBar`、`SUIToastHost`、`SUIDialog`、`SUINumberBox` 等新增组件位于当前主干源码中；`FileUpload` 和 `TimePicker` 当前仍是基础控件骨架，具体交互能力会继续完善。
+SUI 目前处于持续迭代阶段。`SUIBadge`（自 `0.0.9` 起发布）、`SUICard`（支持交互与插槽）和 `SUINavigationView` 已可作为通用基础组件使用；`SUISettingsCard`、`SUIInfoBar`、`SUIToastHost`、`SUIDialog`、`SUINumberBox`、`TimePicker`、`FileUpload` 以及 `TabControlAssist`、`TextBoxAssist`、`GroupBox`、`DatePicker` / `Calendar` 和药丸筛选样式等能力均已在当前主干源码中提供。
 
 ## ⚖️ 许可证
 

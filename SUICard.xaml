@@ -4,95 +4,274 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="70"
-    d:DesignWidth="260"
+    d:DesignHeight="80"
+    d:DesignWidth="320"
+    FocusVisualStyle="{x:Null}"
+    SnapsToDevicePixels="True"
+    UseLayoutRounding="True"
     mc:Ignorable="d">
-    <Border
-        Padding="{StaticResource SUI.Space.DataGridCellPadding}"
-        Background="{StaticResource SUI.Brush.Surface}"
-        BorderBrush="{StaticResource SUI.Brush.Border}"
-        BorderThickness="{StaticResource SUI.Border.Thickness}"
-        CornerRadius="{StaticResource SUI.Radius.Panel}"
-        SnapsToDevicePixels="True">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="56" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SUI;component/Themes/Colors.xaml" />
+                <ResourceDictionary Source="/SUI;component/Themes/Metrics.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
-            <!--  左侧图标区域（默认一个带"M"的色块），如果设置了 IconSource，会覆盖显示在文字上方  -->
-            <Border
-                Grid.Column="0"
-                Width="48"
-                Height="48"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Background="{Binding IconColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                CornerRadius="{StaticResource SUI.Radius.Panel}">
-                <Grid>
-                    <!--  默认图标（一个字母）。当 IconSource 为空时可见；有图片时自动隐藏  -->
+    <Grid SnapsToDevicePixels="True">
+        <Border
+            x:Name="CardBorder"
+            Padding="{StaticResource SUI.Space.CardPadding}"
+            CornerRadius="{StaticResource SUI.Radius.Panel}"
+            BorderThickness="{StaticResource SUI.Border.Thickness}"
+            SnapsToDevicePixels="True">
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="Background" Value="{StaticResource SUI.Brush.Surface}" />
+                    <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsClickable, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True" />
+                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True" />
+                                <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Background" Value="{StaticResource SUI.Brush.Hover}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.BorderHover}" />
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsClickable, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True" />
+                                <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True" />
+                                <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Background" Value="{StaticResource SUI.Brush.Pressed}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.BorderHover}" />
+                        </MultiDataTrigger>
+                        <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False">
+                            <Setter Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- 左侧图标区域：优先显示 IconSource，其次 IconGlyph，默认显示 IconText -->
+                <Border
+                    Grid.Column="0"
+                    Width="{StaticResource SUI.Control.CardIconSize}"
+                    Height="{StaticResource SUI.Control.CardIconSize}"
+                    Margin="{StaticResource SUI.Space.CardIconGap}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="{Binding IconColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    CornerRadius="{StaticResource SUI.Radius.Panel}">
+                    <Grid>
+                        <!-- 默认单字/短文字图标 -->
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource SUI.Font.Family}"
+                            FontSize="{StaticResource SUI.Font.Size.Title}"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource SUI.Brush.TextOnAccent}"
+                            Text="{Binding IconText, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IconSource, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}" />
+                                                <Condition Binding="{Binding IconGlyph, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IconSource, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}" />
+                                                <Condition Binding="{Binding IconGlyph, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <!-- Fluent 图标字形（IconGlyph 非空且无 IconSource 时显示） -->
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource SUI.Font.Icon}"
+                            FontSize="{StaticResource SUI.Font.Size.Title}"
+                            Foreground="{StaticResource SUI.Brush.TextOnAccent}"
+                            Text="{Binding IconGlyph, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IconSource, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IconGlyph, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IconGlyph, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <!-- 图片图标（圆角裁剪；有 IconSource 时覆盖文字与字形） -->
+                        <Border
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            CornerRadius="{StaticResource SUI.Radius.Panel}">
+                            <Border.Background>
+                                <ImageBrush
+                                    AlignmentX="Center"
+                                    AlignmentY="Center"
+                                    ImageSource="{Binding IconSource, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    Stretch="Uniform" />
+                            </Border.Background>
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IconSource, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- 中间标题、状态徽标插槽与描述 -->
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource SUI.Font.Family}"
+                            FontSize="{StaticResource SUI.Font.Size.Title}"
+                            FontWeight="SemiBold"
+                            Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            TextWrapping="Wrap">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False">
+                                            <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <ContentPresenter
+                            x:Name="BadgeHost"
+                            Grid.Column="1"
+                            Margin="{StaticResource SUI.Space.CardSlotGap}"
+                            VerticalAlignment="Center"
+                            Content="{Binding BadgeContent, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <ContentPresenter.Style>
+                                <Style TargetType="{x:Type ContentPresenter}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding BadgeContent, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ContentPresenter.Style>
+                        </ContentPresenter>
+                    </Grid>
+
                     <TextBlock
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontSize="{StaticResource SUI.Font.Size.Title}"
-                        FontWeight="Bold"
-                        Foreground="{StaticResource SUI.Brush.TextOnAccent}"
-                        Text="{Binding IconText, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                        Margin="{StaticResource SUI.Space.CardDescriptionMargin}"
+                        FontFamily="{StaticResource SUI.Font.Family}"
+                        FontSize="{StaticResource SUI.Font.Size.Caption}"
+                        Text="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        TextWrapping="Wrap">
                         <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Visibility" Value="Collapsed" />
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextSecondary}" />
+                                <Setter Property="Visibility" Value="Visible" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IconSource, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Visible" />
+                                    <DataTrigger Binding="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False">
+                                        <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
+                </StackPanel>
 
-                    <!--  使用圆角边框 + ImageBrush 作为背景，保证图片显示为圆角  -->
-                    <Border
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        CornerRadius="{StaticResource SUI.Radius.Panel}">
-                        <Border.Background>
-                            <ImageBrush
-                                AlignmentX="Center"
-                                AlignmentY="Center"
-                                ImageSource="{Binding IconSource, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                Stretch="Uniform" />
-                        </Border.Background>
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="Visibility" Value="Visible" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IconSource, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                    </Border>
-                </Grid>
-            </Border>
+                <!-- 右侧操作插槽 -->
+                <ContentPresenter
+                    x:Name="ActionHost"
+                    Grid.Column="2"
+                    Margin="{StaticResource SUI.Space.CardSlotGap}"
+                    VerticalAlignment="Center"
+                    Content="{Binding ActionContent, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                    <ContentPresenter.Style>
+                        <Style TargetType="{x:Type ContentPresenter}">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ActionContent, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentPresenter.Style>
+                </ContentPresenter>
+            </Grid>
+        </Border>
 
-            <!--  右侧标题与描述  -->
-            <StackPanel
-                Grid.Column="1"
-                Margin="{StaticResource SUI.Space.ButtonPadding}"
-                VerticalAlignment="Center">
-                <TextBlock
-                    FontSize="{StaticResource SUI.Font.Size.Title}"
-                    FontWeight="SemiBold"
-                    Foreground="{StaticResource SUI.Brush.Text}"
-                    Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}" />
-                <TextBlock
-                    Margin="{StaticResource SUI.Space.MenuSeparatorMargin}"
-                    FontSize="{StaticResource SUI.Font.Size.Caption}"
-                    Foreground="{StaticResource SUI.Brush.TextSecondary}"
-                    Text="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    TextWrapping="Wrap" />
-            </StackPanel>
-        </Grid>
-    </Border>
+        <!-- 键盘焦点指示外框（仅可交互态可见） -->
+        <Border
+            BorderThickness="{StaticResource SUI.Border.FocusThickness}"
+            CornerRadius="{StaticResource SUI.Radius.Panel}"
+            IsHitTestVisible="False">
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsClickable, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True" />
+                                <Condition Binding="{Binding IsKeyboardFocused, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Focus}" />
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+    </Grid>
 </UserControl>

@@ -20,6 +20,8 @@
         <ResourceDictionary Source="/SUI;component/Styles/GridSplitterStyles.xaml" />
         <ResourceDictionary Source="/SUI;component/Styles/SwitchCheckBoxStyle.xaml" />
         <ResourceDictionary Source="/SUI;component/Styles/TreeStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/GroupBoxStyles.xaml" />
+        <ResourceDictionary Source="/SUI;component/Styles/DatePickerStyles.xaml" />
         <ResourceDictionary Source="/SUI;component/Styles/CommonStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 

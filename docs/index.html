@@ -119,6 +119,24 @@
 <td>已包含</td>
 <td>页面横幅、轻提示、模态确认框与带步进范围约束的数值框。</td>
 </tr>
+<tr>
+<td><code>SUICard</code> 交互与插槽、<code>TabControlAssist</code> 可关闭/滚动标签</td>
+<td>暂不包含</td>
+<td>已包含</td>
+<td><code>SUICard</code> 新增 <code>IsInteractive</code> / <code>Command</code> / <code>Click</code> / <code>IconGlyph</code> / <code>BadgeContent</code> / <code>ActionContent</code>；<code>TabControlAssist</code> 支持关闭按钮与标题溢出滚动。</td>
+</tr>
+<tr>
+<td><code>TextBoxAssist</code> 占位提示、紧凑样式、药丸筛选、<code>GroupBox</code>、<code>DatePicker</code> / <code>Calendar</code></td>
+<td>暂不包含</td>
+<td>已包含</td>
+<td><code>PlaceholderText</code> 附加属性、<code>SUI.*.Compact</code>、<code>SUI.RadioButton.Pill</code> / <code>SUI.ToggleButton.Pill</code>、<code>GroupBox</code>、<code>SUI.Border.Card</code> 及日期/日历隐式样式。</td>
+</tr>
+<tr>
+<td><code>TimePicker</code>、<code>FileUpload</code> 完整实现与 <code>EqualityConverter</code> 单值绑定</td>
+<td>暂不包含</td>
+<td>已包含</td>
+<td><code>TimePicker</code> 与 <code>FileUpload</code> 已从骨架升级为可交互控件；<code>EqualityConverter</code> 同时支持 <code>IValueConverter</code> 与 <code>IMultiValueConverter</code>。</td>
+</tr>
 </tbody>
 </table></div>
 <p>如需立即使用「当前主干源码」中的新能力，请通过本地 <code>ProjectReference</code> 引用仓库；若仅依赖 NuGet <code>0.0.9</code>，请以表格第一列标注「已包含」的能力为准。</p>
@@ -174,7 +192,7 @@
 <li><strong>导航与设计</strong>：导航页演示紧凑侧栏、固定底部入口、横向图文侧栏及入口状态；设计基础页展示实际主题的颜色、字体、圆角和间距效果。</li>
 <li><strong>状态保留</strong>：切换分类会保留本次会话中的示例状态；离开反馈页时模拟任务自动暂停。所有操作只影响 Gallery 演示数据。</li>
 </ul>
-<p><code>FileUpload</code> 与 <code>TimePicker</code> 当前仍是控件骨架，Gallery 概览中明确标注其状态，暂未提供完整交互示例。</p>
+<p><code>FileUpload</code>、<code>TimePicker</code>、<code>DatePicker</code>、交互式 <code>SUICard</code> 与可关闭滚动 <code>TabControl</code> 均已在 Gallery 对应页面提供完整交互示例。</p>
 </section>
 <section class="doc-section" aria-labelledby="接入项目"><div class="section-number">02 / SUI 手册</div><h2 id="接入项目">接入项目<a class="heading-link" href="#接入项目" aria-label="链接到：接入项目">#</a></h2>
 <h3 id="nuget-包引用推荐">NuGet 包引用（推荐）<a class="heading-link" href="#nuget-包引用推荐" aria-label="链接到：NuGet 包引用（推荐）">#</a></h3>
@@ -219,7 +237,12 @@
 &lt;sui:SUIBadge Content=&quot;连接中&quot; Variant=&quot;Info&quot; /&gt;
 &lt;sui:SUIBadge Content=&quot;已断开&quot; Variant=&quot;Danger&quot; Shape=&quot;Rounded&quot; /&gt;
 &lt;sui:SUIBadge Content=&quot;{Binding StatusText}&quot; Variant=&quot;{Binding StatusVariant}&quot; /&gt;
+&lt;!-- Content 为 object 类型，格式化数字或字符串请使用 ContentStringFormat --&gt;
+&lt;sui:SUIBadge Content=&quot;{Binding Count}&quot; ContentStringFormat=&quot;共 {0} 项&quot; Variant=&quot;Neutral&quot; /&gt;
 </code></pre></div>
+<blockquote>
+<p><strong>提示</strong>：由于 <code>SUIBadge</code> 继承自 <code>ContentControl</code>，<code>Content</code> 属性类型为 <code>object</code>，WPF 不会对 <code>{Binding Count, StringFormat='共 {0} 项'}</code> 应用 <code>StringFormat</code>。需要格式化显示时，请使用 <code>ContentStringFormat</code>（如上例）或在 ViewModel 中暴露格式化后的字符串属性。</p>
+</blockquote>
 <div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
 <thead>
 <tr>
@@ -635,18 +658,35 @@ if (SUIDialog.Show(input, title: &quot;新建配置名称&quot;, primaryText: &q
 </table></div>
 </section>
 <section class="doc-section" aria-labelledby="suicard-卡片控件"><div class="section-number">07 / SUI 手册</div><h2 id="suicard-卡片控件"><code>SUICard</code> 卡片控件<a class="heading-link" href="#suicard-卡片控件" aria-label="链接到：SUICard 卡片控件">#</a></h2>
-<p><code>SUICard</code> 是一个轻量卡片控件，适合展示应用入口、状态摘要或功能概览。它继承自 <code>UserControl</code>，通过依赖属性提供基本配置。</p>
+<p><code>SUICard</code> 是一个轻量信息与入口卡片控件，适合展示应用入口、状态摘要或功能概览。它继承自 <code>UserControl</code> 并实现 <code>ICommandSource</code>，既可作为静态信息卡片，也可开启点击交互（<code>IsInteractive=&quot;True&quot;</code> 或绑定 <code>Command</code>），同时支持标题自动换行、Fluent 字形图标、状态徽标插槽与右侧操作插槽。</p>
 <h3 id="基本用法">基本用法<a class="heading-link" href="#基本用法" aria-label="链接到：基本用法">#</a></h3>
-<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;sui:SUICard
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;!-- 静态信息卡片 --&gt;
+&lt;sui:SUICard
     Title=&quot;项目状态&quot;
     Description=&quot;这是一个可复用的 WPF 卡片&quot;
     IconText=&quot;S&quot; /&gt;
+
+&lt;!-- 交互式入口卡片（带字形图标、状态徽标与操作插槽） --&gt;
+&lt;sui:SUICard
+    Title=&quot;串口调试与帧分析工具&quot;
+    Description=&quot;支持自定义波特率、十六进制收发与指令队列管理。&quot;
+    IconGlyph=&quot;&amp;#xE839;&quot;
+    IsInteractive=&quot;True&quot;
+    Command=&quot;{Binding OpenToolCommand}&quot;
+    CommandParameter=&quot;serial&quot;&gt;
+    &lt;sui:SUICard.BadgeContent&gt;
+        &lt;sui:SUIBadge Content=&quot;需串口&quot; Variant=&quot;Info&quot; /&gt;
+    &lt;/sui:SUICard.BadgeContent&gt;
+    &lt;sui:SUICard.ActionContent&gt;
+        &lt;Button Content=&quot;配置&quot; Style=&quot;{StaticResource SUI.Button.Ghost}&quot; Command=&quot;{Binding ConfigureCommand}&quot; /&gt;
+    &lt;/sui:SUICard.ActionContent&gt;
+&lt;/sui:SUICard&gt;
 </code></pre></div>
-<h3 id="属性">属性<a class="heading-link" href="#属性" aria-label="链接到：属性">#</a></h3>
+<h3 id="属性与事件">属性与事件<a class="heading-link" href="#属性与事件" aria-label="链接到：属性与事件">#</a></h3>
 <div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
 <thead>
 <tr>
-<th>属性</th>
+<th>属性 / 事件</th>
 <th>类型</th>
 <th>默认值</th>
 <th>说明</th>
@@ -657,31 +697,73 @@ if (SUIDialog.Show(input, title: &quot;新建配置名称&quot;, primaryText: &q
 <td><code>IconSource</code></td>
 <td><code>ImageSource?</code></td>
 <td><code>null</code></td>
-<td>图标图片。设置后会替换默认的文字图标。</td>
+<td>图标图片。设置后会替换 <code>IconGlyph</code> 与 <code>IconText</code>。</td>
 </tr>
 <tr>
-<td><code>Title</code></td>
-<td><code>string</code></td>
-<td><code>标题</code></td>
-<td>卡片标题。</td>
-</tr>
-<tr>
-<td><code>Description</code></td>
-<td><code>string</code></td>
-<td><code>略</code></td>
-<td>卡片描述，支持换行。</td>
+<td><code>IconGlyph</code></td>
+<td><code>string?</code></td>
+<td><code>null</code></td>
+<td><code>Segoe Fluent Icons</code> 字形；非空且未设置 <code>IconSource</code> 时替换 <code>IconText</code>。</td>
 </tr>
 <tr>
 <td><code>IconText</code></td>
 <td><code>string</code></td>
 <td><code>S</code></td>
-<td>没有 <code>IconSource</code> 时显示的占位文字。</td>
+<td>没有 <code>IconSource</code> 和 <code>IconGlyph</code> 时显示的占位文字。</td>
 </tr>
 <tr>
 <td><code>IconColor</code></td>
 <td><code>Brush</code></td>
 <td><code>#4C79FF</code></td>
-<td>默认文字图标的背景画刷。</td>
+<td>左侧图标色块的背景画刷。</td>
+</tr>
+<tr>
+<td><code>Title</code></td>
+<td><code>string</code></td>
+<td><code>标题</code></td>
+<td>卡片标题，支持自动换行。</td>
+</tr>
+<tr>
+<td><code>Description</code></td>
+<td><code>string</code></td>
+<td><code>略</code></td>
+<td>卡片描述，支持自动换行；为空时自动折叠。</td>
+</tr>
+<tr>
+<td><code>BadgeContent</code></td>
+<td><code>object?</code></td>
+<td><code>null</code></td>
+<td>标题右侧状态徽标插槽（如 <code>SUIBadge</code>），为 <code>null</code> 时自动折叠。</td>
+</tr>
+<tr>
+<td><code>ActionContent</code></td>
+<td><code>object?</code></td>
+<td><code>null</code></td>
+<td>卡片右侧操作插槽（如按钮），为 <code>null</code> 时自动折叠；点击插槽内部元素不会误触发卡片自身的 <code>Click</code> / <code>Command</code>。</td>
+</tr>
+<tr>
+<td><code>IsInteractive</code></td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td>是否启用悬停/按下/键盘焦点视觉状态、手型光标与点击交互；设置 <code>Command</code> 时会自动视为可交互。</td>
+</tr>
+<tr>
+<td><code>Command</code> / <code>CommandParameter</code> / <code>CommandTarget</code></td>
+<td><code>ICommand?</code> 等</td>
+<td><code>null</code></td>
+<td>点击卡片或聚焦后按 <code>Enter</code> / <code>Space</code> 执行的命令；控件会自动监听 <code>CanExecuteChanged</code>，不可执行时禁用交互反馈（<code>IsClickable</code> 为 <code>false</code>）。</td>
+</tr>
+<tr>
+<td><code>IsClickable</code> / <code>IsPressed</code></td>
+<td><code>bool</code>（只读）</td>
+<td><code>false</code></td>
+<td>分别指示卡片当前是否处于可交互态、是否正被按下；可点击时无障碍模式返回 <code>Button</code> 并支持 <code>IInvokeProvider</code>。</td>
+</tr>
+<tr>
+<td><code>Click</code></td>
+<td>路由事件</td>
+<td>—</td>
+<td>可交互卡片被点击或通过 <code>Enter</code> / <code>Space</code> 激活时触发。</td>
 </tr>
 </tbody>
 </table></div>
@@ -690,8 +772,11 @@ if (SUIDialog.Show(input, title: &quot;新建配置名称&quot;, primaryText: &q
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;sui:SUICard
     Description=&quot;{Binding Description}&quot;
     IconColor=&quot;{Binding AccentBrush}&quot;
+    IconGlyph=&quot;{Binding IconGlyph}&quot;
     IconSource=&quot;{Binding IconSource}&quot;
     IconText=&quot;{Binding IconText}&quot;
+    Command=&quot;{Binding OpenCommand}&quot;
+    CommandParameter=&quot;{Binding}&quot;
     Title=&quot;{Binding Title}&quot; /&gt;
 </code></pre></div>
 <p>如果使用图片作为 <code>IconSource</code>，请确保图片格式和资源路径已被宿主 WPF 项目正确处理。SUI 不额外提供 SVG 渲染器。</p>
@@ -1062,8 +1147,8 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 <h3 id="总入口">总入口<a class="heading-link" href="#总入口" aria-label="链接到：总入口">#</a></h3>
 <p><a href="https://github.com/RobertCXC/SUI/blob/main/SUIStyles.xaml"><code>SUIStyles.xaml</code></a> 按顺序合并 <code>Themes/Colors.xaml</code>（颜色与画刷）、<code>Themes/Metrics.xaml</code>（字体与尺寸，紧随 Colors）和 <code>Styles/</code> 下的原生控件样式文件。合并后分两类使用：</p>
 <ul>
-<li><strong>隐式样式</strong>：没有 <code>x:Key</code>，对应类型的控件自动生效，包括 <code>Button</code>、<code>ToggleButton</code>、<code>TextBox</code>、<code>PasswordBox</code>、<code>ComboBox</code>、<code>ComboBoxItem</code>、<code>CheckBox</code>、<code>RadioButton</code>、<code>TabControl</code>、<code>TabItem</code>、<code>ListBox</code>、<code>ListBoxItem</code>、<code>ScrollBar</code>、<code>ScrollViewer</code>、<code>Menu</code>、<code>ContextMenu</code>、<code>MenuItem</code>、<code>Separator</code>、<code>ToolTip</code>、<code>ProgressBar</code>、<code>DataGrid</code>、<code>TreeViewItem</code>。</li>
-<li><strong>显式样式</strong>：需要 <code>Style=&quot;{StaticResource ...}&quot;</code> 指定，包括 <code>SUI.Button.Primary</code>、<code>SUI.Button.Ghost</code>、<code>SUI.Button.Danger</code>、<code>SwitchCheckBoxStyle</code>（别名 <code>SUI.Switch</code>）、<code>SUI.ListBox.Navigation</code>、<code>SUI.ListBoxItem.Navigation</code>、<code>SUI.Separator</code>、<code>SUI.Text.PageTitle</code>、<code>SUI.Text.SectionHeader</code>、<code>SUI.Text.Caption</code>、<code>CustomGridSplitterStyle</code>、<code>SUI.GridSplitter.Horizontal</code>、<code>CommonDataGridStyle</code>、<code>SUITreeViewItemStyle</code>。</li>
+<li><strong>隐式样式</strong>：没有 <code>x:Key</code>，对应类型的控件自动生效，包括 <code>Button</code>、<code>ToggleButton</code>、<code>TextBox</code>、<code>PasswordBox</code>、<code>ComboBox</code>、<code>ComboBoxItem</code>、<code>CheckBox</code>、<code>RadioButton</code>、<code>TabControl</code>、<code>TabItem</code>、<code>ListBox</code>、<code>ListBoxItem</code>、<code>ScrollBar</code>、<code>ScrollViewer</code>、<code>Menu</code>、<code>ContextMenu</code>、<code>MenuItem</code>、<code>Separator</code>、<code>ToolTip</code>、<code>ProgressBar</code>、<code>DataGrid</code>、<code>TreeViewItem</code>、<code>GroupBox</code>、<code>DatePicker</code>、<code>DatePickerTextBox</code>、<code>Calendar</code>。</li>
+<li><strong>显式样式</strong>：需要 <code>Style=&quot;{StaticResource ...}&quot;</code> 指定，包括 <code>SUI.Button.Primary</code>、<code>SUI.Button.Ghost</code>、<code>SUI.Button.Danger</code>、<code>SUI.ToggleButton.Pill</code>、<code>SUI.RadioButton.Pill</code>、<code>SUI.TextBox.Compact</code>、<code>SUI.PasswordBox.Compact</code>、<code>SUI.ComboBox.Compact</code>、<code>SUI.Border.Card</code>、<code>SwitchCheckBoxStyle</code>（别名 <code>SUI.Switch</code>）、<code>SUI.ListBox.Navigation</code>、<code>SUI.ListBoxItem.Navigation</code>、<code>SUI.Separator</code>、<code>SUI.Text.PageTitle</code>、<code>SUI.Text.SectionHeader</code>、<code>SUI.Text.Caption</code>、<code>CustomGridSplitterStyle</code>、<code>SUI.GridSplitter.Horizontal</code>、<code>CommonDataGridStyle</code>、<code>SUITreeViewItemStyle</code>。</li>
 </ul>
 <p>自己为控件写样式时，用 <code>BasedOn=&quot;{StaticResource {x:Type Button}}&quot;</code> 继承 SUI 的隐式样式，不会丢失原有外观：</p>
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;Style x:Key=&quot;MyButton&quot; TargetType=&quot;Button&quot; BasedOn=&quot;{StaticResource {x:Type Button}}&quot;&gt;
@@ -1191,15 +1276,30 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 <td>红底白字</td>
 <td>删除等不可恢复操作。</td>
 </tr>
+<tr>
+<td><code>SUI.ToggleButton.Pill</code></td>
+<td>胶囊圆角、28px 高，选中时 <code>Selected</code> 底 + <code>Accent</code> 边框与文字</td>
+<td>多条件标签筛选、状态过滤药丸。</td>
+</tr>
 </tbody>
 </table></div>
 <h3 id="textbox-与-passwordbox">TextBox 与 PasswordBox<a class="heading-link" href="#textbox-与-passwordbox" aria-label="链接到：TextBox 与 PasswordBox">#</a></h3>
 <p><code>Surface</code> 底、1px 边框、圆角 4，文字垂直居中。悬停时边框变深；获得焦点时底边加粗为 2px 强调色；<code>IsReadOnly</code> 时底色为 <code>SurfaceAlt</code>；选区使用强调色。<code>AcceptsReturn=&quot;True&quot;</code> 的多行输入框会自动使用更大的上下内边距。</p>
-<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;TextBox Text=&quot;{Binding Name, UpdateSourceTrigger=PropertyChanged}&quot; /&gt;
-&lt;PasswordBox /&gt;
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;TextBox
+    sui:TextBoxAssist.PlaceholderText=&quot;输入设备名称或关键词...&quot;
+    Text=&quot;{Binding Name, UpdateSourceTrigger=PropertyChanged}&quot; /&gt;
+&lt;PasswordBox sui:TextBoxAssist.PlaceholderText=&quot;输入访问密钥&quot; /&gt;
 &lt;TextBox AcceptsReturn=&quot;True&quot; Height=&quot;96&quot; TextWrapping=&quot;Wrap&quot; /&gt;
+
+&lt;!-- 紧凑参数网格（高度 28、左右内边距 6，避免直接设 Height=&quot;28&quot; 时与默认 MinHeight=32 冲突） --&gt;
+&lt;TextBox Style=&quot;{StaticResource SUI.TextBox.Compact}&quot; sui:TextBoxAssist.PlaceholderText=&quot;寄存器地址&quot; /&gt;
+&lt;PasswordBox Style=&quot;{StaticResource SUI.PasswordBox.Compact}&quot; /&gt;
 </code></pre></div>
-<p><strong>数据校验</strong>：绑定校验失败（<code>Validation.HasError</code>）时，边框变红，并去掉系统默认的红色外框；把鼠标放在输入框上会通过 ToolTip 显示错误信息。校验规则（<code>ValidationRules</code>、<code>INotifyDataErrorInfo</code> 或 <code>IDataErrorInfo</code>）由你的绑定提供。</p>
+<ul>
+<li><strong>占位提示</strong>：通过附加属性 <code>sui:TextBoxAssist.PlaceholderText</code>（<code>xmlns:sui=&quot;clr-namespace:SUI;assembly=SUI&quot;</code>）为 <code>TextBox</code>、<code>PasswordBox</code> 及 <code>DatePicker</code> 设置为空时的占位提示，无需外层叠放 <code>Grid</code>。</li>
+<li><strong>紧凑变体</strong>：<code>SUI.TextBox.Compact</code> 与 <code>SUI.PasswordBox.Compact</code> 将 <code>MinHeight</code> 设为 <code>SUI.Control.Height.Compact</code>（28）、<code>Padding</code> 设为 <code>SUI.Space.TextBox.Padding.Compact</code>（<code>6,0</code>），适合高密度参数表格。</li>
+<li><strong>数据校验</strong>：绑定校验失败（<code>Validation.HasError</code>）时，边框变红，并去掉系统默认的红色外框；把鼠标放在输入框上会通过 ToolTip 显示错误信息。校验规则（<code>ValidationRules</code>、<code>INotifyDataErrorInfo</code> 或 <code>IDataErrorInfo</code>）由你的绑定提供。</li>
+</ul>
 <h3 id="combobox">ComboBox<a class="heading-link" href="#combobox" aria-label="链接到：ComboBox">#</a></h3>
 <p>外观与 TextBox 一致，右侧是矢量下拉箭头，下拉面板带圆角和轻阴影。同时支持不可编辑和 <code>IsEditable=&quot;True&quot;</code> 的可编辑模式。</p>
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;ComboBox SelectedIndex=&quot;0&quot; MaxDropDownHeight=&quot;200&quot;&gt;
@@ -1210,7 +1310,7 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 &lt;ComboBox IsEditable=&quot;True&quot; ItemsSource=&quot;{Binding BaudRates}&quot; Text=&quot;{Binding BaudRate}&quot; /&gt;
 </code></pre></div>
 <p>普通模式点击框内任意位置即可展开；可编辑模式仅点击右侧按钮展开，输入区域仍可自由输入。在可编辑框的输入区域滚动鼠标滚轮可逐项切换可选项，无需先聚焦：向上选择上一项，向下选择下一项，跳过禁用项，到首尾停止；自定义文本尚未匹配选项时，向下从第一项、向上从最后一项开始。下拉面板展开后，滚轮保留列表滚动行为。此行为由隐式样式启用，可通过 <code>sui:ComboBoxAssist.EnableEditableMouseWheel=&quot;False&quot;</code> 关闭（<code>sui</code> 指向 <code>clr-namespace:SUI;assembly=SUI</code>）。</p>
-<p>用 <code>MaxDropDownHeight</code> 限制下拉面板高度，超出后出现细滚动条。支持方向键切换、Esc 关闭。</p>
+<p>用 <code>MaxDropDownHeight</code> 限制下拉面板高度，超出后出现细滚动条。支持方向键切换、Esc 关闭。高密度参数网格可使用 <code>SUI.ComboBox.Compact</code>（最小高度 28、左右内边距 6）与 <code>SUI.TextBox.Compact</code> 对齐。</p>
 <h3 id="checkbox-与-radiobutton">CheckBox 与 RadioButton<a class="heading-link" href="#checkbox-与-radiobutton" aria-label="链接到：CheckBox 与 RadioButton">#</a></h3>
 <p>18×18 的方框（CheckBox 圆角 4，RadioButton 为圆形）。选中后为强调色底，CheckBox 显示白色对勾，RadioButton 显示白色圆点；<code>IsThreeState=&quot;True&quot;</code> 的不确定态显示白色短横。</p>
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;CheckBox Content=&quot;记住我&quot; IsChecked=&quot;True&quot; /&gt;
@@ -1219,6 +1319,14 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 &lt;RadioButton Content=&quot;选项 2&quot; GroupName=&quot;g&quot; /&gt;
 </code></pre></div>
 <p>键盘 Space 可切换。</p>
+<p>若需要分栏筛选药丸（单选互斥），可对 <code>RadioButton</code> 指定显式样式 <code>SUI.RadioButton.Pill</code>（高 28、胶囊圆角、选中态 <code>Selected</code> 底 + <code>Accent</code> 边框与文字），并可直接配合 <code>EqualityConverter</code> 双向绑定枚举或字符串属性：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
+    &lt;RadioButton Content=&quot;全部&quot; GroupName=&quot;Filter&quot; Style=&quot;{StaticResource SUI.RadioButton.Pill}&quot;
+                 IsChecked=&quot;{Binding Category, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter=All}&quot; /&gt;
+    &lt;RadioButton Content=&quot;纯本地&quot; GroupName=&quot;Filter&quot; Margin=&quot;8,0,0,0&quot; Style=&quot;{StaticResource SUI.RadioButton.Pill}&quot;
+                 IsChecked=&quot;{Binding Category, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter=Local}&quot; /&gt;
+&lt;/StackPanel&gt;
+</code></pre></div>
 <h3 id="switch-开关">Switch 开关<a class="heading-link" href="#switch-开关" aria-label="链接到：Switch 开关">#</a></h3>
 <p><code>SwitchCheckBoxStyle</code> 把 <code>CheckBox</code> 显示为 40×20 的胶囊开关，需要显式指定样式（别名 <code>SUI.Switch</code>）。它与普通 <code>CheckBox</code> 样式互不影响。<code>IsChecked</code> 为 <code>null</code> 时按“关闭”显示。</p>
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;CheckBox Content=&quot;启用通知&quot; IsChecked=&quot;{Binding NotifyEnabled}&quot; Style=&quot;{StaticResource SwitchCheckBoxStyle}&quot; /&gt;
@@ -1249,6 +1357,76 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
     &lt;TabItem Header=&quot;常规&quot;&gt;&lt;TextBlock Text=&quot;常规内容&quot; /&gt;&lt;/TabItem&gt;
     &lt;TabItem Header=&quot;高级&quot;&gt;&lt;TextBlock Text=&quot;高级内容&quot; /&gt;&lt;/TabItem&gt;
 &lt;/TabControl&gt;
+</code></pre></div>
+<p><strong>可关闭文档页与横向滚动溢出（<code>TabControlAssist</code>）</strong>：</p>
+<p>通过附加属性 <code>sui:TabControlAssist</code> 可为多文档 / 多工具页场景启用内置关闭按钮与单行横向滚动：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;TabControl
+    sui:TabControlAssist.IsClosable=&quot;True&quot;
+    sui:TabControlAssist.IsHeaderScrollable=&quot;True&quot;
+    sui:TabControlAssist.CloseCommand=&quot;{Binding CloseTabCommand}&quot;&gt;
+    &lt;!-- 单个标签可显式设为 False 保持常驻 --&gt;
+    &lt;TabItem Header=&quot;应用中心&quot; sui:TabControlAssist.IsClosable=&quot;False&quot; /&gt;
+    &lt;TabItem Header=&quot;串口监视器&quot; /&gt;
+&lt;/TabControl&gt;
+</code></pre></div>
+<div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
+<thead>
+<tr>
+<th>附加属性 / 事件 / 命令</th>
+<th>作用对象</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TabControlAssist.IsClosable</code></td>
+<td><code>TabControl</code> / <code>TabItem</code></td>
+<td><code>false</code></td>
+<td>开启标签右侧 <code>×</code> 关闭按钮；支持在标签头配对中键点击与聚焦时按 <code>Ctrl+F4</code>。在 <code>TabItem</code> 上设置可覆盖父级 <code>TabControl</code>。</td>
+</tr>
+<tr>
+<td><code>TabControlAssist.CloseCommand</code> / <code>CloseCommandParameter</code></td>
+<td><code>TabControl</code> / <code>TabItem</code></td>
+<td><code>null</code></td>
+<td>关闭时执行的 MVVM 命令（兼容 <code>RoutedCommand</code> 的 <code>CanExecute</code> 检查，并会忽略传入 <code>CloseTabCommand</code> 本身以免递归）；未设参数时默认传入对应数据项。未设置命令且未在 <code>CloseRequested</code> 中拦截时，自动从 <code>Items</code> 或可写 <code>ItemsSource</code> 中移除。</td>
+</tr>
+<tr>
+<td><code>TabControlAssist.CloseRequested</code></td>
+<td><code>TabItem</code>（冒泡路由事件）</td>
+<td>—</td>
+<td>关闭前触发（<code>TabCloseRequestedEventArgs</code>）；将 <code>e.Handled = true</code> 可取消关闭或自行弹出未保存确认。</td>
+</tr>
+<tr>
+<td><code>TabControlAssist.IsHeaderScrollable</code></td>
+<td><code>TabControl</code></td>
+<td><code>false</code></td>
+<td>设为 <code>true</code> 后标题栏改为单行横向滚动（支持鼠标滚轮）；超出可见宽度时自动显示左右滚动按钮与「全部标签」下拉菜单（提取复合标题文本时会自动过滤图标字体的私用区字符）。</td>
+</tr>
+<tr>
+<td><code>TabControlAssist.HasHeaderOverflow</code></td>
+<td><code>TabControl</code>（只读）</td>
+<td><code>false</code></td>
+<td>横向滚动模式下标题栏当前是否发生溢出。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="groupbox-与卡片容器">GroupBox 与卡片容器<a class="heading-link" href="#groupbox-与卡片容器" aria-label="链接到：GroupBox 与卡片容器">#</a></h3>
+<p><code>GroupBox</code> 默认提供隐式样式，渲染为 <code>Surface</code> 底、1px <code>Border</code> 边框、<code>SUI.Radius.Panel</code> 圆角与顶部标题分隔栏的分组卡片；当 <code>Header</code> 为 <code>null</code> 或空字符串时标题栏自动折叠。不需要标题栏的轻量表单/信息卡片可直接对 <code>Border</code> 使用 <code>SUI.Border.Card</code>。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;GroupBox Header=&quot;串口连接参数&quot;&gt;
+    &lt;StackPanel&gt;
+        &lt;TextBox Style=&quot;{StaticResource SUI.TextBox.Compact}&quot; sui:TextBoxAssist.PlaceholderText=&quot;超时时间 (ms)&quot; /&gt;
+    &lt;/StackPanel&gt;
+&lt;/GroupBox&gt;
+
+&lt;Border Style=&quot;{StaticResource SUI.Border.Card}&quot;&gt;
+    &lt;TextBlock Text=&quot;通用卡片容器&quot; /&gt;
+&lt;/Border&gt;
+</code></pre></div>
+<h3 id="datepicker-与-calendar">DatePicker 与 Calendar<a class="heading-link" href="#datepicker-与-calendar" aria-label="链接到：DatePicker 与 Calendar">#</a></h3>
+<p>原生 <code>DatePicker</code>、<code>DatePickerTextBox</code> 与 <code>Calendar</code> 均已提供 SUI 隐式样式：输入框视觉与 <code>TextBox</code> 对齐（高 32、圆角 4、聚焦 2px 强调色底边），支持通过 <code>sui:TextBoxAssist.PlaceholderText</code> 自定义空值提示（默认“选择日期”）；弹出日历面板使用统一圆角、今日边框标记、强调色选中态与禁用/不可选日期划线。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;DatePicker Width=&quot;180&quot; sui:TextBoxAssist.PlaceholderText=&quot;选择开始日期&quot; SelectedDate=&quot;{Binding StartDate}&quot; /&gt;
+&lt;Calendar SelectedDate=&quot;{Binding SelectedDate}&quot; /&gt;
 </code></pre></div>
 <h3 id="listbox">ListBox<a class="heading-link" href="#listbox" aria-label="链接到：ListBox">#</a></h3>
 <p><code>Surface</code> 底、1px 边框、圆角 4，条目最小高度 32。选中项为 <code>Selected</code> 底，窗口失去焦点后依然保持选中底色，<code>SelectionMode=&quot;Extended&quot;</code> 多选时可清楚辨认。</p>
@@ -1471,22 +1649,170 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 </tr>
 <tr>
 <td><code>EqualityConverter</code></td>
-<td>比较两个绑定值是否相等；可直接使用静态实例 <code>EqualityConverter.Instance</code>。</td>
+<td>同时实现 <code>IValueConverter</code> 与 <code>IMultiValueConverter</code>：支持单值绑定 + <code>ConverterParameter</code>（双向绑定 <code>true</code> 时支持 <code>ConvertBack</code>，兼容 <code>Enum</code>、数值与基础类型及字符串参数）及双值 <code>MultiBinding</code> 比较；可直接使用静态实例 <code>EqualityConverter.Instance</code>。</td>
 </tr>
 </tbody>
 </table></div>
+<p>单值绑定示例（常用于 <code>SUI.RadioButton.Pill</code> 绑定枚举、数值或字符串）：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;RadioButton
+    Content=&quot;十六进制&quot;
+    Style=&quot;{StaticResource SUI.RadioButton.Pill}&quot;
+    IsChecked=&quot;{Binding DisplayMode, Converter={x:Static conv:EqualityConverter.Instance}, ConverterParameter=Hex}&quot; /&gt;
+</code></pre></div>
 </section>
 <section class="doc-section" aria-labelledby="fileupload-与-timepicker"><div class="section-number">15 / SUI 手册</div><h2 id="fileupload-与-timepicker"><code>FileUpload</code> 与 <code>TimePicker</code><a class="heading-link" href="#fileupload-与-timepicker" aria-label="链接到：FileUpload 与 TimePicker">#</a></h2>
-<p>这两个控件已经具备 WPF <code>UserControl</code> 的基础结构，可以直接放入 XAML：</p>
-<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;sui:FileUpload /&gt;
-&lt;sui:TimePicker /&gt;
+<h3 id="fileupload-本地文件选择与拖放"><code>FileUpload</code> 本地文件选择与拖放<a class="heading-link" href="#fileupload-本地文件选择与拖放" aria-label="链接到：FileUpload 本地文件选择与拖放">#</a></h3>
+<p><code>FileUpload</code> 封装了 Win32 <code>OpenFileDialog</code> 扩展名过滤、单选/多选与资源管理器拖放校验，并内置已选文件列表、逐项移除与一键清空，无需在各页面重复编写文件对话框样板代码。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;sui:FileUpload
+    Title=&quot;选择固件或配置文件&quot;
+    Description=&quot;支持 .bin、.txt 文件；点击按钮或直接拖放到此区域&quot;
+    Filter=&quot;固件与文本 (*.bin;*.txt)|*.bin;*.txt|所有文件 (*.*)|*.*&quot;
+    SelectedFilePath=&quot;{Binding FirmwarePath}&quot;
+    FilesSelectedCommand=&quot;{Binding OnFilesPickedCommand}&quot; /&gt;
 </code></pre></div>
-<p>当前版本主要用于搭建控件外壳和视觉占位：</p>
-<ul>
-<li><code>FileUpload</code> 当前显示文件上传控件的基础提示，尚未封装完整的文件选择、校验和上传流程。</li>
-<li><code>TimePicker</code> 当前显示时间选择的基础提示，尚未封装完整的时间选择 API。</li>
-</ul>
-<p>实际项目接入前，请根据自己的交互需求补充或扩展对应的依赖属性、命令和事件。</p>
+<div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
+<thead>
+<tr>
+<th>属性 / 方法 / 事件</th>
+<th>类型</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Title</code></td>
+<td><code>string</code></td>
+<td><code>选择文件</code></td>
+<td>区域主标题，同时用作文件对话框标题。</td>
+</tr>
+<tr>
+<td><code>Description</code></td>
+<td><code>string?</code></td>
+<td>拖放提示</td>
+<td>辅助说明，为空时自动折叠。</td>
+</tr>
+<tr>
+<td><code>ButtonText</code></td>
+<td><code>string</code></td>
+<td><code>浏览文件</code></td>
+<td>选择按钮文案。</td>
+</tr>
+<tr>
+<td><code>Filter</code></td>
+<td><code>string</code></td>
+<td><code>所有文件 (*.*)\|*.*</code></td>
+<td>Win32 <code>OpenFileDialog</code> 格式过滤器。拖放时会按具体扩展名模式（含 <code>*.tar.gz</code> 等多段扩展名）校验；仅当首组过滤器本身为 <code>*.*</code> / <code>*</code> 时放开拖放校验，后续分组中的兜底 <code>*.*</code> 不会导致限制失效。</td>
+</tr>
+<tr>
+<td><code>InitialDirectory</code></td>
+<td><code>string?</code></td>
+<td><code>null</code></td>
+<td>对话框初始目录（可选）。</td>
+</tr>
+<tr>
+<td><code>AllowMultiple</code></td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td>是否允许选择或拖入多个文件。</td>
+</tr>
+<tr>
+<td><code>AllowDropFiles</code></td>
+<td><code>bool</code></td>
+<td><code>true</code></td>
+<td>是否允许从资源管理器拖放文件；拖入有效文件时高亮边框。</td>
+</tr>
+<tr>
+<td><code>SelectedFilePath</code></td>
+<td><code>string?</code></td>
+<td><code>null</code></td>
+<td>当前选中的首个文件路径，默认双向绑定。</td>
+</tr>
+<tr>
+<td><code>SelectedFiles</code></td>
+<td><code>ObservableCollection&lt;string&gt;</code>（只读）</td>
+<td>空集合</td>
+<td>当前已选中的全部文件路径列表。</td>
+</tr>
+<tr>
+<td><code>FilesSelectedCommand</code></td>
+<td><code>ICommand?</code></td>
+<td><code>null</code></td>
+<td>选择变化后执行的命令，参数为 <code>IReadOnlyList&lt;string&gt;</code>。</td>
+</tr>
+<tr>
+<td><code>FilesSelected</code></td>
+<td>路由事件</td>
+<td>—</td>
+<td>选择变化后触发（<code>FilesSelectedEventArgs</code>）。</td>
+</tr>
+<tr>
+<td><code>Browse()</code> / <code>Clear()</code></td>
+<td>方法</td>
+<td>—</td>
+<td>编程触发打开文件对话框或清空已选文件。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="timepicker-时间选择器"><code>TimePicker</code> 时间选择器<a class="heading-link" href="#timepicker-时间选择器" aria-label="链接到：TimePicker 时间选择器">#</a></h3>
+<p><code>TimePicker</code> 提供与 <code>TextBox</code> / <code>DatePicker</code> 一致的外观，支持直接键入时间文本（<code>HH:mm</code> 或 <code>HH:mm:ss</code>，按 <code>Enter</code>、失焦或展开下拉前自动提交，<code>Esc</code> 撤销）以及点击右侧时钟图标展开/收起分栏下拉选择（时 / 分 / 可选秒），修改某一栏时会保留未在步长列表中的精确分/秒数值，禁用或只读时自动收起下拉，并内置「此刻」「清除」「确定」快捷操作。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;sui:TimePicker Width=&quot;160&quot; MinuteIncrement=&quot;5&quot; PlaceholderText=&quot;选择执行时间&quot; SelectedTime=&quot;{Binding ScheduleTime}&quot; /&gt;
+&lt;sui:TimePicker Width=&quot;170&quot; ShowSeconds=&quot;True&quot; SelectedTime=&quot;09:30:15&quot; /&gt;
+</code></pre></div>
+<div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
+<thead>
+<tr>
+<th>属性 / 事件</th>
+<th>类型</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SelectedTime</code></td>
+<td><code>TimeSpan?</code></td>
+<td><code>null</code></td>
+<td>选中时间（<code>00:00:00</code>–<code>23:59:59</code>），默认双向绑定。</td>
+</tr>
+<tr>
+<td><code>ShowSeconds</code></td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td>是否显示并选择秒数。</td>
+</tr>
+<tr>
+<td><code>MinuteIncrement</code> / <code>SecondIncrement</code></td>
+<td><code>int</code></td>
+<td><code>1</code></td>
+<td>下拉分钟/秒数列表步长（<code>1</code>–<code>60</code>）。</td>
+</tr>
+<tr>
+<td><code>PlaceholderText</code></td>
+<td><code>string?</code></td>
+<td><code>选择时间</code></td>
+<td>输入框为空时的占位提示。</td>
+</tr>
+<tr>
+<td><code>IsReadOnly</code></td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td>只读状态，禁止编辑与展开下拉。</td>
+</tr>
+<tr>
+<td><code>IsDropDownOpen</code></td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td>控制时间选择下拉面板展开/收起，默认双向绑定。</td>
+</tr>
+<tr>
+<td><code>SelectedTimeChanged</code></td>
+<td>路由事件</td>
+<td>—</td>
+<td><code>SelectedTime</code> 变更时触发（<code>RoutedPropertyChangedEventArgs&lt;TimeSpan?&gt;</code>）。</td>
+</tr>
+</tbody>
+</table></div>
 </section>
 <section class="doc-section" aria-labelledby="构建与排查"><div class="section-number">16 / SUI 手册</div><h2 id="构建与排查">构建与排查<a class="heading-link" href="#构建与排查" aria-label="链接到：构建与排查">#</a></h2>
 <h3 id="构建命令">构建命令<a class="heading-link" href="#构建命令" aria-label="链接到：构建命令">#</a></h3>

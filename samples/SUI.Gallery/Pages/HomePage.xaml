@@ -154,7 +154,7 @@
                         FontWeight="SemiBold"
                         Margin="0,0,0,6" />
                     <TextBlock
-                        Text="FileUpload 与 TimePicker 目前仍是控件骨架，暂未作为可交互示例提供。当前 Gallery 展示的是已实现能力，具体 API 以使用手册为准。"
+                        Text="当前 Gallery 展示了 SUI 全部已实现控件与原生样式（包括交互式 SUICard、可关闭滚动 TabControl、DatePicker、TimePicker、FileUpload、GroupBox 与筛选药丸），具体公开 API 与使用方式以使用手册为准。"
                         TextWrapping="Wrap" />
                 </StackPanel>
             </Border>

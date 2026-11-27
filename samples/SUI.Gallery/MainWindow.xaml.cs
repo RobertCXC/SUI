@@ -13,9 +13,9 @@ public partial class MainWindow : Window
     [
         ("home", "概览", "\uE80F", "首页 overview 开始", () => new HomePage()),
         ("buttons", "按钮与命令", "\uE8A7", "Button ToggleButton Primary Ghost Danger 按钮 命令", () => new ButtonsPage()),
-        ("inputs", "输入与选择", "\uE70F", "TextBox PasswordBox SUINumberBox NumberBox ComboBox CheckBox RadioButton Switch ListBox ScrollViewer 输入 数值 步进 密码 下拉 复选 单选 开关 列表 滚动 验证", () => new InputsPage()),
+        ("inputs", "输入与选择", "\uE70F", "TextBox PasswordBox TextBoxAssist PlaceholderText Compact SUINumberBox NumberBox ComboBox CheckBox RadioButton Pill ToggleButton Switch DatePicker Calendar TimePicker FileUpload ListBox ScrollViewer 输入 占位提示 紧凑 数值 步进 密码 下拉 复选 单选 药丸 筛选 开关 日期 时间 文件上传 拖放 列表 滚动 验证", () => new InputsPage()),
         ("data", "数据与布局", "\uE80A", "DataGrid TreeView GridSplitter 数据 表格 树 分隔 布局", () => new DataPage()),
-        ("containers", "容器与反馈", "\uE737", "SUIBadge Badge SUIInfoBar InfoBar SUIToastHost Toast SUIDialog Dialog MessageBox SUISettingsCard SettingsCard SUI.Separator SUI.Text.SectionHeader 徽标 状态 胶囊 提示条 横幅 轻提示 弹窗 对话框 设置卡片 分隔线 卡片 标签 菜单 提示 进度", () => new ContainersPage()),
+        ("containers", "容器与反馈", "\uE737", "SUIBadge Badge ContentStringFormat SUIInfoBar InfoBar SUIToastHost Toast SUIDialog Dialog MessageBox SUICard SUISettingsCard SettingsCard GroupBox SUI.Border.Card TabControlAssist IsClosable IsHeaderScrollable SUI.Separator SUI.Text.SectionHeader EqualityConverter 徽标 状态 胶囊 提示条 横幅 轻提示 弹窗 对话框 交互卡片 卡片 分组容器 设置卡片 分隔线 可关闭标签 横向滚动 标签 菜单 提示 进度", () => new ContainersPage()),
         ("navigation", "应用导航", "\uE700", "SUINavigationView SUINavigationItem PaneLayout Horizontal SUI.ListBox.Navigation 应用 导航 横向 二级导航 菜单", () => new NavigationPage()),
         ("tokens", "设计基础", "\uE790", "Colors Brush Font 主题 颜色 字体 令牌 圆角 间距 设计", () => new TokensPage()),
     ];

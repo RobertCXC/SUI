@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <AssemblyName>SUI</AssemblyName>
@@ -8,6 +8,8 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -40,11 +42,6 @@
     <Page Remove="samples\**" />
     <EmbeddedResource Remove="samples\**" />
     <None Remove="samples\**" />
-    <None Remove="Assets\upload.svg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Assets\upload.svg" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 <UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sui="clr-namespace:SUI;assembly=SUI"
     x:Class="SuiExamples.TextInputs"
     FontFamily="{StaticResource SUI.Font.Family}"
     FontSize="{StaticResource SUI.Font.Size.Body}"
@@ -39,17 +40,17 @@
         </Grid.ColumnDefinitions>
         <StackPanel>
             <TextBlock
-                Text="工作空间名称"
+                Text="占位提示（PlaceholderText）"
                 Style="{StaticResource Example.Label}" />
             <TextBox
-                Text="SUI 工作空间"
+                sui:TextBoxAssist.PlaceholderText="输入设备名称、序列号或关键词..."
                 Margin="0,0,0,16"
-                AutomationProperties.Name="工作空间名称" />
+                AutomationProperties.Name="占位提示输入框" />
             <TextBlock
-                Text="访问密码"
+                Text="访问密码（支持占位提示）"
                 Style="{StaticResource Example.Label}" />
             <PasswordBox
-                Password="sample123"
+                sui:TextBoxAssist.PlaceholderText="输入访问密钥"
                 Margin="0,0,0,16"
                 AutomationProperties.Name="示例访问密码" />
             <TextBlock
@@ -58,7 +59,30 @@
             <TextBox
                 IsReadOnly="True"
                 Text="workspace / sui-gallery"
+                Margin="0,0,0,16"
                 AutomationProperties.Name="只读标识" />
+            <TextBlock
+                Text="紧凑参数输入（Height 28，适合高密度网格）"
+                Style="{StaticResource Example.Label}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Style="{StaticResource SUI.TextBox.Compact}"
+                    sui:TextBoxAssist.PlaceholderText="寄存器地址"
+                    AutomationProperties.Name="紧凑文本框" />
+                <ComboBox
+                    Grid.Column="2"
+                    Style="{StaticResource SUI.ComboBox.Compact}"
+                    SelectedIndex="0"
+                    AutomationProperties.Name="紧凑下拉框">
+                    <ComboBoxItem Content="115200 bps" />
+                    <ComboBoxItem Content="9600 bps" />
+                </ComboBox>
+            </Grid>
         </StackPanel>
         <StackPanel
             Grid.Column="2">

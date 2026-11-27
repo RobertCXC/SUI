@@ -21,7 +21,7 @@
                 Style="{StaticResource Gallery.PageSubtitle}" />
             <g:Example
                 Title="文本输入的每一种状态"
-                Description="体验单行、多行、密码、只读和禁用状态。点击输入框，观察焦点底边。"
+                Description="体验占位提示（TextBoxAssist.PlaceholderText）、紧凑输入（SUI.TextBox.Compact / SUI.ComboBox.Compact）、多行、密码、只读和禁用状态。"
                 Hint="只读内容仍可选择和复制；禁用控件不参与键盘导航。">
                 <demo:TextInputs />
             </g:Example>
@@ -69,6 +69,71 @@
                 Description="复选、单选与开关具有不同的语义。试着调整设置，状态会立即映射到下方摘要。"
                 Hint="复选允许多选，单选用于互斥方案；开关适合立即生效的设置。">
                 <demo:PreferenceSettings />
+            </g:Example>
+            <g:Example
+                Title="筛选药丸（Filter Pill）"
+                Description="使用 SUI.RadioButton.Pill 实现互斥分栏筛选，使用 SUI.ToggleButton.Pill 实现多条件标签筛选。"
+                Hint="支持键盘焦点、悬停、按下与禁用态；单选药丸可配合 EqualityConverter 双向绑定枚举、数值或字符串。">
+                <StackPanel>
+                    <TextBlock Text="单选分栏筛选（SUI.RadioButton.Pill）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,8" />
+                    <WrapPanel Margin="0,0,0,16">
+                        <RadioButton Content="全部工具" GroupName="GalleryFilterPill" IsChecked="True" Style="{StaticResource SUI.RadioButton.Pill}" Margin="0,0,8,8" />
+                        <RadioButton Content="纯本地" GroupName="GalleryFilterPill" Style="{StaticResource SUI.RadioButton.Pill}" Margin="0,0,8,8" />
+                        <RadioButton Content="需串口" GroupName="GalleryFilterPill" Style="{StaticResource SUI.RadioButton.Pill}" Margin="0,0,8,8" />
+                        <RadioButton Content="已禁用" GroupName="GalleryFilterPill" IsEnabled="False" Style="{StaticResource SUI.RadioButton.Pill}" Margin="0,0,8,8" />
+                    </WrapPanel>
+                    <TextBlock Text="多选条件药丸（SUI.ToggleButton.Pill）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,8" />
+                    <WrapPanel>
+                        <ToggleButton Content="仅看在线" IsChecked="True" Style="{StaticResource SUI.ToggleButton.Pill}" Margin="0,0,8,0" />
+                        <ToggleButton Content="自动重连" Style="{StaticResource SUI.ToggleButton.Pill}" Margin="0,0,8,0" />
+                        <ToggleButton Content="十六进制显示" IsChecked="True" Style="{StaticResource SUI.ToggleButton.Pill}" Margin="0,0,8,0" />
+                        <ToggleButton Content="不可用" IsEnabled="False" Style="{StaticResource SUI.ToggleButton.Pill}" />
+                    </WrapPanel>
+                </StackPanel>
+            </g:Example>
+            <g:Example
+                Title="日期与时间选择（DatePicker / TimePicker）"
+                Description="原生 DatePicker 与 Calendar 已提供 SUI 隐式样式；TimePicker 支持直接输入与下拉分栏选择（时/分/秒）。"
+                Hint="DatePicker 支持 sui:TextBoxAssist.PlaceholderText；TimePicker 支持按 Enter 提交、Esc 撤销与步长配置。">
+                <WrapPanel>
+                    <StackPanel Margin="0,0,20,12">
+                        <TextBlock Text="开始日期（DatePicker）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                        <DatePicker Width="180" sui:TextBoxAssist.PlaceholderText="选择开始日期" />
+                    </StackPanel>
+                    <StackPanel Margin="0,0,20,12">
+                        <TextBlock Text="禁用日期" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                        <DatePicker Width="160" IsEnabled="False" />
+                    </StackPanel>
+                    <StackPanel Margin="0,0,20,12">
+                        <TextBlock Text="时间选择（HH:mm，5 分步长）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                        <sui:TimePicker Width="160" MinuteIncrement="5" PlaceholderText="选择执行时间" />
+                    </StackPanel>
+                    <StackPanel Margin="0,0,20,12">
+                        <TextBlock Text="含秒数（HH:mm:ss）" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                        <sui:TimePicker Width="170" ShowSeconds="True" SelectedTime="09:30:15" />
+                    </StackPanel>
+                    <StackPanel Margin="0,0,0,12">
+                        <TextBlock Text="只读时间" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                        <sui:TimePicker Width="140" IsReadOnly="True" SelectedTime="18:00:00" />
+                    </StackPanel>
+                </WrapPanel>
+            </g:Example>
+            <g:Example
+                Title="本地文件选择与拖放（FileUpload）"
+                Description="内置 Win32 OpenFileDialog 扩展名过滤、单选/多选与资源管理器拖放校验，自动列出已选文件并支持逐项移除。"
+                Hint="点击「浏览文件」或直接从资源管理器拖入 .bin / .txt 文件体验效果；非目标扩展名拖入时会被拒绝。">
+                <StackPanel>
+                    <sui:FileUpload
+                        Title="选择固件或配置文件（单选）"
+                        Description="支持 .bin、.txt 文件；点击按钮或直接拖放到此区域"
+                        Filter="固件与文本 (*.bin;*.txt)|*.bin;*.txt|所有文件 (*.*)|*.*"
+                        Margin="0,0,0,12" />
+                    <sui:FileUpload
+                        Title="批量选择附件（多选）"
+                        Description="允许一次选择或拖入多个文件，支持逐项移除或一键清空"
+                        AllowMultiple="True"
+                        ButtonText="添加文件" />
+                </StackPanel>
             </g:Example>
             <g:Example
                 Title="列表与滚动"

@@ -208,4 +208,81 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!-- 分栏筛选药丸（单选互斥）：适合列表过滤、分类切换等场景。 -->
+    <Style x:Key="SUI.RadioButton.Pill" TargetType="{x:Type RadioButton}">
+        <Setter Property="Background" Value="{StaticResource SUI.Brush.Surface}" />
+        <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextSecondary}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+        <Setter Property="BorderThickness" Value="{StaticResource SUI.Border.Thickness}" />
+        <Setter Property="MinHeight" Value="{StaticResource SUI.Control.PillHeight}" />
+        <Setter Property="Padding" Value="{StaticResource SUI.Space.PillPadding}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{StaticResource SUI.Font.Family}" />
+        <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Body}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Grid SnapsToDevicePixels="True">
+                        <Border x:Name="Chrome"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{StaticResource SUI.Radius.Pill}"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              ContentSource="Content"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                        <Border x:Name="FocusOutline"
+                                BorderBrush="Transparent"
+                                BorderThickness="{StaticResource SUI.Border.FocusThickness}"
+                                CornerRadius="{StaticResource SUI.Radius.Pill}"
+                                IsHitTestVisible="False" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Background" Value="{StaticResource SUI.Brush.Selected}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Accent}" />
+                            <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Accent}" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsChecked" Value="False" />
+                                <Condition Property="IsEnabled" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{StaticResource SUI.Brush.Hover}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.BorderHover}" />
+                            <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsPressed" Value="True" />
+                                <Condition Property="IsEnabled" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{StaticResource SUI.Brush.Pressed}" />
+                        </MultiTrigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="FocusOutline" Property="BorderBrush" Value="{StaticResource SUI.Brush.Focus}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Cursor" Value="Arrow" />
+                            <Setter Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+                            <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

@@ -1,19 +1,173 @@
-﻿<UserControl
+<UserControl
     x:Class="SUI.FileUpload"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:SUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    SnapsToDevicePixels="True"
+    UseLayoutRounding="True"
+    d:DesignHeight="160"
+    d:DesignWidth="420"
     mc:Ignorable="d">
-    <StackPanel Orientation="Vertical">
-        <TextBlock
-            Margin="10,10,0,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            Text="文件上传组件" />
-        
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SUI;component/Themes/Colors.xaml" />
+                <ResourceDictionary Source="/SUI;component/Themes/Metrics.xaml" />
+                <ResourceDictionary Source="/SUI;component/Styles/ButtonStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <UserControl.Style>
+        <Style TargetType="{x:Type UserControl}">
+            <Setter Property="AllowDrop" Value="{Binding AllowDropFiles, RelativeSource={RelativeSource Self}}" />
+            <Setter Property="FontFamily" Value="{StaticResource SUI.Font.Family}" />
+            <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Body}" />
+            <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+        </Style>
+    </UserControl.Style>
+
+    <StackPanel>
+        <!-- 文件选择与拖放区域 -->
+        <Border x:Name="DropZone"
+                Padding="{StaticResource SUI.Space.CardPadding}"
+                BorderThickness="{StaticResource SUI.Border.Thickness}"
+                CornerRadius="{StaticResource SUI.Radius.Panel}"
+                SnapsToDevicePixels="True">
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="Background" Value="{StaticResource SUI.Brush.SurfaceAlt}" />
+                    <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsDragOver, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                            <Setter Property="Background" Value="{StaticResource SUI.Brush.Selected}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Accent}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False">
+                            <Setter Property="Background" Value="{StaticResource SUI.Brush.Disabled}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0"
+                        Width="{StaticResource SUI.Control.FileUploadIconSize}"
+                        Height="{StaticResource SUI.Control.FileUploadIconSize}"
+                        Margin="{StaticResource SUI.Space.CardIconGap}"
+                        VerticalAlignment="Center"
+                        Background="{StaticResource SUI.Brush.Selected}"
+                        CornerRadius="{StaticResource SUI.Radius.Panel}">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontFamily="{StaticResource SUI.Font.Icon}"
+                               FontSize="{StaticResource SUI.Font.Size.Title}"
+                               Foreground="{StaticResource SUI.Brush.Accent}"
+                               Text="&#xE898;" />
+                </Border>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock FontWeight="SemiBold"
+                               Foreground="{StaticResource SUI.Brush.Text}"
+                               Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="0,4,0,0"
+                               FontSize="{StaticResource SUI.Font.Size.Caption}"
+                               Foreground="{StaticResource SUI.Brush.TextSecondary}"
+                               Text="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               TextWrapping="Wrap">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Description, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2"
+                            Margin="{StaticResource SUI.Space.CardSlotGap}"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                    <Button x:Name="ClearButton"
+                            Margin="0,0,8,0"
+                            Click="OnClearClick"
+                            Content="清空"
+                            Visibility="Collapsed" />
+                    <Button x:Name="BrowseButton"
+                            Click="OnBrowseClick"
+                            Content="{Binding ButtonText, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- 已选文件列表 -->
+        <ItemsControl x:Name="SelectedFilesList"
+                      Margin="0,8,0,0"
+                      ItemsSource="{Binding SelectedFiles, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                      Visibility="Collapsed">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="{StaticResource SUI.Space.FileUploadItemMargin}"
+                            Padding="{StaticResource SUI.Space.FileUploadItemPadding}"
+                            Background="{StaticResource SUI.Brush.Surface}"
+                            BorderBrush="{StaticResource SUI.Brush.Border}"
+                            BorderThickness="{StaticResource SUI.Border.Thickness}"
+                            CornerRadius="{StaticResource SUI.Radius.Control}"
+                            ToolTip="{Binding}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Margin="0,0,8,0"
+                                       VerticalAlignment="Center"
+                                       FontFamily="{StaticResource SUI.Font.Icon}"
+                                       FontSize="{StaticResource SUI.Font.Size.Body}"
+                                       Foreground="{StaticResource SUI.Brush.Accent}"
+                                       Text="&#xE8A5;" />
+                            <TextBlock Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource SUI.Brush.Text}"
+                                       Text="{Binding}"
+                                       TextTrimming="CharacterEllipsis" />
+                            <Button Grid.Column="2"
+                                    Width="{StaticResource SUI.Control.IconButtonSize}"
+                                    Height="{StaticResource SUI.Control.IconButtonSize}"
+                                    MinHeight="{StaticResource SUI.Control.IconButtonSize}"
+                                    Margin="8,0,0,0"
+                                    Padding="0"
+                                    AutomationProperties.Name="移除文件"
+                                    Click="OnRemoveFileClick"
+                                    Style="{StaticResource SUI.Button.Ghost}"
+                                    Tag="{Binding}"
+                                    ToolTip="移除">
+                                <TextBlock FontFamily="{StaticResource SUI.Font.Icon}"
+                                           FontSize="{StaticResource SUI.Font.Size.IconSmall}"
+                                           Foreground="{StaticResource SUI.Brush.TextSecondary}"
+                                           Text="&#xE711;" />
+                            </Button>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </StackPanel>
 </UserControl>
