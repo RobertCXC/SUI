@@ -47,8 +47,8 @@ public class SUIDialog : Window
         UseLayoutRounding = true;
         SnapsToDevicePixels = true;
 
-        var resolvedOwner = owner ?? Application.Current?.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive && w != this);
-        if (resolvedOwner is not null)
+        var resolvedOwner = owner ?? Application.Current?.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive && w.IsVisible && w != this);
+        if (resolvedOwner is { IsVisible: true })
         {
             Owner = resolvedOwner;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;

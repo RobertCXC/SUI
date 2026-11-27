@@ -82,6 +82,7 @@
                                      Foreground="{TemplateBinding Foreground}"
                                      SelectionBrush="{StaticResource SUI.Brush.Accent}"
                                      SelectionOpacity="0.3"
+                                     IsReadOnly="{TemplateBinding IsReadOnly}"
                                      IsEnabled="{TemplateBinding IsEnabled}">
                                 <TextBox.Template>
                                     <ControlTemplate TargetType="{x:Type TextBox}">
@@ -162,6 +163,9 @@
                         </MultiTrigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
                             <Setter TargetName="FocusBottomBorder" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter TargetName="OuterBorder" Property="Background" Value="{StaticResource SUI.Brush.SurfaceAlt}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextDisabled}" />

@@ -22,8 +22,12 @@ public class SUINumberBox : Control
     private ButtonBase? _downButton;
     private bool _isSyncingText;
 
-    static SUINumberBox() =>
+    static SUINumberBox()
+    {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(SUINumberBox), new FrameworkPropertyMetadata(typeof(SUINumberBox)));
+        IsTabStopProperty.OverrideMetadata(typeof(SUINumberBox), new FrameworkPropertyMetadata(false));
+        IsEnabledProperty.OverrideMetadata(typeof(SUINumberBox), new FrameworkPropertyMetadata(OnStateChanged));
+    }
 
     public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
         nameof(Value), typeof(double?), typeof(SUINumberBox),
@@ -85,6 +89,15 @@ public class SUINumberBox : Control
         set => SetValue(AllowEmptyProperty, value);
     }
 
+    public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register(
+        nameof(IsReadOnly), typeof(bool), typeof(SUINumberBox), new FrameworkPropertyMetadata(false, OnStateChanged));
+
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+
     public static readonly DependencyProperty ShowButtonsProperty = DependencyProperty.Register(
         nameof(ShowButtons), typeof(bool), typeof(SUINumberBox), new FrameworkPropertyMetadata(true));
 
@@ -137,7 +150,7 @@ public class SUINumberBox : Control
     protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
     {
         base.OnPreviewMouseWheel(e);
-        if (!IsKeyboardFocusWithin || e.Delta == 0) return;
+        if (IsReadOnly || !IsKeyboardFocusWithin || e.Delta == 0) return;
 
         StepBy(e.Delta > 0 ? Step : -Step);
         e.Handled = true;
@@ -173,11 +186,11 @@ public class SUINumberBox : Control
         switch (e.Key)
         {
             case Key.Up:
-                StepBy(Step);
+                if (!IsReadOnly) StepBy(Step);
                 e.Handled = true;
                 break;
             case Key.Down:
-                StepBy(-Step);
+                if (!IsReadOnly) StepBy(-Step);
                 e.Handled = true;
                 break;
             case Key.Enter:
@@ -193,6 +206,7 @@ public class SUINumberBox : Control
 
     public void StepBy(double delta)
     {
+        if (IsReadOnly) return;
         var baseValue = TryParseText(out var typed) ? typed : (Value ?? Clamp(0d));
         SetCurrentValue(ValueProperty, Normalize(baseValue + delta));
         SyncTextAndButtons();
@@ -259,8 +273,9 @@ public class SUINumberBox : Control
 
         var min = Math.Min(Minimum, Maximum);
         var max = Math.Max(Minimum, Maximum);
-        if (_upButton is not null) _upButton.IsEnabled = IsEnabled && (Value is null || Value < max);
-        if (_downButton is not null) _downButton.IsEnabled = IsEnabled && (Value is null || Value > min);
+        var canStep = IsEnabled && !IsReadOnly;
+        if (_upButton is not null) _upButton.IsEnabled = canStep && (Value is null || Value < max);
+        if (_downButton is not null) _downButton.IsEnabled = canStep && (Value is null || Value > min);
     }
 
     private static object? CoerceValue(DependencyObject d, object? baseValue)
@@ -285,6 +300,8 @@ public class SUINumberBox : Control
         d.CoerceValue(ValueProperty);
         ((SUINumberBox)d).SyncTextAndButtons();
     }
+
+    private static void OnStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => ((SUINumberBox)d).SyncTextAndButtons();
 
     private static void OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

@@ -64,9 +64,64 @@
 </li>
 <li><p>运行用户只需应用对应的运行时：Framework 应用使用 4.8 / 4.8.1，现代 WPF 应用使用对应的 .NET Desktop Runtime；不要求安装 SDK。自包含发布由宿主应用决定。</p>
 </li>
-<li><p><strong>版本能力对照</strong>：NuGet <code>0.0.9</code>（基于 <code>v0.0.9</code> / <code>52024e5</code>）已包含多目标框架支持、<code>SUIBadge</code> 以及 <code>SUI.Brush.SuccessSubtle</code> / <code>WarningSubtle</code> / <code>DangerSubtle</code> 浅色语义画刷；<code>Themes/Metrics.xaml</code> 独立拆分、下拉紧凑令牌（<code>cad9212</code>）及 <code>SUIInfoBar</code>、<code>SUIToastHost</code>、<code>SUIDialog</code>、<code>SUINumberBox</code>、<code>SUISettingsCard</code>、横向导航布局（<code>PaneLayout=&quot;Horizontal&quot;</code>）、<code>SUI.ListBox.Navigation</code>、<code>SUI.Separator</code>、<code>SUI.Text.*</code> 等属于 <code>0.0.9</code> 之后主干源码新增，需待后续版本发布或通过 <code>ProjectReference</code> 使用。</p>
+<li><p><strong>版本能力对照</strong>：NuGet 上当前稳定版本为 <code>0.0.9</code>（对应提交 <code>52024e5</code>），而本仓库主干源码在此之后持续新增了资源拆分与多项组件。接入前可先核对下表：</p>
 </li>
 </ul>
+<div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
+<thead>
+<tr>
+<th>能力 / 组件</th>
+<th>NuGet <code>0.0.9</code></th>
+<th>当前主干源码（待发版）</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>net48</code> / <code>net8.0-windows</code> / <code>net10.0-windows</code></td>
+<td>已包含</td>
+<td>已包含</td>
+<td>同一 NuGet 包按目标框架自动匹配 DLL。</td>
+</tr>
+<tr>
+<td><code>SUIBadge</code> 与 <code>SuccessSubtle</code> / <code>WarningSubtle</code> / <code>DangerSubtle</code></td>
+<td>已包含</td>
+<td>已包含</td>
+<td>自 <code>0.0.9</code> 起可用。</td>
+</tr>
+<tr>
+<td><code>Themes/Metrics.xaml</code> 拆分与下拉紧凑令牌</td>
+<td>暂不包含</td>
+<td>已包含</td>
+<td><code>0.0.9</code> 中尺寸令牌仍在 <code>Colors.xaml</code>；主干（<code>cad9212</code> 起）拆分为 <code>Metrics.xaml</code>，并新增 <code>SUI.Space.ComboBoxItemPadding</code>、<code>SUI.Control.ComboBoxItemMinHeight</code>。</td>
+</tr>
+<tr>
+<td><code>SUI.Switch</code> 首帧已选中状态同步落位</td>
+<td>暂不包含</td>
+<td>已包含</td>
+<td>修复初始 <code>IsChecked=&quot;True&quot;</code> 时首帧误显关闭态并回弹的样式问题。</td>
+</tr>
+<tr>
+<td><code>SUINavigationView.PaneLayout=&quot;Horizontal&quot;</code> 与角标</td>
+<td>暂不包含</td>
+<td>已包含</td>
+<td>横向二级侧栏、左侧 3px <code>Accent</code> 选中指示条及 <code>SUINavigationItem.BadgeText/BadgeVariant</code>。</td>
+</tr>
+<tr>
+<td><code>SUI.ListBox.Navigation</code> / <code>SUISettingsCard</code> / <code>SUI.Separator</code> / <code>SUI.Text.*</code></td>
+<td>暂不包含</td>
+<td>已包含</td>
+<td>设置页常用组合容器、分组标题与内容区 1px 分隔线。</td>
+</tr>
+<tr>
+<td><code>SUIInfoBar</code>、<code>SUIToastHost</code>、<code>SUIDialog</code>、<code>SUINumberBox</code></td>
+<td>暂不包含</td>
+<td>已包含</td>
+<td>页面横幅、轻提示、模态确认框与带步进范围约束的数值框。</td>
+</tr>
+</tbody>
+</table></div>
+<p>如需立即使用「当前主干源码」中的新能力，请通过本地 <code>ProjectReference</code> 引用仓库；若仅依赖 NuGet <code>0.0.9</code>，请以表格第一列标注「已包含」的能力为准。</p>
 <p>一次打包仍生成一个 SUI NuGet 包、使用同一个版本号，内部按目标框架存放三份 <code>SUI.dll</code>，NuGet 自动选取匹配版本。手动引用 DLL 时，请从 <code>bin/Release/&lt;目标框架&gt;/</code> 选取对应文件，不要混用。</p>
 <h3 id="1-通过-nuget-安装-sui">1. 通过 NuGet 安装 SUI<a class="heading-link" href="#1-通过-nuget-安装-sui" aria-label="链接到：1. 通过 NuGet 安装 SUI">#</a></h3>
 <p>在你的 WPF 项目 <code>.csproj</code> 所在目录执行：</p>
@@ -219,68 +274,298 @@
 <p>设计参考：<a href="https://learn.microsoft.com/en-us/fluent-ui/web-components/components/badge">Fluent UI Badge</a> 的通用状态用途，以及 <a href="https://ant.design/components/badge">Ant Design Badge</a> 的语义状态。此 API 按 SUI 命名约定独立实现。</p>
 </section>
 <section class="doc-section" aria-labelledby="suiinfobar-与-suitoasthost-提示控件"><div class="section-number">04 / SUI 手册</div><h2 id="suiinfobar-与-suitoasthost-提示控件"><code>SUIInfoBar</code> 与 <code>SUIToastHost</code> 提示控件<a class="heading-link" href="#suiinfobar-与-suitoasthost-提示控件" aria-label="链接到：SUIInfoBar 与 SUIToastHost 提示控件">#</a></h2>
-<p><code>SUIInfoBar</code> 用于页面内嵌横幅提示（成功、警告、错误、常规说明），支持可选标题、右侧操作区与关闭按钮；<code>SUIToastHost</code> 可叠加放在页面或窗口顶层 <code>Grid</code> 中，提供非阻塞、自动消失的轻提示。二者共用 <code>InfoSeverity</code>（<code>Info</code>、<code>Success</code>、<code>Warning</code>、<code>Error</code>）。</p>
-<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;!-- 页面内嵌横幅 --&gt;
+<p><code>SUIInfoBar</code> 与 <code>SUIToastHost</code> 位于 <code>SUI</code> 命名空间，共用语义级别枚举 <code>InfoSeverity</code>，颜色直接复用 <code>Themes/Colors.xaml</code> 中的语义色与浅色背景画刷。</p>
+<h3 id="语义级别-infoseverity">语义级别 <code>InfoSeverity</code><a class="heading-link" href="#语义级别-infoseverity" aria-label="链接到：语义级别 InfoSeverity">#</a></h3>
+<div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
+<thead>
+<tr>
+<th>枚举值</th>
+<th>语义</th>
+<th><code>SUIInfoBar</code> 背景 / 图标色</th>
+<th><code>SUIToastHost</code> 左侧指示条</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Info</code>（默认）</td>
+<td>常规提示、说明</td>
+<td><code>SUI.Brush.Selected</code> / <code>SUI.Brush.Info</code></td>
+<td><code>SUI.Brush.Info</code></td>
+</tr>
+<tr>
+<td><code>Success</code></td>
+<td>操作成功、保存完成</td>
+<td><code>SUI.Brush.SuccessSubtle</code> / <code>SUI.Brush.Success</code></td>
+<td><code>SUI.Brush.Success</code></td>
+</tr>
+<tr>
+<td><code>Warning</code></td>
+<td>环境变量覆盖、占位警告</td>
+<td><code>SUI.Brush.WarningSubtle</code> / <code>SUI.Brush.Warning</code></td>
+<td><code>SUI.Brush.Warning</code></td>
+</tr>
+<tr>
+<td><code>Error</code></td>
+<td>校验失败、连接异常</td>
+<td><code>SUI.Brush.DangerSubtle</code> / <code>SUI.Brush.Danger</code></td>
+<td><code>SUI.Brush.Danger</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="suiinfobar-页面内嵌提示条"><code>SUIInfoBar</code> 页面内嵌提示条<a class="heading-link" href="#suiinfobar-页面内嵌提示条" aria-label="链接到：SUIInfoBar 页面内嵌提示条">#</a></h3>
+<p><code>SUIInfoBar</code> 是轻量 <code>ContentControl</code>，默认水平拉伸、自动换行。支持仅显示 <code>Message</code>、同时显示粗体 <code>Title</code> 与 <code>Message</code>、右侧放置操作控件（<code>ActionContent</code>），以及在下方通过 <code>Content</code> 放入自定义内容。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;!-- 1. 可关闭的提示横幅 + 右侧操作按钮（支持 MVVM 双向绑定 IsOpen） --&gt;
 &lt;sui:SUIInfoBar
     Title=&quot;环境变量覆盖&quot;
-    Message=&quot;LOG_LEVEL 当前受环境变量控制。&quot;
+    Message=&quot;LOG_LEVEL 当前由环境变量接管，页面修改将在移除环境变量后生效。&quot;
     Severity=&quot;Warning&quot;
-    IsOpen=&quot;{Binding ShowEnvWarning}&quot; /&gt;
+    IsOpen=&quot;{Binding ShowEnvWarning}&quot;
+    Closed=&quot;OnInfoBarClosed&quot;&gt;
+    &lt;sui:SUIInfoBar.ActionContent&gt;
+        &lt;Button Content=&quot;查看说明&quot; Command=&quot;{Binding OpenHelpCommand}&quot; /&gt;
+    &lt;/sui:SUIInfoBar.ActionContent&gt;
+&lt;/sui:SUIInfoBar&gt;
 
-&lt;!-- 叠加层轻提示宿主 --&gt;
-&lt;sui:SUIToastHost x:Name=&quot;ToastHost&quot; Duration=&quot;0:0:3&quot; /&gt;
-</code></pre></div>
-<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="csharp 代码示例"><code class="language-csharp">ToastHost.Show(&quot;配置已保存&quot;, InfoSeverity.Success, &quot;保存成功&quot;);
+&lt;!-- 2. 不可关闭的静态状态提示 --&gt;
+&lt;sui:SUIInfoBar
+    Title=&quot;校验失败&quot;
+    Message=&quot;单文件大小上限必须在 1 到 1024 MiB 之间。&quot;
+    Severity=&quot;Error&quot;
+    IsClosable=&quot;False&quot; /&gt;
 </code></pre></div>
 <div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
 <thead>
 <tr>
-<th>控件</th>
-<th>主要成员</th>
+<th>属性/事件</th>
+<th>类型</th>
+<th>默认值</th>
 <th>说明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>SUIInfoBar</code></td>
-<td><code>Title</code>、<code>Message</code>、<code>Severity</code>、<code>ActionContent</code>、<code>IsClosable</code>、<code>IsOpen</code>、<code>Closed</code></td>
-<td>默认 <code>IsOpen=&quot;True&quot;</code>、<code>IsClosable=&quot;True&quot;</code>；点击关闭会将 <code>IsOpen</code> 设为 <code>false</code> 并触发 <code>Closed</code>。</td>
+<td><code>Title</code></td>
+<td><code>string?</code></td>
+<td><code>null</code></td>
+<td>粗体标题，为空时不占位。</td>
 </tr>
 <tr>
-<td><code>SUIToastHost</code></td>
-<td><code>Duration</code>（默认 3 秒）、<code>MaxItems</code>（默认 4）、<code>Show(...)</code>、<code>Dismiss(...)</code>、<code>Clear()</code></td>
-<td>超过 <code>MaxItems</code> 时自动移除最早一条，空宿主不拦截鼠标点击。</td>
+<td><code>Message</code></td>
+<td><code>string?</code></td>
+<td><code>null</code></td>
+<td>提示正文，支持自动换行，为空时不占位。</td>
+</tr>
+<tr>
+<td><code>Severity</code></td>
+<td><code>InfoSeverity</code></td>
+<td><code>InfoSeverity.Info</code></td>
+<td>控制图标、浅色底色与图标语义色。</td>
+</tr>
+<tr>
+<td><code>ActionContent</code></td>
+<td><code>object?</code></td>
+<td><code>null</code></td>
+<td>显示在关闭按钮左侧的自定义操作元素（如 <code>Button</code>）。</td>
+</tr>
+<tr>
+<td><code>Content</code></td>
+<td><code>object?</code></td>
+<td><code>null</code></td>
+<td>显示在标题/消息下方的附加自定义内容，无内容时自动折叠。</td>
+</tr>
+<tr>
+<td><code>IsClosable</code></td>
+<td><code>bool</code></td>
+<td><code>true</code></td>
+<td>是否显示右上角关闭按钮。</td>
+</tr>
+<tr>
+<td><code>IsOpen</code></td>
+<td><code>bool</code></td>
+<td><code>true</code></td>
+<td>是否显示横幅，支持双向绑定；设为 <code>false</code> 时控件 <code>Visibility</code> 变为 <code>Collapsed</code>。</td>
+</tr>
+<tr>
+<td><code>Closed</code></td>
+<td>路由事件</td>
+<td>—</td>
+<td>用户点击内置关闭按钮时触发。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="suitoasthost-轻量非阻塞提示宿主"><code>SUIToastHost</code> 轻量非阻塞提示宿主<a class="heading-link" href="#suitoasthost-轻量非阻塞提示宿主" aria-label="链接到：SUIToastHost 轻量非阻塞提示宿主">#</a></h3>
+<p>将 <code>SUIToastHost</code> 放在页面或主窗口根 <code>Grid</code> 的最末子节点，默认靠右下角对齐（可通过 <code>HorizontalAlignment</code>、<code>VerticalAlignment</code>、<code>Margin</code> 调整位置）。无通知时容器不占用交互命中区域，不会拦截下方控件的鼠标点击。</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;Grid&gt;
+    &lt;!-- 主页面内容 --&gt;
+    &lt;ScrollViewer&gt;
+        &lt;!-- ... --&gt;
+    &lt;/ScrollViewer&gt;
+
+    &lt;!-- 叠加在最上层的轻提示宿主 --&gt;
+    &lt;sui:SUIToastHost x:Name=&quot;ToastHost&quot; Duration=&quot;0:0:3&quot; MaxItems=&quot;4&quot; /&gt;
+&lt;/Grid&gt;
+</code></pre></div>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="csharp 代码示例"><code class="language-csharp">// 1. 弹出默认 3 秒自动消失的成功提示
+ToastHost.Show(&quot;配置已保存到本地。&quot;, InfoSeverity.Success, &quot;保存成功&quot;);
+
+// 2. 自定义本条提示停留时间（传入 TimeSpan.Zero 则不自动消失，仅手动关闭）
+var toast = ToastHost.Show(&quot;后台正在同步索引…&quot;, InfoSeverity.Info, duration: TimeSpan.FromSeconds(5));
+
+// 3. 提前手动关闭单条或清空全部
+ToastHost.Dismiss(toast);
+ToastHost.Clear();
+</code></pre></div>
+<div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
+<thead>
+<tr>
+<th>成员</th>
+<th>类型 / 签名</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Duration</code></td>
+<td><code>TimeSpan</code></td>
+<td><code>3 秒</code></td>
+<td>默认自动消失延时。</td>
+</tr>
+<tr>
+<td><code>MaxItems</code></td>
+<td><code>int</code></td>
+<td><code>4</code></td>
+<td>同时展示的最大条数（须大于 <code>0</code>）；超出时自动移除最早一条。</td>
+</tr>
+<tr>
+<td><code>Show(...)</code></td>
+<td><code>SUIToastMessage Show(string message, InfoSeverity severity = Info, string? title = null, TimeSpan? duration = null)</code></td>
+<td>—</td>
+<td>追加一条通知并返回消息对象；<code>duration</code> 为 <code>TimeSpan.Zero</code> 时保持显示直到手动关闭。</td>
+</tr>
+<tr>
+<td><code>Dismiss(...)</code></td>
+<td><code>void Dismiss(SUIToastMessage? item)</code></td>
+<td>—</td>
+<td>关闭指定通知。</td>
+</tr>
+<tr>
+<td><code>Clear()</code></td>
+<td><code>void Clear()</code></td>
+<td>—</td>
+<td>清空当前所有通知。</td>
 </tr>
 </tbody>
 </table></div>
 </section>
 <section class="doc-section" aria-labelledby="suidialog-对话框"><div class="section-number">05 / SUI 手册</div><h2 id="suidialog-对话框"><code>SUIDialog</code> 对话框<a class="heading-link" href="#suidialog-对话框" aria-label="链接到：SUIDialog 对话框">#</a></h2>
-<p><code>SUIDialog</code> 提供与 SUI 一致的 Fluent 模态确认与提示窗口，支持常规/危险主按钮、三按钮选项、自动跟随当前活动窗口居中、<code>Esc</code> 取消以及自定义内容元素。</p>
-<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="csharp 代码示例"><code class="language-csharp">// 危险操作二次确认
-if (SUIDialog.Confirm(&quot;确定清理全部历史日志吗？此操作不可撤销。&quot;, &quot;清理日志&quot;, &quot;清理&quot;, &quot;取消&quot;, isDanger: true))
+<p><code>SUIDialog</code> 是采用 SUI Fluent 外观的轻量模态窗口，用于替代系统原生 <code>MessageBox</code>，保持按钮风格、圆角、字号与色彩体系一致。内置无边框拖拽标题栏、语义图标、<code>Esc</code> 快捷取消以及点击右上角关闭按钮。</p>
+<ul>
+<li><strong>焦点与防误触约定</strong>：当 <code>isDanger: true</code> 时，主按钮自动使用 <code>SUI.Button.Danger</code> 样式且<strong>不设为 <code>IsDefault</code></strong>，避免用户误按 <code>Enter</code> 触发不可逆操作；常规确认（<code>isDanger: false</code>）主按钮为 <code>SUI.Button.Primary</code> 且支持 <code>Enter</code> 确认。<code>Esc</code> 键与取消按钮始终触发 <code>SUIDialogResult.Cancel</code>。</li>
+<li><strong>自动居中</strong>：<code>owner</code> 传入 <code>null</code> 时，自动查找当前处于激活且可见的主窗口作为 <code>Owner</code> 并居中；若无可用窗口则屏幕居中。关闭后焦点由 WPF 模态机制自动交还父窗口。</li>
+</ul>
+<h3 id="常用接入方式">常用接入方式<a class="heading-link" href="#常用接入方式" aria-label="链接到：常用接入方式">#</a></h3>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="csharp 代码示例"><code class="language-csharp">// 1. 常规双按钮确认（返回 bool）
+if (SUIDialog.Confirm(
+    message: &quot;确定将所有配置恢复为默认值吗？&quot;,
+    title: &quot;恢复默认设置&quot;,
+    confirmText: &quot;恢复默认&quot;,
+    cancelText: &quot;取消&quot;,
+    owner: Window.GetWindow(this)))
 {
-    // 执行清理
+    ResetDefaults();
 }
 
-// 自定义三按钮选择
+// 2. 危险操作二次确认（isDanger: true 使用红色 Danger 按钮且不绑定回车默认触发）
+if (SUIDialog.Confirm(
+    message: &quot;将永久删除 128 MB 历史日志且无法恢复，是否继续？&quot;,
+    title: &quot;清理历史日志&quot;,
+    confirmText: &quot;确认清理&quot;,
+    cancelText: &quot;取消&quot;,
+    isDanger: true))
+{
+    ClearLogs();
+}
+
+// 3. 三按钮选择（返回 SUIDialogResult: Primary / Secondary / Cancel / None）
 var result = SUIDialog.Show(
-    &quot;当前配置尚未保存，关闭前要保存更改吗？&quot;,
-    &quot;未保存的更改&quot;,
+    content: &quot;当前配置尚未保存，关闭前要保存更改吗？&quot;,
+    title: &quot;未保存的更改&quot;,
     primaryText: &quot;保存&quot;,
     secondaryText: &quot;不保存&quot;,
     cancelText: &quot;取消&quot;,
     severity: InfoSeverity.Warning);
+
+// 4. 自定义弹窗内容（传入任意 WPF UIElement，如输入框）
+var input = new TextBox { Width = 280, Text = &quot;default-profile&quot; };
+if (SUIDialog.Show(input, title: &quot;新建配置名称&quot;, primaryText: &quot;创建&quot;, cancelText: &quot;取消&quot;) == SUIDialogResult.Primary)
+{
+    CreateProfile(input.Text);
+}
 </code></pre></div>
+<h3 id="api-说明">API 说明<a class="heading-link" href="#api-说明" aria-label="链接到：API 说明">#</a></h3>
+<div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
+<thead>
+<tr>
+<th>成员</th>
+<th>签名 / 枚举值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SUIDialogResult</code></td>
+<td><code>None</code>、<code>Primary</code>、<code>Secondary</code>、<code>Cancel</code></td>
+<td>分别对应窗口直接关闭、主按钮、次按钮、取消按钮/<code>Esc</code>/右上角关闭。</td>
+</tr>
+<tr>
+<td><code>SUIDialog.Confirm(...)</code></td>
+<td><code>bool Confirm(string message, string title = &quot;确认操作&quot;, string confirmText = &quot;确定&quot;, string cancelText = &quot;取消&quot;, bool isDanger = false, Window? owner = null)</code></td>
+<td>快捷双按钮确认；点击主确认按钮返回 <code>true</code>，其余返回 <code>false</code>。</td>
+</tr>
+<tr>
+<td><code>SUIDialog.Show(...)</code></td>
+<td><code>SUIDialogResult Show(object content, string title = &quot;提示&quot;, string? primaryText = &quot;确定&quot;, string? secondaryText = null, string? cancelText = null, InfoSeverity severity = InfoSeverity.Info, bool isDanger = false, Window? owner = null)</code></td>
+<td>完整可配置模态框；传 <code>null</code> 或空字符串的按钮不会渲染。</td>
+</tr>
+</tbody>
+</table></div>
 </section>
 <section class="doc-section" aria-labelledby="suinumberbox-数值输入框"><div class="section-number">06 / SUI 手册</div><h2 id="suinumberbox-数值输入框"><code>SUINumberBox</code> 数值输入框<a class="heading-link" href="#suinumberbox-数值输入框" aria-label="链接到：SUINumberBox 数值输入框">#</a></h2>
-<p><code>SUINumberBox</code> 提供上下步进按钮、键盘 <code>↑</code>/<code>↓</code>/<code>Enter</code>/<code>Esc</code>、聚焦后鼠标滚轮微调以及范围钳制（<code>Minimum</code> / <code>Maximum</code>），适合端口、大小限制、保留天数和超时毫秒等参数输入。失去焦点或按 <code>Enter</code> 时才会按 <code>DecimalPlaces</code> 规范化文本，允许输入中间态。</p>
-<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;sui:SUINumberBox
+<p><code>SUINumberBox</code> 专为端口、单文件大小限制（MiB）、保留天数、超时毫秒与浮点阈值等数值参数设计，视觉与原生 <code>TextBox</code> 对齐（高 32、圆角 4、聚焦 2px 强调色底边）。</p>
+<h3 id="输入步进与校验行为">输入、步进与校验行为<a class="heading-link" href="#输入步进与校验行为" aria-label="链接到：输入、步进与校验行为">#</a></h3>
+<ul>
+<li><strong>允许输入中间态</strong>：编辑过程中不强行覆盖文本，可自由删除、输入负号或小数点；仅在<strong>失去焦点</strong>或按 <strong><code>Enter</code></strong> 时解析并按 <code>[Minimum, Maximum]</code> 钳制、按 <code>DecimalPlaces</code> 四舍五入规范化。</li>
+<li><strong>撤销与步进</strong>：按 <code>Esc</code> 放弃当前未提交编辑并恢复 <code>Value</code>；按 <code>↑</code> / <code>↓</code>、鼠标悬停且聚焦时滚动滚轮、或点击/长按右侧 <code>RepeatButton</code> 步进按钮，按 <code>Step</code> 增量立即更新 <code>Value</code>。达到上下限时对应步进按钮自动禁用。</li>
+<li><strong>空值策略</strong>：<code>AllowEmpty=&quot;False&quot;</code>（默认）时若清空后提交，会自动恢复为钳制后的有效数值（如 <code>Minimum</code> 或 <code>0</code>），适合绑定 MVVM 中的非空 <code>int</code> / <code>double</code> 属性；设为 <code>True</code> 时清空后提交 <code>null</code>，并显示 <code>PlaceholderText</code>。</li>
+</ul>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;!-- 整型配置参数 --&gt;
+&lt;sui:SUINumberBox
     Width=&quot;160&quot;
     Minimum=&quot;1&quot;
     Maximum=&quot;1024&quot;
     Step=&quot;16&quot;
     DecimalPlaces=&quot;0&quot;
     Value=&quot;{Binding MaxFileSizeMiB}&quot; /&gt;
+
+&lt;!-- 保留 2 位小数 --&gt;
+&lt;sui:SUINumberBox
+    Width=&quot;160&quot;
+    Minimum=&quot;0&quot;
+    Maximum=&quot;1&quot;
+    Step=&quot;0.05&quot;
+    DecimalPlaces=&quot;2&quot;
+    Value=&quot;{Binding Threshold}&quot; /&gt;
+
+&lt;!-- 允许留空且隐藏步进按钮 --&gt;
+&lt;sui:SUINumberBox
+    Width=&quot;180&quot;
+    Minimum=&quot;1&quot;
+    Maximum=&quot;3650&quot;
+    AllowEmpty=&quot;True&quot;
+    ShowButtons=&quot;False&quot;
+    PlaceholderText=&quot;留空表示永久保留&quot;
+    Value=&quot;{Binding RetentionDays}&quot; /&gt;
 </code></pre></div>
 <div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
 <thead>
@@ -302,43 +587,49 @@ var result = SUIDialog.Show(
 <td><code>Minimum</code> / <code>Maximum</code></td>
 <td><code>double</code></td>
 <td><code>MinValue</code> / <code>MaxValue</code></td>
-<td>最小与最大允许值。</td>
+<td>最小与最大允许值（若颠倒会自动取区间两端）。</td>
 </tr>
 <tr>
 <td><code>Step</code></td>
 <td><code>double</code></td>
 <td><code>1</code></td>
-<td>按钮、方向键与滚轮的步进增量（须大于 0）。</td>
+<td>步进按钮、键盘上下键与滚轮增量（须大于 <code>0</code>）。</td>
 </tr>
 <tr>
 <td><code>DecimalPlaces</code></td>
 <td><code>int</code></td>
 <td><code>0</code></td>
-<td>保留小数位数（<code>0</code>–<code>15</code>），<code>0</code> 为整数显示。</td>
+<td>保留小数位数（<code>0</code>–<code>15</code>），<code>0</code> 为整数格式。</td>
 </tr>
 <tr>
 <td><code>AllowEmpty</code></td>
 <td><code>bool</code></td>
 <td><code>false</code></td>
-<td>为 <code>true</code> 时清空文本会提交 <code>null</code>；为 <code>false</code> 时自动恢复为有效范围值。</td>
+<td>是否允许提交空值为 <code>null</code>。</td>
 </tr>
 <tr>
 <td><code>ShowButtons</code></td>
 <td><code>bool</code></td>
 <td><code>true</code></td>
-<td>是否显示右侧步进按钮。</td>
+<td>是否显示右侧上下步进按钮。</td>
+</tr>
+<tr>
+<td><code>IsReadOnly</code></td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td>只读状态，禁止文本输入与步进，底色切换为 <code>SurfaceAlt</code>。</td>
 </tr>
 <tr>
 <td><code>PlaceholderText</code></td>
 <td><code>string?</code></td>
 <td><code>null</code></td>
-<td>输入框为空时的占位提示文字。</td>
+<td>文本框为空时显示的占位提示文字。</td>
 </tr>
 <tr>
 <td><code>ValueChanged</code></td>
 <td>路由事件</td>
 <td>—</td>
-<td><code>Value</code> 变更时触发。</td>
+<td><code>Value</code> 变更时触发（<code>RoutedPropertyChangedEventArgs&lt;double?&gt;</code>）。</td>
 </tr>
 </tbody>
 </table></div>
@@ -406,14 +697,36 @@ var result = SUIDialog.Show(
 <p>如果使用图片作为 <code>IconSource</code>，请确保图片格式和资源路径已被宿主 WPF 项目正确处理。SUI 不额外提供 SVG 渲染器。</p>
 </section>
 <section class="doc-section" aria-labelledby="suisettingscard-设置卡片"><div class="section-number">08 / SUI 手册</div><h2 id="suisettingscard-设置卡片"><code>SUISettingsCard</code> 设置卡片<a class="heading-link" href="#suisettingscard-设置卡片" aria-label="链接到：SUISettingsCard 设置卡片">#</a></h2>
-<p><code>SUISettingsCard</code> 继承自 <code>ContentControl</code>，专为设置页和配置面板设计：左侧展示可选图标、标题与副标题，右侧通过 <code>Content</code> 直接放置任意操作控件（如开关、下拉框或按钮）。未设置 <code>IconGlyph</code>、<code>Description</code> 或 <code>Content</code> 时，对应区域自动折叠。</p>
-<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;sui:SUISettingsCard
-    Title=&quot;自动保存&quot;
-    Description=&quot;每隔 5 分钟自动保存一次工作区&quot;
-    IconGlyph=&quot;&amp;#xE74E;&quot;&gt;
-    &lt;CheckBox Style=&quot;{StaticResource SUI.Switch}&quot; IsChecked=&quot;{Binding AutoSave}&quot; /&gt;
-&lt;/sui:SUISettingsCard&gt;
+<p><code>SUISettingsCard</code> 继承自 <code>ContentControl</code>，专为设置页和配置面板设计：左侧展示可选图标、主标题与副标题，右侧通过 <code>Content</code> 直接放置任意操作控件（开关、下拉框、按钮或 <code>SUINumberBox</code>）。自身不抢占 Tab 焦点（<code>IsTabStop=&quot;False&quot;</code>），<code>Tab</code> 会直接落入右侧交互控件；<code>AutomationPeer</code> 在未设置 <code>AutomationProperties.Name</code> 时自动读取 <code>Title</code>。</p>
+<h3 id="设置页组合示例">设置页组合示例<a class="heading-link" href="#设置页组合示例" aria-label="链接到：设置页组合示例">#</a></h3>
+<p>通常与 <code>SUI.Text.SectionHeader</code> 分组标题、<code>SUI.Separator</code> 内容分隔线配合使用：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;StackPanel&gt;
+    &lt;TextBlock Text=&quot;常规与存储&quot; Style=&quot;{StaticResource SUI.Text.SectionHeader}&quot; Margin=&quot;0,0,0,8&quot; /&gt;
+
+    &lt;sui:SUISettingsCard
+        Title=&quot;自动保存&quot;
+        Description=&quot;每隔 5 分钟自动保存一次工作区&quot;
+        IconGlyph=&quot;&amp;#xE74E;&quot;
+        Margin=&quot;0,0,0,8&quot;&gt;
+        &lt;CheckBox Style=&quot;{StaticResource SUI.Switch}&quot; IsChecked=&quot;{Binding AutoSave}&quot; /&gt;
+    &lt;/sui:SUISettingsCard&gt;
+
+    &lt;sui:SUISettingsCard
+        Title=&quot;单文件上限 (MiB)&quot;
+        Description=&quot;超出限制的日志文件将自动轮转归档&quot;
+        IconGlyph=&quot;&amp;#xE8B7;&quot;&gt;
+        &lt;sui:SUINumberBox Width=&quot;140&quot; Minimum=&quot;1&quot; Maximum=&quot;1024&quot; Step=&quot;16&quot; Value=&quot;{Binding MaxFileSizeMiB}&quot; /&gt;
+    &lt;/sui:SUISettingsCard&gt;
+
+    &lt;Separator Style=&quot;{StaticResource SUI.Separator}&quot; /&gt;
+
+    &lt;TextBlock Text=&quot;危险操作&quot; Style=&quot;{StaticResource SUI.Text.SectionHeader}&quot; Margin=&quot;0,0,0,8&quot; /&gt;
+    &lt;sui:SUISettingsCard Title=&quot;清理历史日志&quot; Description=&quot;永久删除本地缓存的旧日志文件&quot;&gt;
+        &lt;Button Content=&quot;清理日志&quot; Style=&quot;{StaticResource SUI.Button.Danger}&quot; Click=&quot;OnClearLogsClick&quot; /&gt;
+    &lt;/sui:SUISettingsCard&gt;
+&lt;/StackPanel&gt;
 </code></pre></div>
+<h3 id="属性与折叠规则">属性与折叠规则<a class="heading-link" href="#属性与折叠规则" aria-label="链接到：属性与折叠规则">#</a></h3>
 <div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
 <thead>
 <tr>
@@ -428,25 +741,25 @@ var result = SUIDialog.Show(
 <td><code>Title</code></td>
 <td><code>string</code></td>
 <td>空字符串</td>
-<td>条目主标题，默认 <code>SemiBold</code>。</td>
+<td>条目主标题，默认 <code>SemiBold</code> 并支持自动换行。</td>
 </tr>
 <tr>
 <td><code>Description</code></td>
 <td><code>string?</code></td>
 <td><code>null</code></td>
-<td>条目副标题说明，支持换行。</td>
+<td>条目副标题说明（次要文字色，12px），为 <code>null</code> 或空字符串时自动折叠不占位。</td>
 </tr>
 <tr>
 <td><code>IconGlyph</code></td>
 <td><code>string?</code></td>
 <td><code>null</code></td>
-<td><code>Segoe Fluent Icons</code> 字符。</td>
+<td><code>Segoe Fluent Icons</code> 字符，为 <code>null</code> 或空字符串时自动折叠不占位。</td>
 </tr>
 <tr>
 <td><code>Content</code></td>
 <td><code>object?</code></td>
 <td><code>null</code></td>
-<td>右侧操作区控件（直接写在标签内部即可）。</td>
+<td>右侧操作区控件，无内容时右侧间隔自动折叠；外层 <code>IsEnabled=&quot;False&quot;</code> 时联动呈现禁用态。</td>
 </tr>
 </tbody>
 </table></div>
@@ -697,6 +1010,28 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 </tbody>
 </table></div>
 <p><code>SUINavigationItem</code> 实现了 <code>INotifyPropertyChanged</code>，运行时修改标题、图标、启用状态或显示状态会刷新界面。</p>
+<h3 id="横向二级导航horizontal-模式">横向二级导航（<code>Horizontal</code> 模式）<a class="heading-link" href="#横向二级导航horizontal-模式" aria-label="链接到：横向二级导航（Horizontal 模式）">#</a></h3>
+<p>设置页、工具工作台左侧的二级菜单常需要「图标 + 标题 + 右侧角标 + 左侧选中指示条」的宽栏样式。只需将 <code>PaneLayout</code> 设为 <code>Horizontal</code>（位于 <code>SUI.Navigation.NavigationPaneLayout</code>），无需手写 <code>ItemTemplate</code> 与 <code>ControlTemplate</code>：</p>
+<ul>
+<li>自动应用宽栏默认参数：<code>PaneWidth=&quot;200&quot;</code>、<code>ItemHeight=&quot;36&quot;</code>、<code>IconSize=&quot;16&quot;</code>、<code>LabelFontSize=&quot;13&quot;</code>（均可由局部属性覆盖）；</li>
+<li>选中项左侧自动显示 3px <code>Accent</code> 圆角指示条；</li>
+<li>当 <code>SUINavigationItem.BadgeText</code> 非空时，右侧自动渲染对应 <code>BadgeVariant</code> 的 <code>SUIBadge</code>，为空时自动折叠；如果传入自定义数据模型未包含 <code>BadgeText</code> 也不会引发绑定报错。</li>
+</ul>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;suiNav:SUINavigationView
+    PaneLayout=&quot;Horizontal&quot;
+    PaneWidth=&quot;190&quot;
+    ItemsSource=&quot;{Binding SettingsCategories}&quot;
+    SelectedItem=&quot;{Binding SelectedCategory, Mode=TwoWay}&quot;&gt;
+    &lt;ContentControl Content=&quot;{Binding CurrentCategoryView}&quot; /&gt;
+&lt;/suiNav:SUINavigationView&gt;
+</code></pre></div>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="csharp 代码示例"><code class="language-csharp">public ObservableCollection&lt;SUINavigationItem&gt; SettingsCategories { get; } =
+[
+    new() { Key = &quot;general&quot;, Title = &quot;常规设置&quot;, IconGlyph = &quot;\uE713&quot; },
+    new() { Key = &quot;logs&quot;, Title = &quot;日志占用&quot;, IconGlyph = &quot;\uE8B7&quot;, BadgeText = &quot;128 MB&quot;, BadgeVariant = BadgeVariant.Info },
+    new() { Key = &quot;experimental&quot;, Title = &quot;实验特性&quot;, IconGlyph = &quot;\uE90F&quot;, BadgeText = &quot;占位&quot;, BadgeVariant = BadgeVariant.Warning },
+];
+</code></pre></div>
 <h3 id="自定义项目模板">自定义项目模板<a class="heading-link" href="#自定义项目模板" aria-label="链接到：自定义项目模板">#</a></h3>
 <p><code>ItemsSource</code> 不强制必须使用 <code>SUINavigationItem</code>。如果导航数据提供图片或其他图标来源，可以完全替换默认模板：</p>
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;suiNav:SUINavigationView.ItemTemplate&gt;
@@ -919,8 +1254,25 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 <p><code>Surface</code> 底、1px 边框、圆角 4，条目最小高度 32。选中项为 <code>Selected</code> 底，窗口失去焦点后依然保持选中底色，<code>SelectionMode=&quot;Extended&quot;</code> 多选时可清楚辨认。</p>
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;ListBox ItemsSource=&quot;{Binding Items}&quot; SelectedItem=&quot;{Binding Current}&quot; SelectionMode=&quot;Extended&quot; /&gt;
 </code></pre></div>
-<p>若需要用于设置页或二级分类菜单（透明底、无外框、带左侧 3px <code>Accent</code> 选中指示条），可使用 <code>SUI.ListBox.Navigation</code>：</p>
-<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;ListBox Style=&quot;{StaticResource SUI.ListBox.Navigation}&quot; ItemsSource=&quot;{Binding Categories}&quot; SelectedItem=&quot;{Binding CurrentCategory}&quot; /&gt;
+<p>若需要用于设置页或二级分类菜单（透明底、无外框、内边距紧凑、带左侧 3px <code>Accent</code> 选中指示条），可直接使用 <code>SUI.ListBox.Navigation</code>（容器样式为 <code>SUI.ListBoxItem.Navigation</code>），并按需配合 <code>SUIBadge</code> 定义内容模板：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;ListBox Style=&quot;{StaticResource SUI.ListBox.Navigation}&quot;
+         ItemsSource=&quot;{Binding Categories}&quot;
+         SelectedItem=&quot;{Binding CurrentCategory}&quot;&gt;
+    &lt;ListBox.ItemTemplate&gt;
+        &lt;DataTemplate&gt;
+            &lt;Grid&gt;
+                &lt;Grid.ColumnDefinitions&gt;
+                    &lt;ColumnDefinition Width=&quot;Auto&quot; /&gt;
+                    &lt;ColumnDefinition Width=&quot;*&quot; /&gt;
+                    &lt;ColumnDefinition Width=&quot;Auto&quot; /&gt;
+                &lt;/Grid.ColumnDefinitions&gt;
+                &lt;TextBlock Text=&quot;{Binding Icon}&quot; FontFamily=&quot;{StaticResource SUI.Font.Icon}&quot; Margin=&quot;0,0,10,0&quot; VerticalAlignment=&quot;Center&quot; /&gt;
+                &lt;TextBlock Grid.Column=&quot;1&quot; Text=&quot;{Binding Name}&quot; VerticalAlignment=&quot;Center&quot; /&gt;
+                &lt;sui:SUIBadge Grid.Column=&quot;2&quot; Content=&quot;{Binding Badge}&quot; Variant=&quot;Warning&quot; Padding=&quot;6,1&quot; /&gt;
+            &lt;/Grid&gt;
+        &lt;/DataTemplate&gt;
+    &lt;/ListBox.ItemTemplate&gt;
+&lt;/ListBox&gt;
 </code></pre></div>
 <p><code>SUINavigationView</code> 内部的 ListBox 使用自己的显式样式，不受此隐式样式影响。</p>
 <h3 id="scrollbar-与-scrollviewer">ScrollBar 与 ScrollViewer<a class="heading-link" href="#scrollbar-与-scrollviewer" aria-label="链接到：ScrollBar 与 ScrollViewer">#</a></h3>
@@ -930,7 +1282,49 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 &lt;/ScrollViewer&gt;
 </code></pre></div>
 <h3 id="menucontextmenumenuitemseparator">Menu、ContextMenu、MenuItem、Separator<a class="heading-link" href="#menucontextmenumenuitemseparator" aria-label="链接到：Menu、ContextMenu、MenuItem、Separator">#</a></h3>
-<p>菜单栏、右键菜单和子菜单都使用圆角面板和轻阴影。条目布局为 图标列 ｜ 标题 ｜ 快捷键 ｜ 子菜单箭头；<code>IsCheckable</code> 且选中时显示对勾；<code>InputGestureText</code> 显示为次要色。隐式 <code>Separator</code> 为菜单内 1px 分隔线；若要在普通页面或设置分组之间使用 1px 分隔线，可使用 <code>SUI.Separator</code>；需要统一页面标题、分组标题和说明文字时，可使用 <code>SUI.Text.PageTitle</code>、<code>SUI.Text.SectionHeader</code> 与 <code>SUI.Text.Caption</code>。</p>
+<p>菜单栏、右键菜单和子菜单都使用圆角面板和轻阴影。条目布局为 图标列 ｜ 标题 ｜ 快捷键 ｜ 子菜单箭头；<code>IsCheckable</code> 且选中时显示对勾；<code>InputGestureText</code> 显示为次要色。隐式 <code>Separator</code> 为菜单内 1px 分隔线（上下外边距 <code>0,4</code>）。</p>
+<h3 id="内容区分隔线与排版样式">内容区分隔线与排版样式<a class="heading-link" href="#内容区分隔线与排版样式" aria-label="链接到：内容区分隔线与排版样式">#</a></h3>
+<p>除菜单外，普通页面、设置页或卡片分组需要 1px 分隔线及统一的标题层级时，可直接引用以下显式样式（位于 <code>Styles/CommonStyles.xaml</code>，由 <code>SUIStyles.xaml</code> 自动合并）：</p>
+<div class="table-scroll" role="region" aria-label="参考表格，可横向滚动" tabindex="0"><table>
+<thead>
+<tr>
+<th>样式键</th>
+<th>目标类型</th>
+<th>样式规格</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SUI.Text.PageTitle</code></td>
+<td><code>TextBlock</code></td>
+<td>20px、<code>SemiBold</code>、<code>Text</code>、自动换行</td>
+<td>子页面顶部主标题。</td>
+</tr>
+<tr>
+<td><code>SUI.Text.SectionHeader</code></td>
+<td><code>TextBlock</code></td>
+<td>16px（<code>SUI.Font.Size.Title</code>）、<code>SemiBold</code>、<code>Margin=&quot;0,16,0,8&quot;</code></td>
+<td>设置分组、区块小标题。</td>
+</tr>
+<tr>
+<td><code>SUI.Text.Caption</code></td>
+<td><code>TextBlock</code></td>
+<td>12px（<code>SUI.Font.Size.Caption</code>）、<code>TextSecondary</code>、自动换行</td>
+<td>字段说明、辅助提示文字。</td>
+</tr>
+<tr>
+<td><code>SUI.Separator</code></td>
+<td><code>Separator</code></td>
+<td>1px 高度、<code>SUI.Brush.Border</code>、横向拉伸、<code>Margin=&quot;0,12&quot;</code></td>
+<td>页面/分组之间的 1px 分隔线。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;TextBlock Text=&quot;基础设置&quot; Style=&quot;{StaticResource SUI.Text.SectionHeader}&quot; /&gt;
+&lt;TextBlock Text=&quot;修改以下配置后立即生效。&quot; Style=&quot;{StaticResource SUI.Text.Caption}&quot; /&gt;
+&lt;Separator Style=&quot;{StaticResource SUI.Separator}&quot; /&gt;
+</code></pre></div>
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;Menu&gt;
     &lt;MenuItem Header=&quot;文件(_F)&quot;&gt;
         &lt;MenuItem Header=&quot;打开&quot; InputGestureText=&quot;Ctrl+O&quot; /&gt;
@@ -1109,6 +1503,10 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 <p>使用 <code>IconGlyph</code> 时确认系统存在 <code>Segoe Fluent Icons</code> 字体；使用图片时确认 <code>ImageSource</code> 的资源路径和 Build Action 正确。</p>
 <p><strong>样式资源找不到</strong></p>
 <p>确认已经合并 <code>/SUI;component/SUIStyles.xaml</code>，并且资源键拼写与 <code>Styles/</code> 文件中的定义一致。</p>
+<p><strong>引用 NuGet <code>0.0.9</code> 时提示找不到 <code>Metrics.xaml</code> 或 <code>SUIInfoBar</code> / <code>SUINumberBox</code> 等新控件</strong></p>
+<p><code>0.0.9</code> 对应提交 <code>52024e5</code>，已包含 <code>SUIBadge</code> 与浅色语义画刷，但尚未包含其后拆分的 <code>Themes/Metrics.xaml</code>、<code>SUI.Space.ComboBoxItemPadding</code> 及后续新增控件。遇到此类编译或资源异常时，请参照本手册顶部的「版本能力对照」表，改用最新主干源码的 <code>ProjectReference</code> 或等待包含相应改动的后续 NuGet 版本。</p>
+<p><strong><code>SUI.Switch</code> 初始 <code>IsChecked=&quot;True&quot;</code> 首帧显示为关闭态（<code>0.0.9</code> 及更早版本）</strong></p>
+<p><code>0.0.9</code> 及更早版本的 <code>SwitchCheckBoxStyle</code> 使用 <code>Trigger.EnterActions</code> 驱动动画，首次加载已勾选开关时会先渲染关闭态再播放 200ms 动画。当前主干源码已改为 <code>VisualStateManager</code>，首帧直接落位到开启态。</p>
 </section>
 <section class="doc-section" aria-labelledby="许可证"><div class="section-number">17 / SUI 手册</div><h2 id="许可证">许可证<a class="heading-link" href="#许可证" aria-label="链接到：许可证">#</a></h2>
 <p>完整授权条款见 <a href="https://github.com/RobertCXC/SUI/blob/main/LICENSE"><code>../LICENSE</code></a>。SUI 使用自定义的 <strong>SUI UI License 1.0</strong>，商业收入门槛和一次性授权费规则以许可证正文为准。</p>
