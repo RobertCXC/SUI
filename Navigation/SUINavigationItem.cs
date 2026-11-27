@@ -13,6 +13,8 @@ public sealed class SUINavigationItem : INotifyPropertyChanged
     private string _title = string.Empty;
     private string _iconGlyph = string.Empty;
     private string? _toolTip;
+    private string? _badgeText;
+    private BadgeVariant _badgeVariant = BadgeVariant.Neutral;
     private bool _isEnabled = true;
     private bool _isVisible = true;
 
@@ -42,6 +44,18 @@ public sealed class SUINavigationItem : INotifyPropertyChanged
     {
         get => _toolTip;
         set => SetField(ref _toolTip, value);
+    }
+
+    public string? BadgeText
+    {
+        get => _badgeText;
+        set => SetField(ref _badgeText, value);
+    }
+
+    public BadgeVariant BadgeVariant
+    {
+        get => _badgeVariant;
+        set => SetField(ref _badgeVariant, value);
     }
 
     public bool IsEnabled

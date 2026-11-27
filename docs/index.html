@@ -437,6 +437,12 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 <td>默认模板中的标题字号。</td>
 </tr>
 <tr>
+<td><code>PaneLayout</code></td>
+<td><code>NavigationPaneLayout</code></td>
+<td><code>Compact</code></td>
+<td>导航栏布局：<code>Compact</code>（窄栏上图标下文字）或 <code>Horizontal</code>（宽栏图标+文字+角标+左侧选中指示条）。</td>
+</tr>
+<tr>
 <td><code>SelectionChanged</code></td>
 <td>路由事件</td>
 <td>—</td>
@@ -489,6 +495,18 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 <td>鼠标停留时的提示文字。</td>
 </tr>
 <tr>
+<td><code>BadgeText</code></td>
+<td><code>string?</code></td>
+<td><code>null</code></td>
+<td>横向布局下显示在右侧的简短角标文字（为空时自动隐藏）。</td>
+</tr>
+<tr>
+<td><code>BadgeVariant</code></td>
+<td><code>BadgeVariant</code></td>
+<td><code>Neutral</code></td>
+<td>右侧角标的语义颜色。</td>
+</tr>
+<tr>
 <td><code>IsEnabled</code></td>
 <td><code>bool</code></td>
 <td><code>true</code></td>
@@ -534,7 +552,7 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 <p><a href="https://github.com/RobertCXC/SUI/blob/main/SUIStyles.xaml"><code>SUIStyles.xaml</code></a> 按顺序合并 <code>Themes/Colors.xaml</code>（颜色与画刷）、<code>Themes/Metrics.xaml</code>（字体与尺寸，紧随 Colors）和 <code>Styles/</code> 下的原生控件样式文件。合并后分两类使用：</p>
 <ul>
 <li><strong>隐式样式</strong>：没有 <code>x:Key</code>，对应类型的控件自动生效，包括 <code>Button</code>、<code>ToggleButton</code>、<code>TextBox</code>、<code>PasswordBox</code>、<code>ComboBox</code>、<code>ComboBoxItem</code>、<code>CheckBox</code>、<code>RadioButton</code>、<code>TabControl</code>、<code>TabItem</code>、<code>ListBox</code>、<code>ListBoxItem</code>、<code>ScrollBar</code>、<code>ScrollViewer</code>、<code>Menu</code>、<code>ContextMenu</code>、<code>MenuItem</code>、<code>Separator</code>、<code>ToolTip</code>、<code>ProgressBar</code>、<code>DataGrid</code>、<code>TreeViewItem</code>。</li>
-<li><strong>显式样式</strong>：需要 <code>Style=&quot;{StaticResource ...}&quot;</code> 指定，包括 <code>SUI.Button.Primary</code>、<code>SUI.Button.Ghost</code>、<code>SUI.Button.Danger</code>、<code>SwitchCheckBoxStyle</code>（别名 <code>SUI.Switch</code>）、<code>CustomGridSplitterStyle</code>、<code>SUI.GridSplitter.Horizontal</code>、<code>CommonDataGridStyle</code>、<code>SUITreeViewItemStyle</code>。</li>
+<li><strong>显式样式</strong>：需要 <code>Style=&quot;{StaticResource ...}&quot;</code> 指定，包括 <code>SUI.Button.Primary</code>、<code>SUI.Button.Ghost</code>、<code>SUI.Button.Danger</code>、<code>SwitchCheckBoxStyle</code>（别名 <code>SUI.Switch</code>）、<code>SUI.ListBox.Navigation</code>、<code>SUI.ListBoxItem.Navigation</code>、<code>CustomGridSplitterStyle</code>、<code>SUI.GridSplitter.Horizontal</code>、<code>CommonDataGridStyle</code>、<code>SUITreeViewItemStyle</code>。</li>
 </ul>
 <p>自己为控件写样式时，用 <code>BasedOn=&quot;{StaticResource {x:Type Button}}&quot;</code> 继承 SUI 的隐式样式，不会丢失原有外观：</p>
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;Style x:Key=&quot;MyButton&quot; TargetType=&quot;Button&quot; BasedOn=&quot;{StaticResource {x:Type Button}}&quot;&gt;
@@ -721,6 +739,9 @@ private void NavigationRoot_SelectionChanged(object sender, SelectionChangedEven
 <h3 id="listbox">ListBox<a class="heading-link" href="#listbox" aria-label="链接到：ListBox">#</a></h3>
 <p><code>Surface</code> 底、1px 边框、圆角 4，条目最小高度 32。选中项为 <code>Selected</code> 底，窗口失去焦点后依然保持选中底色，<code>SelectionMode=&quot;Extended&quot;</code> 多选时可清楚辨认。</p>
 <div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;ListBox ItemsSource=&quot;{Binding Items}&quot; SelectedItem=&quot;{Binding Current}&quot; SelectionMode=&quot;Extended&quot; /&gt;
+</code></pre></div>
+<p>若需要用于设置页或二级分类菜单（透明底、无外框、带左侧 3px <code>Accent</code> 选中指示条），可使用 <code>SUI.ListBox.Navigation</code>：</p>
+<div class="code-block"><div class="code-toolbar"><span>xml</span><button type="button" class="copy-button" hidden>复制代码</button></div><pre tabindex="0" aria-label="xml 代码示例"><code class="language-xml">&lt;ListBox Style=&quot;{StaticResource SUI.ListBox.Navigation}&quot; ItemsSource=&quot;{Binding Categories}&quot; SelectedItem=&quot;{Binding CurrentCategory}&quot; /&gt;
 </code></pre></div>
 <p><code>SUINavigationView</code> 内部的 ListBox 使用自己的显式样式，不受此隐式样式影响。</p>
 <h3 id="scrollbar-与-scrollviewer">ScrollBar 与 ScrollViewer<a class="heading-link" href="#scrollbar-与-scrollviewer" aria-label="链接到：ScrollBar 与 ScrollViewer">#</a></h3>

@@ -6,6 +6,9 @@ using System.Windows.Controls.Primitives;
 
 namespace SUI.Navigation;
 
+/// <summary>导航栏布局模式。</summary>
+public enum NavigationPaneLayout { Compact, Horizontal }
+
 /// <summary>
 /// 图标在上、标题在下的窄侧边导航壳。导航数据与右侧内容都由调用方提供。
 /// </summary>
@@ -148,6 +151,20 @@ public class SUINavigationView : ContentControl
             typeof(double),
             typeof(SUINavigationView),
             new PropertyMetadata(11d));
+
+    public NavigationPaneLayout PaneLayout
+    {
+        get => (NavigationPaneLayout)GetValue(PaneLayoutProperty);
+        set => SetValue(PaneLayoutProperty, value);
+    }
+
+    public static readonly DependencyProperty PaneLayoutProperty =
+        DependencyProperty.Register(
+            nameof(PaneLayout),
+            typeof(NavigationPaneLayout),
+            typeof(SUINavigationView),
+            new PropertyMetadata(NavigationPaneLayout.Compact),
+            value => Enum.IsDefined(typeof(NavigationPaneLayout), value));
 
     public static readonly RoutedEvent SelectionChangedEvent =
         EventManager.RegisterRoutedEvent(

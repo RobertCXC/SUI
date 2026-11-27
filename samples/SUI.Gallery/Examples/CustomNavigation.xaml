@@ -85,27 +85,10 @@
             CornerRadius="8">
             <nav:SUINavigationView
                 x:Name="WideNav"
-                PaneWidth="180"
+                PaneLayout="Horizontal"
+                PaneWidth="190"
                 Height="290"
-                ItemHeight="48"
                 SelectionChanged="OnWideSelection">
-                <nav:SUINavigationView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel
-                            Orientation="Horizontal"
-                            Margin="12,0">
-                            <TextBlock
-                                Text="{Binding IconGlyph}"
-                                FontFamily="{StaticResource SUI.Font.Icon}"
-                                FontSize="16"
-                                VerticalAlignment="Center" />
-                            <TextBlock
-                                Text="{Binding Title}"
-                                Margin="12,0,0,0"
-                                VerticalAlignment="Center" />
-                        </StackPanel>
-                    </DataTemplate>
-                </nav:SUINavigationView.ItemTemplate>
                 <StackPanel
                     Margin="24"
                     VerticalAlignment="Center">
