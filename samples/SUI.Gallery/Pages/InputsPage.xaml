@@ -42,6 +42,10 @@
                         <TextBlock Text="允许空值 (无按钮)" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
                         <sui:SUINumberBox Width="160" Minimum="0" Maximum="9999" AllowEmpty="True" ShowButtons="False" PlaceholderText="留空表示不限制" Value="{x:Null}" />
                     </StackPanel>
+                    <StackPanel Margin="0,0,20,12">
+                        <TextBlock Text="只读状态" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
+                        <sui:SUINumberBox Width="140" Value="42" IsReadOnly="True" />
+                    </StackPanel>
                     <StackPanel Margin="0,0,0,12">
                         <TextBlock Text="禁用状态" Style="{StaticResource SUI.Text.Caption}" Margin="0,0,0,6" />
                         <sui:SUINumberBox Width="140" Value="30" IsEnabled="False" />
