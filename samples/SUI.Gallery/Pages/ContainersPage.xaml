@@ -61,7 +61,9 @@
                         <Button Content="成功 Toast" Tag="Success" Click="OnShowToast" Margin="0,0,8,8" />
                         <Button Content="告警 Toast" Tag="Warning" Click="OnShowToast" Margin="0,0,8,8" />
                         <Button Content="错误 Toast" Tag="Error" Click="OnShowToast" Margin="0,0,8,8" />
-                        <Button Content="普通 Toast" Tag="Info" Click="OnShowToast" Margin="0,0,0,8" />
+                        <Button Content="普通 Toast" Tag="Info" Click="OnShowToast" Margin="0,0,8,8" />
+                        <Button Content="确认弹窗" Click="OnOpenConfirmDialog" Margin="0,0,8,8" />
+                        <Button Content="危险确认弹窗" Style="{StaticResource SUI.Button.Danger}" Click="OnOpenDangerDialog" Margin="0,0,0,8" />
                     </WrapPanel>
                 </StackPanel>
             </g:Example>
