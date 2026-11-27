@@ -1,0 +1,255 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SUI">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SUI;component/Themes/Colors.xaml" />
+        <ResourceDictionary Source="/SUI;component/Themes/Metrics.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="SUI.InfoCloseButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource SUI.Brush.TextSecondary}" />
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Chrome"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{StaticResource SUI.Radius.Control}"
+                            SnapsToDevicePixels="True">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{StaticResource SUI.Font.Icon}"
+                                   FontSize="10"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   Text="&#xE711;" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Chrome" Property="Background" Value="{StaticResource SUI.Brush.Hover}" />
+                            <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Chrome" Property="Background" Value="{StaticResource SUI.Brush.Pressed}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:SUIInfoBar}">
+        <Setter Property="Background" Value="{StaticResource SUI.Brush.Selected}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SUI.Brush.Border}" />
+        <Setter Property="BorderThickness" Value="{StaticResource SUI.Border.Thickness}" />
+        <Setter Property="Foreground" Value="{StaticResource SUI.Brush.Text}" />
+        <Setter Property="FontFamily" Value="{StaticResource SUI.Font.Family}" />
+        <Setter Property="FontSize" Value="{StaticResource SUI.Font.Size.Body}" />
+        <Setter Property="Padding" Value="14,10" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:SUIInfoBar}">
+                    <Border x:Name="BarBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{StaticResource SUI.Radius.Panel}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock x:Name="SeverityIcon"
+                                       Grid.Column="0"
+                                       Margin="0,2,10,0"
+                                       VerticalAlignment="Top"
+                                       FontFamily="{StaticResource SUI.Font.Icon}"
+                                       FontSize="15"
+                                       Foreground="{StaticResource SUI.Brush.Info}"
+                                       Text="&#xE946;" />
+
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <WrapPanel>
+                                    <TextBlock x:Name="TitleText"
+                                               Margin="0,0,8,0"
+                                               FontWeight="SemiBold"
+                                               Foreground="{TemplateBinding Foreground}"
+                                               Text="{TemplateBinding Title}"
+                                               TextWrapping="Wrap" />
+                                    <TextBlock x:Name="MessageText"
+                                               Foreground="{TemplateBinding Foreground}"
+                                               Text="{TemplateBinding Message}"
+                                               TextWrapping="Wrap" />
+                                </WrapPanel>
+                                <ContentPresenter x:Name="ExtraContent"
+                                                  Margin="0,6,0,0"
+                                                  ContentSource="Content" />
+                            </StackPanel>
+
+                            <ContentPresenter x:Name="ActionPresenter"
+                                              Grid.Column="2"
+                                              Margin="12,0,0,0"
+                                              VerticalAlignment="Center"
+                                              Content="{TemplateBinding ActionContent}" />
+
+                            <Button x:Name="PART_CloseButton"
+                                    Grid.Column="3"
+                                    Margin="8,-2,-4,0"
+                                    AutomationProperties.Name="关闭提示"
+                                    Style="{StaticResource SUI.InfoCloseButtonStyle}" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Severity" Value="Success">
+                            <Setter Property="Background" Value="{StaticResource SUI.Brush.SuccessSubtle}" />
+                            <Setter TargetName="SeverityIcon" Property="Foreground" Value="{StaticResource SUI.Brush.Success}" />
+                            <Setter TargetName="SeverityIcon" Property="Text" Value="&#xE73E;" />
+                        </Trigger>
+                        <Trigger Property="Severity" Value="Warning">
+                            <Setter Property="Background" Value="{StaticResource SUI.Brush.WarningSubtle}" />
+                            <Setter TargetName="SeverityIcon" Property="Foreground" Value="{StaticResource SUI.Brush.Warning}" />
+                            <Setter TargetName="SeverityIcon" Property="Text" Value="&#xE7BA;" />
+                        </Trigger>
+                        <Trigger Property="Severity" Value="Error">
+                            <Setter Property="Background" Value="{StaticResource SUI.Brush.DangerSubtle}" />
+                            <Setter TargetName="SeverityIcon" Property="Foreground" Value="{StaticResource SUI.Brush.Danger}" />
+                            <Setter TargetName="SeverityIcon" Property="Text" Value="&#xEA39;" />
+                        </Trigger>
+                        <Trigger Property="Title" Value="{x:Null}">
+                            <Setter TargetName="TitleText" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Title" Value="">
+                            <Setter TargetName="TitleText" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Message" Value="{x:Null}">
+                            <Setter TargetName="MessageText" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Message" Value="">
+                            <Setter TargetName="MessageText" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="HasContent" Value="False">
+                            <Setter TargetName="ExtraContent" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="ActionContent" Value="{x:Null}">
+                            <Setter TargetName="ActionPresenter" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="IsClosable" Value="False">
+                            <Setter TargetName="PART_CloseButton" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsOpen" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type local:SUIToastHost}">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin" Value="16" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:SUIToastHost}">
+                    <ItemsPresenter SnapsToDevicePixels="True" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="{x:Type local:SUIToastMessage}">
+                    <Border x:Name="ToastCard"
+                            Width="320"
+                            Margin="0,8,0,0"
+                            Padding="14,10"
+                            Background="{StaticResource SUI.Brush.Surface}"
+                            BorderBrush="{StaticResource SUI.Brush.Border}"
+                            BorderThickness="{StaticResource SUI.Border.Thickness}"
+                            CornerRadius="{StaticResource SUI.Radius.Panel}"
+                            SnapsToDevicePixels="True">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="10"
+                                              ShadowDepth="2"
+                                              Opacity="0.14"
+                                              Color="{Binding Path=Color, Source={StaticResource SUI.Brush.Border}}" />
+                        </Border.Effect>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="AccentPill"
+                                    Grid.Column="0"
+                                    Width="4"
+                                    Margin="0,2,10,2"
+                                    Background="{StaticResource SUI.Brush.Info}"
+                                    CornerRadius="2" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock x:Name="ToastTitle"
+                                           FontFamily="{StaticResource SUI.Font.Family}"
+                                           FontSize="{StaticResource SUI.Font.Size.Body}"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource SUI.Brush.Text}"
+                                           Text="{Binding Title}"
+                                           TextWrapping="Wrap" />
+                                <TextBlock FontFamily="{StaticResource SUI.Font.Family}"
+                                           FontSize="{StaticResource SUI.Font.Size.Caption}"
+                                           Foreground="{StaticResource SUI.Brush.TextSecondary}"
+                                           Text="{Binding Message}"
+                                           TextWrapping="Wrap" />
+                            </StackPanel>
+                            <Button Grid.Column="2"
+                                    Margin="8,-2,-4,0"
+                                    AutomationProperties.Name="关闭轻提示"
+                                    Command="{x:Static local:SUIToastHost.DismissCommand}"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource SUI.InfoCloseButtonStyle}" />
+                        </Grid>
+                    </Border>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Severity}" Value="Success">
+                            <Setter TargetName="AccentPill" Property="Background" Value="{StaticResource SUI.Brush.Success}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Severity}" Value="Warning">
+                            <Setter TargetName="AccentPill" Property="Background" Value="{StaticResource SUI.Brush.Warning}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Severity}" Value="Error">
+                            <Setter TargetName="AccentPill" Property="Background" Value="{StaticResource SUI.Brush.Danger}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Title}" Value="{x:Null}">
+                            <Setter TargetName="ToastTitle" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Title}" Value="">
+                            <Setter TargetName="ToastTitle" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

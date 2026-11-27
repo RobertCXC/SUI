@@ -5,7 +5,7 @@
     xmlns:g="clr-namespace:SUI.Gallery.Controls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="SUI.Gallery.Pages.ContainersPage">
-    <ScrollViewer
+    <Grid><ScrollViewer
         VerticalScrollBarVisibility="Auto"
         HorizontalScrollBarVisibility="Disabled">
         <StackPanel
@@ -44,6 +44,25 @@
                         </ComboBox>
                         <sui:SUIBadge Content="{Binding SelectedItem.Content, ElementName=BadgeStatus}" Variant="{Binding SelectedItem.Tag, ElementName=BadgeStatus}" />
                     </StackPanel>
+                </StackPanel>
+                        </g:Example>
+            <g:Example Title="内嵌提示条 InfoBar 与轻提示 Toast" Description="用于保存结果、参数校验失败或环境变量覆盖告警；Toast 支持自动消失与手动关闭。" Hint="点击下方轻提示按钮可在页面右下角弹出 SUIToastHost 通知。">
+                <StackPanel>
+                    <sui:SUIInfoBar x:Name="InteractiveInfoBar" Title="提示" Message="已启用自动保存，修改会同步到本地配置。" Severity="Info" Margin="0,0,0,8">
+                        <sui:SUIInfoBar.ActionContent>
+                            <Button Content="查看详情" />
+                        </sui:SUIInfoBar.ActionContent>
+                    </sui:SUIInfoBar>
+                    <sui:SUIInfoBar Title="保存成功" Message="所有配置项已更新。" Severity="Success" IsClosable="False" Margin="0,0,0,8" />
+                    <sui:SUIInfoBar Title="环境变量覆盖" Message="LOG_LEVEL 当前受环境变量控制，页面修改暂不生效。" Severity="Warning" IsClosable="False" Margin="0,0,0,8" />
+                    <sui:SUIInfoBar Title="校验失败" Message="保留天数必须在 1 到 365 之间。" Severity="Error" IsClosable="False" Margin="0,0,0,12" />
+                    <WrapPanel>
+                        <Button Content="重新打开 InfoBar" Click="OnReopenInfoBar" Margin="0,0,8,8" />
+                        <Button Content="成功 Toast" Tag="Success" Click="OnShowToast" Margin="0,0,8,8" />
+                        <Button Content="告警 Toast" Tag="Warning" Click="OnShowToast" Margin="0,0,8,8" />
+                        <Button Content="错误 Toast" Tag="Error" Click="OnShowToast" Margin="0,0,8,8" />
+                        <Button Content="普通 Toast" Tag="Info" Click="OnShowToast" Margin="0,0,0,8" />
+                    </WrapPanel>
                 </StackPanel>
             </g:Example>
             <g:Example
@@ -140,4 +159,6 @@
             </g:Example>
         </StackPanel>
     </ScrollViewer>
+        <sui:SUIToastHost x:Name="ToastHost" />
+    </Grid>
 </UserControl>
